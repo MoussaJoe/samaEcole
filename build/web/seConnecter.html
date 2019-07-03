@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript">
+            function formu(){
+                window.alert("c'est du java scripte");
+            }
+        </script>
+    </head>
+    <body>
+        <form action="Controleur" method="Post">
+            
+            <input type="hidden" name="action" value="authentifier">
+            <table>                
+                <tr>
+                    <th>Profils :</th>
+                    <td>
+                        <select name="profils">
+                            <option>Directeur</option>
+                            <option>Eleve</option>
+                            <option>Professeur</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Login :</th>
+                    <td><input type="text" name="login" value=""/></td>
+                </tr>
+                <tr>
+                    <th>Mot de Passe :</th>
+                    <td><input type="password" name="motDePasse" value=""/></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td><input type="submit" name="Valider" value="Valider"/></td>
+                </tr>                
+
+            </table>
+        </form>
+    </body>
+</html>

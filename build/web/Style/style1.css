@@ -1,0 +1,339 @@
+.sunu_ecole{
+    font-size: 50px;
+    color: #f1c40f;
+    font-family:unset;
+    margin-left: 2vw;
+    font-weight: bold;
+
+}
+#tabc {
+    width: 378px;
+    padding: 50px;
+    margin: 50px;
+    margin-bottom: 5px;
+    margin-left: 456px; 
+}
+.sunu_ecole:hover{
+    text-decoration: none;
+}
+body{
+    margin-top: 0;
+}
+#bar{
+    height: 90px;
+    background-color:#00a1dc;
+    width: 1305px;
+    position: absolute;
+    background-size: 100% 100%;
+    border: none;
+    margin: 0px;
+    padding: 0;
+}
+.menu{
+
+}
+.menu ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 120px;
+}
+.menu ul li{
+    padding: 15px;
+    position: relative;
+    width: 200px;
+    background-color: #00a1dc;
+    border-top: 1px solid #BDC3C7;
+    border-right: 5px solid #F1C40F;
+    vertical-align: middle;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+.menu ul li a{
+    color: #fff;
+    text-decoration: none;
+}
+.menu ul ul{
+    transition: all 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    left: 100%;
+    top: -2%;
+    border-left: 5px solid #F1C40F;
+}
+.menu ul li:hover{
+    opacity: 1;
+    visibility: visible;
+}
+.menu ul li:hover{
+    background-color: #2ecc71;
+}
+#logo{
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+#btn_decon{
+    float: right;
+    font-size: large;
+    font-family:  sans-serif;
+}
+#btn_decon a{
+    color: #fff;
+}
+#btn_decon:hover{
+    background-color: #2ecc71;
+}
+#bar ul{
+    list-style: none;
+}
+#bar ul li a{
+    color: #fff;
+    text-decoration: none;
+}
+p{
+    font-size:  larger;
+    font-family:  serif;
+    font-style:  inherit;
+    padding-left: 20px;
+}
+.test{
+    text-align: center;
+}
+.test a{
+    text-decoration: none;
+    font-size: 18px;
+}
+.test:hover{
+    background-color: #2ecc71;
+}
+
+.menu-verticale{
+    background-color: #00a1dc;
+    width: 250px;
+    position: fixed;
+    top: 70px;
+    bottom: 0;
+    box-shadow: 2px 2px 2px silver;
+}
+.menu-verticale .avatar{
+    background-image: url(../images/avatar1.png);
+    background-repeat: no-repeat;
+    width: 128px;
+    height: 128px;
+    margin: 25px auto 15px auto;
+}
+.menu-verticale h3{
+    text-align: center;
+    color: #444;
+    margin-bottom: 20px;
+    font-size: 25px;
+}
+.menu-verticale .menuDir ul{
+    top: 55px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 100px;
+}
+.menu-verticale .menuDir ul li{
+    top: 0px;
+    padding: 15px;
+    position: relative;
+    width: 258px;
+    background-color: #00a1dc;
+    border-top: 1px solid #BDC3C7;
+    border-right: 5px solid #F1C40F;
+    vertical-align: middle;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+.menu-verticale .menuDir ul li a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
+.menu-verticale .menuDir ul ul{
+    transition: all 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    left: 100%;
+    top: -2%;
+    border-left: 5px solid #F1C40F;
+}
+.menu-verticale .menuDir ul li:hover{
+    opacity: 1;
+    visibility: visible;
+}
+.menu-verticale .menuDir ul li:hover{
+    background-color: #2ecc71;
+}
+#btn_deconDir {
+    float: right;
+    font-size: 16px;
+}
+#btn_deconDir a{
+    color: #fff;
+}
+#btn_deconDir:hover{
+    background-color: #2ecc71;
+}
+.formAuth{
+    background-color:#00a1dc; 
+    width: 500px;
+    height: 600px
+}
+.authent{
+    width:  250px;
+}
+.authentForm{
+    margin-top: 20px;
+    padding-left: 120px;
+
+}
+.btnAuth{
+    margin-top: 5px;
+    margin-left: 180px;
+}
+#mesAuth{
+    margin-top: 5px;
+    margin-left: 120px;
+}
+.authentForm1{
+    margin-top: 20px;
+    padding-left: 120px; 
+}
+#err{
+    margin-top: 5px;
+    margin-left: 100px;
+    color: red;
+}
+.avatarAuth{
+    background-image: url("../images/avatar1.png");
+    width: 50px;
+    height: 50px;
+    padding: 70px;
+    margin: 50px;
+    margin-left:180px; 
+    margin-top: 5px;
+    background-repeat: no-repeat;
+}
+#nom{
+    margin-top: 2vw;
+    font-size: 1.5vw;
+    margin-right: 1vw;
+    font-style: italic;
+    color: #f1c40f;
+    font-family: -webkit-pictograph;
+    font-weight: bold;
+}
+#btn_search{
+    width: 20px;
+    height: 20px;
+}
+.recherche{
+    border-radius: 50px;
+}
+.reclamation{
+    border-radius: 25px;
+    border: 5px;
+    border-color:#F1C40F; 
+}
+.mes h6{
+    margin-left: 150px;
+    color: red;
+}
+.mes{
+    background-color: aqua; 
+    width: 78%;
+    height: 30px;
+    margin-left:260px;
+    margin-right: 260px;
+    padding-right: 260px;
+}
+.droit{
+    margin-left:160px;
+    background-color: #BDC3C7;
+    width: 70px;
+    height:200px;
+}
+.corps{
+    background-image: url("../images/acceuilProf.jpg");
+    background-repeat: no-repeat; 
+    width: 150vh;
+    height: 100vh;
+    margin-left:250px;
+    margin-top: 0px;
+    padding-top: 0px;
+}
+.corps1{
+    background-image: url("../images/acceuilDirecteur.jpg");
+    background-repeat: no-repeat; 
+    width: 150vh;
+    height: 100vh;
+    margin-left:250px;
+    margin-top: 0px;
+    padding-top: 0px; 
+}
+.corps2{
+    background-image: url("../images/acceuilEleve.jpg");
+    background-repeat: no-repeat; 
+    width: 150vh;
+    height: 100vh;
+    margin-left:250px;
+    margin-top: 0px;
+    padding-top: 0px;
+}
+.corpsPar{
+    background-image: url("../images/acceuilParent.jpg");
+    background-repeat: no-repeat; 
+    width: 150vh;
+    height: 100vh;
+    margin-left:250px;
+    margin-top: 0px;
+    padding-top: 0px; 
+}
+.searchBox{
+    margin-top: 1.5vw;
+    margin-right: 1.5vw;
+}
+.footer {
+    /*  position: fixed; */
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #f1c40f;
+    color: white;
+    text-align: center;
+}
+.lien{
+    font-size: 18px;
+    font-family: titillium-web-regular;
+    color: white;
+    padding: 1vh;
+    background: #00a1dc;
+    border-radius: 0.5vw;
+
+}
+.lien:hover{
+    background-color: #f1c40f;
+    text-decoration: none;
+}
+#ap{
+    text-align: center;
+}
+#para{
+    font-family: Times new Roman;
+    font-size: 20px;
+}
+
