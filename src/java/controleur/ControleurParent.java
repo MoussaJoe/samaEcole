@@ -55,7 +55,7 @@ public class ControleurParent extends HttpServlet {
     public void init() throws ServletException {
         DAOFactory daoFactory = DAOFactory.getInstance();
         personnes = new ArrayList();
-        this.daoEleve = daoFactory.getDAOEleve();
+        this.daoEleve = daoFactory.getDAOProfs();
         eleve2 = new ArrayList();
         eleve3 = new ArrayList();
         eleve4 = new ArrayList();

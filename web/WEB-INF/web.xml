@@ -32,6 +32,14 @@
         <servlet-name>EDT</servlet-name>
         <servlet-class>controleur.EDT</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ControleurProf</servlet-name>
+        <servlet-class>controleur.ControleurProf</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ControleurParent</servlet-name>
+        <servlet-class>controleur.ControleurParent</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Controleur</servlet-name>
         <url-pattern>/Controleur</url-pattern>
@@ -63,6 +71,14 @@
     <servlet-mapping>
         <servlet-name>EDT</servlet-name>
         <url-pattern>/EDT</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControleurProf</servlet-name>
+        <url-pattern>/ControleurProf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControleurParent</servlet-name>
+        <url-pattern>/ControleurParent</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

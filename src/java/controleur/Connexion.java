@@ -6,7 +6,6 @@
 package controleur;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -110,7 +109,7 @@ public class Connexion extends HttpServlet {
                     session.setAttribute("prenom", p.getPrenom());
                     session.setAttribute("nom", p.getNom());
                     i = 1;
-                    rd = request.getRequestDispatcher("acceuilProf.jsp");
+                    rd = request.getRequestDispatcher("vue/prof/acceuilProf.jsp");
                 } else if ((profils.equalsIgnoreCase("directeur")) && (login.equals(p.getLogin())) && (motDePasse.equals(p.getMotDePasse()))) {
                     session.setAttribute("log", login);
                     session.setAttribute("motDePasse", motDePasse);

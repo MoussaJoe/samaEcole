@@ -415,11 +415,11 @@ public class Directeur extends HttpServlet {
             System.out.println(bulletin.getRang());
             GenererPDF generer = new GenererPDF();
 
-            try {
-                generer.documentPDF(bulletin);
-            } catch (DocumentException ex) {
-                Logger.getLogger(Directeur.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                generer.documentPDF(bulletin);
+//            } catch (DocumentException ex) {
+//                Logger.getLogger(Directeur.class.getName()).log(Level.SEVERE, null, ex);
+//            }
 
             String message = "Le bulletin a été créer avec succés";
             String nomClasse = bulletin.getNomClasse();

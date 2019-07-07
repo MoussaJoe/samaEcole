@@ -24,7 +24,7 @@ public class GenererPDF {
 
         Document document = new Document(PageSize.A4, 50, 50, 50, 50);
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("/Users/mac/NetBeansProjects/Projet_Ecole/web/Fiche/fiche_devoir.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream("/Users/mac/Desktop/proget_git/samaEcole/web/Fiche/fiche_devoir.pdf"));
             document.open();
 
             Paragraph paragraph = new Paragraph("RELEVE DE NOTES", new Font(Font.FontFamily.TIMES_ROMAN, 25, Font.BOLD, BaseColor.BLACK));

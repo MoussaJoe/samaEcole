@@ -29,6 +29,7 @@ public class ListEleve {
     private Float composition;
     private String semestre;
     private String annee;
+    private int idDevoir;
     private Float moyenne;
 
     public String getMatriculeEleve() {
@@ -181,4 +182,13 @@ public class ListEleve {
     public void setMoyenne(Float moyenne) {
         this.moyenne = moyenne;
     }
+
+    public int getIdDevoir() {
+        return idDevoir;
+    }
+
+    public void setIdDevoir(int idDevoir) {
+        this.idDevoir = idDevoir;
+    }
+    
 }

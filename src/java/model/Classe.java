@@ -17,6 +17,10 @@ public class Classe {
     String regime;
     ArrayList<String> matieres;
 
+    public Classe() {
+    }
+
+    
     public Classe(String nomClasse, String regime,ArrayList<String> matieres) {
         this.nomClasse = nomClasse;
         this.regime = regime;

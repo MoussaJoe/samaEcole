@@ -8,6 +8,7 @@ import modelPersonne.DAOEleveImpl;
 import modelPersonne.DAOParentImpl;
 import modelPersonne.DAOPersonneImpl;
 import modelPersonne.DAOProfImpl;
+import modelPersonne.DAOProfsImpl;
 
 /**
  *
@@ -31,7 +32,7 @@ public class DAOFactory {
         } catch (Exception e) {
             System.out.println("Erreur de chargement du piolte de la base");
         }
-        DAOFactory instance = new DAOFactory("jdbc:mysql://localhost/samaecole", "root", "");
+        DAOFactory instance = new DAOFactory("jdbc:mysql://localhost:8889/samaecole", "root", "root");
         return instance;
     }
 
@@ -51,6 +52,9 @@ public class DAOFactory {
     }
     public DAOProfImpl getDAOProf() {
         return new DAOProfImpl(this);
+    }
+    public DAOProfsImpl getDAOProfs() {
+        return new DAOProfsImpl(this);
     }
     public DAODirecteurImpl getDAODirecteur() {
         return new DAODirecteurImpl(this);
