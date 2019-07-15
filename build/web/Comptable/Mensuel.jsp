@@ -22,12 +22,7 @@
             if (session.getAttribute("log") != null) {
 
         %>
-        <%@include file="barreNavCompta.jsp" %> 
-        <script>
-            <c:if test="${! empty erreurMontantSaisi}">
-                alert("Veuillez vérifier le montant saisi");
-            </c:if>
-        </script>
+        <%@include file="barreNavCompta.jsp" %>         
         <!--///////////////////////////////////// -->
             <div class="col-lg-3"></div>
                 <div class="col-lg-9">
@@ -56,11 +51,17 @@
                                    </td>
                             </c:if>
 
-                            <c:if test="${m.statutMensuel eq '1'}">
+                            <c:if test="${(m.statutMensuel eq '1') and (m.reliquat eq '0')}">
                                 <td>                                    
                                         <a class="btn btn-success btn-block">En règle</a>
-                                </td>
-                            
+                                </td>                            
+                            </c:if>
+                                
+                            <c:if test="${(m.statutMensuel eq '1') and (m.reliquat ne '0')}">
+                                <td>                                    
+                                    <a class="btn btn-success btn-block" href="Comptable?connect=resteApayer&login=${login}&nomClasse=${nomClasse}&mois=${m.mois}&reliquat=${m.reliquat}">
+                                        Reste à payer</a>
+                                </td>                            
                             </c:if>
 
                             </tr>

@@ -25,10 +25,13 @@
         <%@include file="barreNavCompta.jsp" %> 
         <!--///////////Liste Classe Privee/////////////// -->
         <c:if test="${(! empty classePrivee) && (empty eleve)}">
+            <script>
+            <c:if test="${! empty payementReussit}">
+            alert("Payement effectué avec success");
+            </c:if>
+                </script>
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
-                <form method="POST" action="Comptable">
-                    <input type="hidden" name="connect" value="choixClasse"/>
                     <table id="tab2" class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -39,15 +42,20 @@
                         <tbody>
                             <tr>
                                 <c:forEach var="cl" items="${classePrivee}">
-                                    <td>${cl}</td>
-                            <input type="hidden" name="nomClasse" value="${cl}"/>
-                            <td><button class="btn btn-success btn-block" type="submit">Voir classe</button></td>
+                                    <td>
+                                        ${cl} 
+                                    </td>
+                            
+                            <td>
+                                <a href="Comptable?connect=choixClasse&nomClasse=${cl}">
+                                <button class="btn btn-success btn-block">Voir classe</button>
+                                </a>
+                            </td>
                         </c:forEach>                            
                         </tr>
                         </tbody>
 
                     </table>
-                </form>
             </div>
         </c:if>
         <!--///////////Fin Liste Classe Privee/////////////// -->

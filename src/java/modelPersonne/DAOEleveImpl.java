@@ -98,6 +98,24 @@ public class DAOEleveImpl {
         }
         return reliquat;
     }
+    
+     public int verifMontantPayer(String login,String annee,String moisMensuel) {
+        int montant = 0;
+        Connection con;
+        Statement st;
+        try {
+            con = daoFactory.getConnection();
+            String requete = "select montant from mensuel where login='" + login + "' and anneeScolaire='"+annee+"' and mois='"+moisMensuel+"'";
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(requete);
+            while (rs.next()) {
+                montant = rs.getInt("montant");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return montant;
+    }
     //
 
     //Inscription d'un éleve dont le parent n'est pas dans la base
@@ -631,7 +649,6 @@ public class DAOEleveImpl {
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
                 classes.add(rs.getString("nomClasse"));
-
             }
 
         } catch (Exception e) {
@@ -692,13 +709,14 @@ public class DAOEleveImpl {
         Statement st;
         try {
             con = daoFactory.getConnection();
-            String requete = "select mois,statutMensuel FROM mensuel WHERE login='" + login + "' and anneeScolaire='" + annee + "'";
+            String requete = "select mois,statutMensuel,reliquat FROM mensuel WHERE login='" + login + "' and anneeScolaire='" + annee + "'";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
                 mensuel = new Mensuel();
                 mensuel.setMois(rs.getString("mois"));
                 mensuel.setStatutMensuel(rs.getString("statutMensuel"));
+                mensuel.setReliquat(rs.getInt("reliquat"));
                 listMois.add(mensuel);
             }
 
@@ -708,9 +726,10 @@ public class DAOEleveImpl {
         return listMois;
     }
 
-    public void validerMensualite(String login, String anneeScolaire, String statutMensuel, String dateMensuel,
+    public Boolean validerMensualite(String login, String anneeScolaire, String statutMensuel, String dateMensuel,
             String mois, int montant, int reliquat) {
         Connection con;
+        Boolean resultat = false;
         PreparedStatement pst;
         try {
             con = daoFactory.getConnection();
@@ -725,6 +744,7 @@ public class DAOEleveImpl {
             pst.setString(7, mois);
             int rs = pst.executeUpdate();
             if (rs > 0) {
+                resultat = true;
                 System.out.println("la requete est bien exécutée");
             } else {
                 System.out.println("Erreur d'exécution");
@@ -732,8 +752,39 @@ public class DAOEleveImpl {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return  resultat;
     }
 
+     public Boolean validerPayementReliquat(String login, String anneeScolaire, String statutMensuel, String dateMensuel,
+            String mois, int montant, int reliquat) {
+        Connection con;
+        Boolean resultat = false;
+        PreparedStatement pst;
+        try {
+            con = daoFactory.getConnection();
+            String requete = "update mensuel set statutMensuel=?, dateMensuel=?,montant=?,reliquat=? where login=? and anneeScolaire=? and mois=?";
+            pst = con.prepareStatement(requete);
+            pst.setString(1, statutMensuel);
+            pst.setString(2, dateMensuel);
+            pst.setInt(3, montant);
+            pst.setInt(4, reliquat);
+            pst.setString(5, login);
+            pst.setString(6, anneeScolaire);
+            pst.setString(7, mois);
+            int rs = pst.executeUpdate();
+            if (rs > 0) {
+                resultat = true;
+                System.out.println("la requete est bien exécutée");
+            } else {
+                System.out.println("Erreur d'exécution");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return resultat;
+    }
+
+    
     public ArrayList<String> listerMatiereClasse(String classe, String regime) {
         ArrayList<String> listEleve = new ArrayList<>();
         Connection con;

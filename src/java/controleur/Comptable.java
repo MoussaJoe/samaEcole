@@ -447,8 +447,8 @@ public class Comptable extends HttpServlet {
             ArrayList<Eleve> eleve = new ArrayList();
             String nomClasse = request.getParameter("nomClasse");
             eleve = daoEleve.listerEleveClasse(nomClasse, anInscr);
-            request.setAttribute("nomClasse", nomClasse);
             if (!eleve.isEmpty()) {
+                request.setAttribute("nomClasse", nomClasse);
                 request.setAttribute("eleve", eleve);
             } else {
                 request.setAttribute("eleveVide", eleve);
@@ -456,7 +456,7 @@ public class Comptable extends HttpServlet {
             rd = request.getRequestDispatcher("Comptable/mensualite.jsp");
         } else if (req.equals("payerMensuel")) {
             String login = request.getParameter("login");
-            String nomClasse = request.getParameter("nomClasse"); 
+            String nomClasse = request.getParameter("nomClasse");
             int montant = daoEleve.verifMensualite(nomClasse);
             listMensuel = daoEleve.listerMensualite(login, anInscr);
             request.setAttribute("listerMois", listMensuel);
@@ -464,36 +464,95 @@ public class Comptable extends HttpServlet {
             request.setAttribute("login", login);
             request.setAttribute("nomClasse", nomClasse);
             rd = request.getRequestDispatcher("Comptable/Mensuel.jsp");
-        }else if (req.equals("payer")) {
+        } else if (req.equals("payer")) {
             int montant = Integer.parseInt(request.getParameter("montant"));
-            int montantApayer=Integer.parseInt(request.getParameter("montant"));
+            int montantApayer = Integer.parseInt(request.getParameter("montant"));
             String login = request.getParameter("login");
             String nomClasse = request.getParameter("nomClasse");
             String moisMensuel = request.getParameter("mois");
-            request.setAttribute("reglement", login);
-            request.setAttribute("nomClasse", nomClasse);
-            request.setAttribute("montant", montant);
-            request.setAttribute("montantApayer", montantApayer);
-            request.setAttribute("moisMensuel", moisMensuel);
+            session.setAttribute("reglement", login);
+            session.setAttribute("nomClasse", nomClasse);
+            session.setAttribute("montant", montant);
+            session.setAttribute("montantApayer", montantApayer);
+            session.setAttribute("moisMensuel", moisMensuel);
+            request.setAttribute("payer", "payer");
             rd = request.getRequestDispatcher("Comptable/validerMensualite.jsp");
-        }else if (req.equals("validerMensuel")) {
+        } else if (req.equals("validerMensuel")) {
             int reliquat = 0;
             int montant = Integer.parseInt(request.getParameter("montant"));
-            int montantApayer=Integer.parseInt(request.getParameter("montantApayer")); 
+            int montantApayer = Integer.parseInt(request.getParameter("montantApayer"));
             String moisMensuel = request.getParameter("moisMensuel");
             String login = request.getParameter("login");
             if (montant > montantApayer) {
                 String msg = "erreur montant";
+                request.setAttribute("payer", "payer");
                 request.setAttribute("erreurMontantSaisi", msg);
-                rd = request.getRequestDispatcher("Comptable/Mensuel.jsp");
+                rd = request.getRequestDispatcher("Comptable/validerMensualite.jsp");
             }
-            
+
+            System.out.println("login " + login);
+            Boolean resultat = false;
             if (montant <= montantApayer) {
                 reliquat = montantApayer - montant;
-                daoEleve.validerMensualite(login, anInscr, "1", dateToday, moisMensuel, montant, reliquat);
-                String msg = "success";
-                request.setAttribute("payementReussit", msg);
-                rd = request.getRequestDispatcher("Comptable/accueilCompta.jsp");
+                resultat = daoEleve.validerMensualite(login, anInscr, "1", dateToday, moisMensuel, montant, reliquat);
+                if (resultat == true) {
+                    String msg = "success";
+                    request.setAttribute("payementReussit", msg);
+                    classePrivee = daoEleve.listerClassePrivee();
+                    request.setAttribute("classePrivee", classePrivee);
+                    rd = request.getRequestDispatcher("Comptable/mensualite.jsp");
+                } else {
+                    String msg = "erreur montant";
+                    request.setAttribute("payer", "payer");
+                    request.setAttribute("erreurPayement", msg);
+                    rd = request.getRequestDispatcher("Comptable/validerMensualite.jsp");
+                }
+            }
+        } else if (req.equals("resteApayer")) {
+            String login = request.getParameter("login");
+            String nomClasse = request.getParameter("nomClasse");
+            String mensuel = request.getParameter("mois");
+            int montant = daoEleve.verifMontantPayer(login, anInscr, mensuel);
+            int reliquat = Integer.parseInt(request.getParameter("reliquat"));
+
+            session.setAttribute("login", login);
+            session.setAttribute("montant", montant);
+            session.setAttribute("nomClasse", nomClasse);
+            session.setAttribute("moisMensuel", mensuel);
+            session.setAttribute("montantReliquat", reliquat);
+            request.setAttribute("reliquat", "reliquat");
+            rd = request.getRequestDispatcher("Comptable/validerMensualite.jsp");
+        } else if (req.equals("payerReliquat")) {
+            int montantRecu = Integer.parseInt(request.getParameter("montantRecu"));
+            int montant = Integer.parseInt(request.getParameter("montant"));
+            String login = request.getParameter("login");
+            String nomClasse = request.getParameter("nomClasse");
+            int montantReliquat = Integer.parseInt(request.getParameter("montantReliquat"));
+            String moisMensuel = request.getParameter("moisMensuel");
+
+            if (montantRecu > montantReliquat) {
+                String msgErrorReliquat = "erreur";
+                request.setAttribute("msgErrorReliquat", msgErrorReliquat);
+                request.setAttribute("reliquat", "reliquat");
+                rd = request.getRequestDispatcher("Comptable/validerMensualite.jsp");
+            }
+            Boolean resultat = false;
+            if (montantRecu <= montantReliquat) {
+                int reliquat = montantReliquat - montantRecu;
+                int montantPayer = montant + montantRecu;
+                resultat = daoEleve.validerPayementReliquat(login, anInscr, "1", dateToday, moisMensuel, montantPayer, reliquat);
+                if (resultat) {
+                    String msg = "success";
+                    request.setAttribute("payementReussit", msg);                    
+                    classePrivee = daoEleve.listerClassePrivee();
+                    request.setAttribute("classePrivee", classePrivee);
+                    rd = request.getRequestDispatcher("Comptable/mensualite.jsp");
+                } else {
+                    String msg = "erreur";
+                    request.setAttribute("erreurReliquat", msg);
+                    request.setAttribute("reliquat", "reliquat");
+                    rd = request.getRequestDispatcher("Comptable/validerMensualite.jsp");
+                }
             }
         }
 

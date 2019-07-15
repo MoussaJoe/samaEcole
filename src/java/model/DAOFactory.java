@@ -32,7 +32,7 @@ public class DAOFactory {
         } catch (Exception e) {
             System.out.println("Erreur de chargement du piolte de la base");
         }
-        DAOFactory instance = new DAOFactory("jdbc:mysql://localhost:8889/samaecole", "root", "root");
+        DAOFactory instance = new DAOFactory("jdbc:mysql://localhost/samaecole", "root", "");
         return instance;
     }
 
