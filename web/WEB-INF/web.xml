@@ -88,4 +88,13 @@
     <welcome-file-list>
         <welcome-file>Connexion</welcome-file>
     </welcome-file-list>
+    
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <include-prelude>/WEB-INF/en_tete.jsp</include-prelude>
+            <include-prelude>/WEB-INF/footer.jsp</include-prelude>
+            <include-prelude>/WEB-INF/taglib.jsp</include-prelude>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>
