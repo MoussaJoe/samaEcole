@@ -46,7 +46,7 @@
             <div class="menu-verticale">
                 <div class="menuDir">
                     <ul>
-                        <li><a href="ControleurEleve?action=afficherNote"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;&nbsp;Consulter Mes notes</a> </li>
+                        <li><a href="Eleve?action=afficherNote"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;&nbsp;Consulter Mes notes</a> </li>
                         <li><a href="Eleve?connect=listerMaClasse"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;&nbsp;Lister Ma Classe</a> </li>
                         <li><a href="Eleve?connect=listeMesProfs"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Lister Mes Professeurs</a> </li>
                         <li><a href="ControleurEleve?&action=afficheMessage"><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;&nbsp;Message</a></li>

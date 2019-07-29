@@ -1889,7 +1889,7 @@ public class DAOEleveImpl {
         Statement st;
         try {
             con = daoFactory.getConnection();
-            String requete = "select annee from  eleveannesco where loginEleve ='" + login + "'";
+            String requete = "select anneeScolaire from  eleve where login ='" + login + "'";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
