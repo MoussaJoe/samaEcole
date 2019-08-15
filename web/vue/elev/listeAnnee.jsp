@@ -22,7 +22,7 @@
         <table class="table table-hover" id="tab1">
             <c:forEach var="a" items="${annees}">
                 <tr>
-                    <td><a class="btn btn-success" href="ControleurEleve?annee=${a}&&action=anneeScolaire">${a}</a></td> 
+                    <td><a class="btn btn-success" href="Eleve?annee=${a}&connect=anneeScolaire">${a}</a></td> 
                 </tr>
  
             </c:forEach>

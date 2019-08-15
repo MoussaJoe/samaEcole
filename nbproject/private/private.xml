@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/Users/mac/Desktop/proget_git/samaEcole/src/java/modelPersonne/DAOEleveImpl.java</file>
             <file>file:/Users/mac/Desktop/proget_git/samaEcole/web/vue/parent/acceuilParent.jsp</file>
             <file>file:/Users/mac/Desktop/proget_git/samaEcole/src/java/controleur/ControleurParent.java</file>
@@ -10,6 +11,14 @@
             <file>file:/Users/mac/Desktop/proget_git/samaEcole/src/java/modelPersonne/DAOProfsImpl.java</file>
             <file>file:/Users/mac/Desktop/proget_git/samaEcole/web/vue/parent/accueilPar.jsp</file>
             <file>file:/Users/mac/Desktop/proget_git/samaEcole/src/java/controleur/Controleur.java</file>
+=======
+            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/src/java/modelPersonne/DAOEleveImpl.java</file>
+            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/src/java/controleur/Eleve.java</file>
+            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/src/java/controleur/ControleurEleve.java</file>
+            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/web/vue/elev/listeMesProfs.jsp</file>
+            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/web/vue/elev/listeAnnee.jsp</file>
+            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/web/eleve.jsp</file>
+>>>>>>> 9060b398d96c87aea6dd2e72d5741641765f77d2
         </group>
     </open-files>
 </project-private>

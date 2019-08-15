@@ -1,6 +1,26 @@
-body{
-    padding-top: 70px
+
+/*Modif css Ouzy*/
+#lien1{
+    text-decoration: none;
+    color: white;
 }
+#lien1:hover{
+    text-decoration: none;
+    background-color: #ED7F10;
+    /*background-color: red;*/
+}
+
+.navbar-default{
+    background-color: #00a1dc;
+
+}
+.navbar-nav{
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+/*Fin Modif Ouzy*/
 #logo,#banniere{
     display: inline-block;
     height: 120px;

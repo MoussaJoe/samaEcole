@@ -4,20 +4,7 @@
     Author     : Ouzy NDIAYE
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta  charset=UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="dist/css/bootstrap.css" rel="stylesheet"/>
-        <link rel="stylesheet" href="dist/css/mystyle.css" />
-        <link rel="stylesheet" type="text/css" href="Style/style1.css">
-        <title>Acceuil</title> 
-    </head>
-    <body>
+ 
         <%
             if (session.getAttribute("log") != null) {
 
@@ -28,44 +15,45 @@
             <c:if test="${!empty msgeErreurDate}">
             alert("Veuillez revoir la date de naissance saisie");
             </c:if>
-                <!--Message erreur RÃ©gime -->
+                <!--Message erreur Régime -->
             <c:if test="${!empty msgErreurRegime}">
-            alert("Veuillez choisir un rÃ©gime");
+            alert("Veuillez choisir un régime");
             </c:if>
                 <!--Message Erreur NumTelElv -->
             <c:if test="${!empty msgErreurTelElv}">
-            alert("NumÃ©ro de TÃ©lÃ©phone de l'Ã©lÃ¨ve incorrect");
+            alert("Numéro de Téléphone de l'élève incorrect");
             </c:if>
             <!--Message Erreur NumTelPar -->
             <c:if test="${!empty msgErreurTelPar}">
-            alert("NumÃ©ro de TÃ©lÃ©phone du parent incorrect");
+            alert("Numéro de Téléphone du parent incorrect");
             </c:if>
             <c:if test="${!empty msgErreurMontant}">
-            alert("Veuillez vÃ©rifier le montant saisi");
+            alert("Veuillez vérifier le montant saisi");
             </c:if>
             <c:if test="${!empty msgErreurEnreg}">
-            alert("l'inscription a Ã©chouÃ©!!!");
+            alert("l'inscription a échoué!!!");
             </c:if>
             <c:if test="${!empty msgErreurLogAnsPar}">
             alert("Le login du parent saisi n'existe pas dans la base");
             </c:if>
             <c:if test="${!empty msgEnregReussit}">
-            alert("l'inscription a rÃ©ussi!!!");
+            alert("l'inscription a réussi!!!");
             </c:if>
         </script>
         <!--///////////////////////////////////// -->
-        <h1>Inscription Ã©lÃ¨ve</h1>
+        <div class="container">
+            <div class="row">
+                
+        <h1>Inscription élève</h1>
         <form action="Comptable" method="Post">
             <input type="hidden" name="connect" value="valider-inscription" />
-            <div class="col-lg-3"></div>
             <div class="col-lg-12">
-                <p class="edp_Classe">Informations de l'Ã©lÃ¨ve</p>
+                <p class="edp_Classe">Informations de l'élève</p>
             </div>
-            <div class="col-lg-3"></div>
-            <div class="col-lg-3">                
+            <div class="col-lg-4">                
                 <div class="form-group">
-                    <label for="prenom">PrÃ©nom</label>
-                    <input id="prenom" type="text" name="prenom" class="form-control" placeholder="Saisir le prÃ©nom" required>
+                    <label for="prenom">Prénom</label>
+                    <input id="prenom" type="text" name="prenom" class="form-control" placeholder="Saisir le prénom" required>
                 </div>
                 <!--////////////////////////////////////// -->
                 <div class="form-group">
@@ -76,13 +64,13 @@
                 <div class="form-group">
                     <label for="sexe">Sexe</label>
                     <select id="sexe" class="form-control" name="sexe">
-                        <option value="Garcon">GarÃ§on</option>
+                        <option value="Garcon">Garçon</option>
                         <option value="Fille">Fille</option>
                     </select>
                 </div>
             </div>
             <!--|||||||||||||||||||||||||||||||||||||||||||||| -->
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <div class="form-group">
                     <label for="nom">Adresse</label>
                     <input id="prenom" type="text" name="adresse" class="form-control" placeholder="Saisir l'adresse" maxlength="40" required>
@@ -109,9 +97,9 @@
                 </div>
             </div>
             <!--|||||||||||||||||||||||||||||||||||||||||||||| -->
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <div class="form-group">
-                    <label for="numTel">NumÃ©ro de TÃ©lÃ©phone</label>
+                    <label for="numTel">Numéro de Téléphone</label>
                     <div class="form-inline">
                         <select name="opeTelElv" class="form-control">                                
                             <option>30</option>
@@ -133,10 +121,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>SÃ©lectionner un rÃ©gime</label>
+                    <label>Sélectionner un régime</label>
                     <select id="regime" onchange="myFunction()" class="form-control" name="regime">
-                        <option value="">SÃ©lectionnez un rÃ©gime</option>
-                        <option value="Privee">PrivÃ©e</option>
+                        <option value="">Sélectionnez un régime</option>
+                        <option value="Privee">Privée</option>
                         <option value="Public">Public</option>
                     </select>
                     <p id="demo" ></p>
@@ -177,14 +165,13 @@
             </div>
             <!--|||||||||||||||||||||||||||||||||-----------Eleve-------------|||||||||||||||||||||||||||||- -->
             <div class="col-lg-12">
-                <p style="text-align: center; font-size: 20px;">Informations du parent</p>
+                <p class="edp_Classe">Informations du parent</p>
             </div>
-            <div class="col-lg-3"></div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <div class="form-group">
                     <label for="">Selectioner le parent</label>
                     <select id="selectPar" onchange="functionPar()" class="form-control" name="selectPar">
-                        <option value="">-----Veuillez sÃ©lectionner-------</option>
+                        <option value="">-----Veuillez sélectionner-------</option>
                         <option value="nouveau">Nouveau parent</option>
                         <option value="ancien">Ancien parent</option>
                     </select>
@@ -192,8 +179,8 @@
                     <script>
                         var newParent = "\n\
                         <div class='form-group'>\n\
-                        <label>PrÃ©nom</label>\n\
-                        <input id='prenom' type='text' name='prenomPar' class='form-control' placeholder='Saisir le prÃ©nom' required/>\n\
+                        <label>Prénom</label>\n\
+                        <input id='prenom' type='text' name='prenomPar' class='form-control' placeholder='Saisir le prénom' required/>\n\
                         </div>\n\
                         <div class='form-group'>\n\
                         <label for='nom'>Nom</label>\n\
@@ -204,7 +191,7 @@
                         <input id='prenom' type='email' name='email' class='form-control' placeholder='Saisir l Email (Facultatif)' maxlength='50'/>\n\
                         </div>\n\
                         <div class='form-group'>\n\
-                        <label for='numTel'>NumÃ©ro de TÃ©lÃ©phone</label>\n\
+                        <label for='numTel'>Numéro de Téléphone</label>\n\
                         <div class='form-inline'>\n\
                         <select name='opeTelPar' class='form-control' required>\n\
                         <option>30</option>\n\
@@ -214,7 +201,7 @@
                         <option>77</option>\n\
                         <option>78</option>\n\
                         </select>\n\
-                        <input type='text' name='numTelPar' placeholder='Saisir le numÃ©ro de tÃ©lÃ©phone'  maxlength='7' onkeypress=' return event.charCode >= 48 && event.charCode <= 57' class='form-control' required/>\n\
+                        <input type='text' name='numTelPar' placeholder='Saisir le numéro de téléphone'  maxlength='7' onkeypress=' return event.charCode >= 48 && event.charCode <= 57' class='form-control' required/>\n\
                         </div>\n\
                         ";
                     </script>
@@ -240,12 +227,11 @@
                 </div>
             </div>
 
-            <!--|||||||||||||||||||||-----------ComptabilitÃ©-----------------||||||||||||||||||||||||||||||||| -->
+            <!--|||||||||||||||||||||-----------Comptabilité-----------------||||||||||||||||||||||||||||||||| -->
             <div class="col-lg-12">
-                <p style="text-align: center; font-size: 20px;">ComptabilitÃ©</p>
+                <p class="edp_Classe">Comptabilité</p>
             </div>
-            <div class="col-lg-3"></div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <div class="form-group">
                     <label for="montantInsc">Montant Inscription</label>
                     <input id="prenom" type="text" name="montantInsc" class="form-control" placeholder="Saisir le montant"
@@ -254,7 +240,7 @@
                 <!--////////////////////////////////////// -->
             </div>
             <div class="col-lg-12">
-                <div class="col-lg-4"></div>
+                <div class="col-lg-3"></div>
                 <div class="col-lg-7">
                     <button class="btn btn-success btn-block" type="submit">Inscrire</button>
                 </div>
@@ -262,6 +248,8 @@
             </div>   
         </form>
 
+        </div>
+        </div>
         <% } else {
         %>
         <jsp:forward page="vue/SeConnecter.jsp"/>

@@ -39,8 +39,8 @@
                         <td>${p.prenom}</td> 
                         <td>${p.nom}</td>                                               
                         <td>
-                            <c:forEach var="m" items="${p.matiere}">
-                                ${m  }
+                            <c:forEach begin="0" end="0" var="m" items="${p.matiere}">
+                                ${m}
                             </c:forEach>
                         </td>
                     </tr>
