@@ -6,13 +6,11 @@
 package controleur;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Locale;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.DAOFactory;
 import model.Eleve;
+import model.MessageRecu;
 import model.Reclamation;
 import modelTables.Personne;
 import modelPersonne.DAOEleveImpl;
@@ -50,6 +49,7 @@ public class ControleurEleve extends HttpServlet {
     ArrayList<Personne> profs;
     private DAOParentImpl daoParent;
     public ArrayList<Eleve> rechercheParElev;
+    public ArrayList<MessageRecu> messR;
 
     public void init() throws ServletException {
         DAOFactory daoFactory = DAOFactory.getInstance();
@@ -104,33 +104,69 @@ public class ControleurEleve extends HttpServlet {
             request.setAttribute("an", an);
             request.setAttribute("annee", annee);
             String varAn = null;
-            if(an.equals(annee)){
-               varAn  = "exist"; 
+            if (an.equals(annee)) {
+                varAn = "exist";
             }
             request.setAttribute("varAn", varAn);
             rd = request.getRequestDispatcher("vue/elev/affichageNoteEleve.jsp");
-        } else if (action.equals("afficherNote")) {
+        } else if ((action.equals("anneeScolaireCompo")) || (action.equals("1er_semestre_compo")) || (action.equals("2eme_semestre_compo"))) {
+
+            String annee = request.getParameter("annee");
+            if ((action.equals("1er_semestre_compo"))) {
+                action = "1er_semestre";
+            } else if (action.equals("2eme_semestre_compo")) {
+                action = "2eme_semestre";
+            }
+
+            request.setAttribute("action", action);
+            System.out.println(login);
+            eleves = daoEleve.evaluationEleveCompo(login, action, annee);
+            request.setAttribute("eleves", eleves);
+
+            request.setAttribute("an", an);
+            request.setAttribute("annee", annee);
+            String varAn = null;
+            if (an.equals(annee)) {
+                varAn = "exist";
+            }
+            request.setAttribute("varAn", varAn);
+            rd = request.getRequestDispatcher("vue/elev/affichageNoteCompoEleve.jsp");
+        } else if (action.equals(
+                "afficherNote")) {
             ArrayList<String> annees = new ArrayList<>();
 
             annees = daoEleve.anneeScolaire(login);
-            for(String a : annees){
+            for (String a : annees) {
                 System.out.println(a);
             }
             request.setAttribute("annees", annees);
             rd = request.getRequestDispatcher("vue/elev/listeAnnee.jsp");
-        } else if (action.equals("listerMaClasse")) {
+        } else if (action.equals(
+                "afficherNoteCompo")) {
+            ArrayList<String> annees = new ArrayList<>();
+
+            annees = daoEleve.anneeScolaire(login);
+            for (String a : annees) {
+                System.out.println(a);
+            }
+            request.setAttribute("annees", annees);
+            rd = request.getRequestDispatcher("vue/elev/listeAnneeCompo.jsp");
+        } else if (action.equals(
+                "listerMaClasse")) {
             eleves = daoEleve.listerclasse(login, an);
             request.setAttribute("eleves", eleves);
             request.setAttribute("login", login);
             rd = request.getRequestDispatcher("vue/elev/listeMaClasse.jsp");
-        } else if (action.equals("listeMesProfs")) {
+        } else if (action.equals(
+                "listeMesProfs")) {
 
             profs = daoEleve.listerProf(login, an);
 
             request.setAttribute("profs", profs);
             rd = request.getRequestDispatcher("vue/elev/listeMesProfs.jsp");
         } /////Dattte////////////////////////////////////////////////////////
-        else if (action.equals("reclamer")) {
+        else if (action.equals(
+                "reclamer")) {
             if ((newmois >= 1) && (newmois <= 9)) {
                 String annee = new SimpleDateFormat("yyyy", Locale.FRANCE).format(Calendar.getInstance().getTime());
                 int newYear = Integer.parseInt(annee);
@@ -158,7 +194,8 @@ public class ControleurEleve extends HttpServlet {
             request.setAttribute("nomClasse", nomClasse);
 
             rd = request.getRequestDispatcher("vue/elev/reclamation.jsp");
-        } else if (action.equals("reclamation")) {
+        } else if (action.equals(
+                "reclamation")) {
             String loginEleve = request.getParameter("loginEleve");
             String nom = request.getParameter("nom");
             String prenom = request.getParameter("prenom");
@@ -173,7 +210,8 @@ public class ControleurEleve extends HttpServlet {
             String accuRec = "Réclamation envoyée";
             request.setAttribute("messAcu", accuRec);
             rd = request.getRequestDispatcher("vue/elev/reclamation.jsp");
-        } else if (action.equals("afficheMessage")) {
+        } else if (action.equals(
+                "afficheMessage")) {
             String loginEleve = (String) session.getAttribute("log");
             reclamation = daoEleve.selectReclamationRep(loginEleve);
             if (reclamation.isEmpty()) {
@@ -186,10 +224,12 @@ public class ControleurEleve extends HttpServlet {
             }
             rd = request.getRequestDispatcher("vue/elev/messageEleve.jsp");
         } ///////////////////////////////////////Compte////////////////////////////////////////////
-        else if (action.equals("compte")) {
+        else if (action.equals(
+                "compte")) {
             rd = request.getRequestDispatcher("vue/elev/compteEleve.jsp");
 
-        } else if (action.equals("confirmPasswd")) {
+        } else if (action.equals(
+                "confirmPasswd")) {
             String newpasswd = request.getParameter("newpasswd");
             System.out.println("nouveau :" + newpasswd);
             String oldpasswd = request.getParameter("oldpasswd");
@@ -214,7 +254,8 @@ public class ControleurEleve extends HttpServlet {
             }
         } ///////////////////////////////////////Fin Compte////////////////////////////////////////////
         /////////////////////////////////////////////////Recherche////////////////////////////////////
-        else if (action.equals("rechercher")) {
+        else if (action.equals(
+                "rechercher")) {
             String nom = request.getParameter("recherche");
             rechercheParElev = daoParent.rechercheEleve(nom);
             for (Eleve e : rechercheParElev) {
@@ -230,13 +271,76 @@ public class ControleurEleve extends HttpServlet {
                 rd = request.getRequestDispatcher("vue/elev/rechercheEleve.jsp");
             }
         }
+        
+        
+        else if (action.equals("afficheMess")) {
+            String loginEleve = (String)session.getAttribute("log");
+            System.out.println("login-------------------- "+loginEleve);
+            messR = daoEleve.messageRecuEleve(loginEleve);
+            System.out.println("//////////////////////idReclamation////////////////////////////");
+            
+            request.setAttribute("listMessage", messR);
+            rd = request.getRequestDispatcher("vue/elev/message.jsp");
+        }
+        
+        
+        else if(action.equals("afficheMesse")){
+            String date= request.getParameter("date");
+            String texte= request.getParameter("texte");
+            String login_pro= request.getParameter("login_pro");
+            String loginEleve= request.getParameter("login");
+            System.out.println("login_pro: "+login_pro);
+            System.out.println("login: "+login);
+            ArrayList<String> messRecu=daoEleve.selectMessageRecuEleve(login_pro, login); 
+            ArrayList<String> messEvoye=daoEleve.selectMessageEnvoyeEleve(login_pro, login);
+            System.out.println("Message recu");
+            for (String string : messRecu) {
+                System.out.println(string);
+            }
+            System.out.println("Message envoye");
+            for (String string : messEvoye) {
+                System.out.println(string);
+            }
+            int taille=messRecu.size()+messEvoye.size();
+            request.setAttribute("login", login);
+            request.setAttribute("messRecu", messRecu);
+            request.setAttribute("messEvoye", messEvoye);
+            rd = request.getRequestDispatcher("vue/elev/chat.jsp");
+        }
+        else if(action.equals("repondre")){
+            String loginEleve=(String)session.getAttribute("log");
+            String message= request.getParameter("message");
+            String pro_login=request.getParameter("login");
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            Date today = Calendar.getInstance().getTime();
+            String date = df.format(today);
+            daoEleve.reponseEleve(loginEleve, pro_login, message, date);
+            ArrayList<String> messRecu=daoEleve.selectMessageRecuEleve(pro_login, login); 
+            ArrayList<String> messEvoye=daoEleve.selectMessageEnvoyeEleve(pro_login, login);
+            request.setAttribute("login", login);
+            request.setAttribute("messRecu", messRecu);
+            request.setAttribute("messEvoye", messEvoye);
+            rd = request.getRequestDispatcher("vue/elev/chat.jsp");
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         ////////////////////////////////////////////////Fin Recheerche///////////////////////////////
-        if (rd != null) {
+        if (rd
+                != null) {
             rd.forward(request, response);
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

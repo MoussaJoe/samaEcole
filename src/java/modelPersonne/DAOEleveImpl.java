@@ -18,6 +18,7 @@ import model.GestionDate;
 import model.GestionParamUser;
 import model.ListEleve;
 import model.Mensuel;
+import model.MessageRecu;
 import model.Parent;
 import model.Prof;
 import model.Reclamation;
@@ -1270,11 +1271,11 @@ public class DAOEleveImpl {
         Statement st;
         try {
             con = daoFactory.getConnection();
-            String requete = "select loginProf from profclasse where nomMatiere='" + nomMatiere + "' and nomClasse='" + nomClasse + "' and annee='" + an + "'";
+            String requete = "select profclasse.login from profclasse,profmatiere where nomMatiere='" + nomMatiere + "' and profclasse.nomClasse='" + nomClasse + "' and profmatiere.nomMatiere='" + nomMatiere + "' and profclasse.login=profmatiere.login  and anneeScolaire='" + an + "'";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
-                loginProf = rs.getString("loginProf");
+                loginProf = rs.getString("login");
             }
 
         } catch (Exception e) {
@@ -1290,20 +1291,88 @@ public class DAOEleveImpl {
         PreparedStatement pst;
         try {
             con = daoFactory.getConnection();
-            String requete = "insert into reclamation (loginEleve,loginProf,enTete,message,Date,reponse,lue) values(?,?,?,?,?,?,?)";
+            String requete = "insert into message (login,Pro_login,texteMsg,dateMsg,statut) values(?,?,?,?,?)";
             pst = con.prepareStatement(requete);
             pst.setString(1, loginEleve);
             pst.setString(2, loginProf);
-            pst.setString(3, enTete);
-            pst.setString(4, message);
-            pst.setString(5, date);
-            pst.setInt(6, 0);
-            pst.setInt(7, 0);
+            pst.setString(3, message);
+            pst.setString(4, date);
+            pst.setString(5, "envoye");
             int result0 = pst.executeUpdate();
+            if(result0>0){
+                System.out.println("requete bien execute");
+            }
+            else{
+                System.out.println("Erreur requete");
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
+    
+    public ArrayList<String> selectMessageEnvoyeEleve(String pro_login,String login) {
+
+        ArrayList<String>listMsg= new ArrayList<>();
+        Statement st;
+        try {
+            con = daoFactory.getConnection();
+            String requete = "select texteMsg from message where pro_login='"+pro_login+"' and login='"+login+"' and statut='envoye'";
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(requete);
+            while (rs.next()) {
+               listMsg.add(rs.getString("texteMsg"));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return listMsg;
+    }
+    public ArrayList<String> selectMessageRecuEleve(String pro_login,String login) {
+
+        ArrayList<String>listMsg= new ArrayList<>();
+        Statement st;
+        try {
+            con = daoFactory.getConnection();
+            String requete = "select texteMsg from message where pro_login='"+pro_login+"' and login='"+login+"' and statut='recu'";
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(requete);
+            while (rs.next()) {
+               listMsg.add(rs.getString("texteMsg"));
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return listMsg;
+    }
+    public void reponseEleve(String pro_login,String login,String texteMsg,String date) {
+        Statement st;
+        PreparedStatement pst;
+        try {
+            con = daoFactory.getConnection();
+            String requete = "insert into message (login,Pro_login,texteMsg,dateMsg,statut) values(?,?,?,?,?)";
+            pst = con.prepareStatement(requete);
+            pst.setString(1, login);
+            pst.setString(2, pro_login);
+            pst.setString(3, texteMsg);
+            pst.setString(4, date);
+            pst.setString(5, "envoye");
+            int result0 = pst.executeUpdate();
+            if(result0>0){
+                System.out.println("requete bien execute");
+            }
+            else{
+                System.out.println("Erreur requete");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    
 
     public ArrayList<Reclamation> selectReclamation(String loginProf) {
 
@@ -1378,6 +1447,35 @@ public class DAOEleveImpl {
         }
 
         return message;
+    }
+    public ArrayList<MessageRecu> messageRecuEleve(String login) {
+
+        ArrayList<MessageRecu>listMsg= new ArrayList<>();
+        MessageRecu mess;
+        Statement st;
+        try {
+            con = daoFactory.getConnection();
+            String requete = "select pro_login,message.login,texteMsg,dateMsg,enTete,statut,prenom,nom from message,personne where message.login='"+login+"' and message.Pro_login=personne.login and statut='recu'";
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(requete);
+            while (rs.next()) {
+               mess=new MessageRecu();
+               mess.setPro_login(rs.getString("pro_login"));
+               mess.setLogin(rs.getString("login"));
+               mess.setTexteMsg(rs.getString("texteMsg"));
+               mess.setDateMsg(rs.getString("dateMsg"));
+               mess.setEnTete(rs.getString("enTete"));
+               mess.setStatut(rs.getString("statut"));
+               mess.setPrenom(rs.getString("prenom"));
+               mess.setNom(rs.getString("nom"));
+               listMsg.add(mess);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return listMsg;
     }
 
     public void search(String loginEleve, String mdp) {
@@ -1732,12 +1830,33 @@ public class DAOEleveImpl {
         Statement st;
         try {
             con = daoFactory.getConnection();
-            String requete = "select nomMatiere,noteDevoir1,noteDevoir2,noteComposition,annee from evaluation where loginEleve = '" + login + "' and semestre = '" + semestre + "' and annee='" + an + "'";
+            String requete = "select nomMatiere,devoir,anneeScolaire from devoir where login = '" + login + "' and semestre = '" + semestre + "' and anneeScolaire='" + an + "'";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
 
-                Eleve el = new Eleve(rs.getFloat("noteDevoir1"), rs.getFloat("noteDevoir2"), rs.getFloat("noteComposition"), rs.getString("nomMatiere"));
+                Eleve el = new Eleve(rs.getFloat("devoir"), rs.getString("nomMatiere"));
+                eleves.add(el);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return eleves;
+
+    }
+    public ArrayList<Eleve> evaluationEleveCompo(String login, String semestre, String an) {
+
+        ArrayList<Eleve> eleves = new ArrayList();
+        Statement st;
+        try {
+            con = daoFactory.getConnection();
+            String requete = "select nomMatiere,noteComposition,anneeScolaire,semestre from evaluation where login = '" + login + "' and semestre = '" + semestre + "' and anneeScolaire='" + an + "'";
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(requete);
+            while (rs.next()) {
+
+                Eleve el = new Eleve(rs.getFloat("noteComposition"), rs.getString("nomMatiere"), rs.getString("semestre"));
                 eleves.add(el);
             }
 
@@ -1754,7 +1873,7 @@ public class DAOEleveImpl {
         Statement st;
         try {
             con = daoFactory.getConnection();
-            String requete = "select nomClasse from eleve where loginEleve = '" + login + "' and annee='" + an + "'";
+            String requete = "select nomClasse from eleve where login = '" + login + "' and anneeScolaire='" + an + "'";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
@@ -1889,7 +2008,7 @@ public class DAOEleveImpl {
         Statement st;
         try {
             con = daoFactory.getConnection();
-            String requete = "select annee from  eleveannesco where loginEleve ='" + login + "'";
+            String requete = "select anneeScolaire from  eleve where login ='" + login + "'";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
@@ -1928,7 +2047,7 @@ public class DAOEleveImpl {
         try {
             con = daoFactory.getConnection();
             PreparedStatement pst;
-            String requete1 = "update eleve set motDePasse=? where loginEleve=?";
+            String requete1 = "update personne set motDePasse=? where login=?";
             pst = con.prepareStatement(requete1);
             pst.setString(1, passwd);
             pst.setString(2, login);

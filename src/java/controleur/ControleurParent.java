@@ -289,7 +289,7 @@ public class ControleurParent extends HttpServlet {
         }
         else if (action.equals("deconnectionParent")) {
             session.invalidate();
-            rd = request.getRequestDispatcher("vue/parent/accueilPar.jsp");
+            rd = request.getRequestDispatcher("accueilPar.jsp");
         }
 
         if (rd != null) {

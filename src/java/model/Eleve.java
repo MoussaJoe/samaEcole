@@ -20,9 +20,11 @@ public class Eleve implements Comparable<Eleve>{
     private String matiere;
     private String classe;
     private float devoir1;
+    private float devoir;
     private float devoir2;
     private String idEvaluation;
     private float composition;
+    private float noteComposition;
     private String semestre;
     private String annee;
     private float moyenne;
@@ -89,6 +91,16 @@ public class Eleve implements Comparable<Eleve>{
         this.devoir1 = devoir1;
         this.devoir2 = devoir2;
         this.composition = composition;
+        this.matiere = matiere;
+        // this.annee= annee;
+    }
+    public Eleve(float devoir, String matiere) {
+        this.devoir = devoir;
+        this.matiere = matiere;
+        // this.annee= annee;
+    }
+    public Eleve(float noteComposition, String matiere,String semestre) {
+        this.noteComposition = noteComposition;
         this.matiere = matiere;
         // this.annee= annee;
     }
@@ -374,5 +386,22 @@ public class Eleve implements Comparable<Eleve>{
         float sonPrix = o.getMoySemestre1();
         return (new Float(prix)).compareTo(new Float(sonPrix));
     }
+
+    public float getDevoir() {
+        return devoir;
+    }
+
+    public void setDevoir(float devoir) {
+        this.devoir = devoir;
+    }
+
+    public float getNoteComposition() {
+        return noteComposition;
+    }
+
+    public void setNoteComposition(float noteComposition) {
+        this.noteComposition = noteComposition;
+    }
+    
 
 }

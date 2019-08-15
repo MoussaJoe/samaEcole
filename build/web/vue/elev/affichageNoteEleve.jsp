@@ -41,9 +41,7 @@
             <thead>
                 <tr>
                     <th class="col" id="entete">Matieres</th>
-                    <th class="col" id="entete">Devoir1</th>
-                    <th class="col" id="entete">Devoir2</th>
-                    <th class="col" id="entete">Composition</th>
+                    <th class="col" id="entete">Devoir</th>
                     <th class="col" id="entete">Action</th>
                 </tr>
             </thead>
@@ -51,9 +49,7 @@
                 <c:forEach var="e" items="${eleves}">
                     <tr>
                         <td>${e.matiere}</td>
-                        <td>${e.devoir1}</td>
-                        <td>${e.devoir2}</td>
-                        <td>${e.composition}</td>
+                        <td>${e.devoir}</td>
                         <c:choose>
                             <c:when test="${!empty varAn}">
                                 <td><a class="btn btn-success" href="ControleurEleve?action=reclamer&nomClasse=${e.classe}&nomMatiere=${e.matiere}">Réclamer</a></td>

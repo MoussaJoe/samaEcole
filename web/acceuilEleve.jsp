@@ -46,10 +46,11 @@
                 <div class="menuDir">
                     <ul>
 
-                        <li><a href="Eleve?connect=afficherNote"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;&nbsp;Consulter Mes notes</a> </li>
+                        <li><a href="ControleurEleve?action=afficherNote"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;&nbsp;Consulter notes Devoir</a> </li>
+                        <li><a href="ControleurEleve?action=afficherNoteCompo"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;&nbsp;Consulter notes Compo</a> </li>
                         <li><a href="Eleve?connect=listerMaClasse"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;&nbsp;Lister Ma Classe</a> </li>
                         <li><a href="Eleve?connect=listeMesProfs"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Lister Mes Professeurs</a> </li>
-                        <li><a href="Eleve?connect=afficheMessage"><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;&nbsp;Message</a></li>
+                        <li><a href="ControleurEleve?action=afficheMess"><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;&nbsp;Message</a></li>
                         <li><a href="Eleve?connect=compte"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;Compte</a></li>
                         <li><a href="Eleve?connect=deconnection"><span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;&nbsp;Se Déconnecter</a> </li>
                     </ul>

@@ -306,7 +306,7 @@ public class Controleur extends HttpServlet {
                 session.setAttribute("mdp", motDePasse);
                 session.setAttribute("nom", nom);
                 session.setAttribute("prenom", prenom);
-                rd = request.getRequestDispatcher("accueilPar.jsp");
+                rd = request.getRequestDispatcher("vue/parent/accueilPar.jsp");
             } else {
                 String mes = "Login et/ou mot de passe invalide(s)";
                 request.setAttribute("message", mes);
@@ -344,7 +344,7 @@ public class Controleur extends HttpServlet {
             request.setAttribute("login", loginParent);
 //            request.setAttribute("mdp", motDePasse);
             session.setAttribute("mdp", motDePasse);
-            rd = request.getRequestDispatcher("parentForm.jsp");
+            rd = request.getRequestDispatcher("vue/parent/parentForm.jsp");
         } else if (action.equals("eleveparent")) {
 //            String message = "Votre enfant n'a pas encore de notes.";
 //            String prenom = request.getParameter("prenom");
@@ -361,7 +361,7 @@ public class Controleur extends HttpServlet {
                 request.setAttribute("annees", annees);
                 Eleve el = daoEleve.listerUnEleve(loginEleve);
                 session.setAttribute("el", el);
-                rd = request.getRequestDispatcher("anEleve.jsp");
+                rd = request.getRequestDispatcher("vue/parent/anEleve.jsp");
             } else {
                 rd = request.getRequestDispatcher("acceuil.html");
             }
@@ -374,7 +374,7 @@ public class Controleur extends HttpServlet {
                 request.setAttribute("annee", annee);
                 request.setAttribute("eleve4", eleve4);
                 request.setAttribute("message", message);
-                rd = request.getRequestDispatcher("eleveparent.jsp");
+                rd = request.getRequestDispatcher("vue/parent/eleveparent.jsp");
             
             //***********************************************Fin Parent************************************************************************
 
