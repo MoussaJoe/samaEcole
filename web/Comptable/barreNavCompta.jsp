@@ -31,7 +31,7 @@
                         <li><a id="lien1" href="Comptable?connect=reinscrireEleve"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Réinscrire un éleve</a> </li>
                         <li><a id="lien1" href="Comptable?connect=mensualite"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Mensualité</a> </li>
                         <!--/////Gestion Emploi du temps -->
-                        <!--<li><a href="EDT?connect=accueilEDT"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;Emploi du Temps</a></li>-->                        
+                        <li><a id="lien1" href="EDT?connect=accueilEDT"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;Emploi du Temps</a></li>                        
                        
                         <!--//DropDown// -->
                         <li class="dropdown">

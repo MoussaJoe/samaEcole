@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/src/java/modelPersonne/DAOEleveImpl.java</file>
+            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/web/Eleve/listeAnnee.jsp</file>
+            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/web/Eleve/listeMesProfs.jsp</file>
+            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/web/Eleve/barreNavEleve.jsp</file>
             <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/src/java/controleur/Eleve.java</file>
             <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/src/java/controleur/ControleurEleve.java</file>
-            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/web/vue/elev/listeMesProfs.jsp</file>
-            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/web/vue/elev/listeAnnee.jsp</file>
-            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/web/eleve.jsp</file>
+            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/web/Eleve/listeMaClasse.jsp</file>
+            <file>file:/D:/Personnel/7Tup/Projet_7Tup/samaEcole/web/Eleve/acceuilEleve.jsp</file>
         </group>
     </open-files>
 </project-private>

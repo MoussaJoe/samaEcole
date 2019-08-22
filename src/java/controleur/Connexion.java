@@ -99,17 +99,19 @@ public class Connexion extends HttpServlet {
                     session.setAttribute("motDePasse", motDePasse);
                     session.setAttribute("prenom", p.getPrenom());
                     session.setAttribute("nom", p.getNom());
+                    session.setAttribute("profils", profils);
                     i = 1;
                     daoEleve.search(login, motDePasse);
-                    rd = request.getRequestDispatcher("acceuilEleve.jsp");
+                    rd = request.getRequestDispatcher("Eleve/acceuilEleve.jsp");
                 } else if ((profils.equalsIgnoreCase("professeur")) && (login.equals(p.getLogin())) && (motDePasse.equals(p.getMotDePasse()))) {
                     session.setAttribute("login", login);
                     session.setAttribute("log", login);
                     session.setAttribute("motDePasse", motDePasse);
                     session.setAttribute("prenom", p.getPrenom());
                     session.setAttribute("nom", p.getNom());
+                    session.setAttribute("profils", profils);
                     i = 1;
-                    rd = request.getRequestDispatcher("vue/prof/acceuilProf.jsp");
+                    rd = request.getRequestDispatcher("Professeur/acceuilProf.jsp");
                 } else if ((profils.equalsIgnoreCase("directeur")) && (login.equals(p.getLogin())) && (motDePasse.equals(p.getMotDePasse()))) {
                     session.setAttribute("log", login);
                     session.setAttribute("motDePasse", motDePasse);

@@ -91,6 +91,7 @@ public class ControleurProf extends HttpServlet {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
 
+        //////Composition///////////////////////
         if (action.equals("ajoutNote")) {
             String loginProf = request.getParameter("login");
             System.out.println("loginProf " + loginProf);
@@ -100,8 +101,8 @@ public class ControleurProf extends HttpServlet {
             request.setAttribute("listMatiere", listMatiere);
             request.setAttribute("listClasse", listClasse);
             request.setAttribute("listAnnee", listAnnee);
-            rd = request.getRequestDispatcher("vue/prof/demandeMatClasse.jsp");
-        } else if (action.equals("demandeMatClasse")) {
+            rd = request.getRequestDispatcher("Professeur/demandeMatClasseComp.jsp");
+        } else if (action.equals("demandeMatClasseComp")) {
             String login1 = request.getParameter("login");
             String matiere = request.getParameter("matiere");
             //String classe = request.getParameter("classe");
@@ -127,24 +128,24 @@ public class ControleurProf extends HttpServlet {
                 request.setAttribute("listMatiere", listMatiere);
                 request.setAttribute("listClasse", listClasse);
                 request.setAttribute("listAnnee", listAnnee);
-                rd = request.getRequestDispatcher("vue/prof/demandeMatClasse.jsp");
+                rd = request.getRequestDispatcher("Professeur/demandeMatClasseComp.jsp");
             } else if (matiere == null || nomClasse1 == null) {
                 message = "Vous n'avez aucun privilège ici!!!";
                 request.setAttribute("message", message);
-                rd = request.getRequestDispatcher("vue/prof/demandeMatClasse.jsp");
+                rd = request.getRequestDispatcher("Professeur/demandeMatClasseComp.jsp");
             } else if (eleve2.isEmpty()) {
                 request.setAttribute("listMatiere", listMatiere);
                 request.setAttribute("listClasse", listClasse);
                 request.setAttribute("listAnnee", listAnnee);
                 message = "Cette classe n'a pas encore d'élèves";
                 request.setAttribute("message", message);
-                rd = request.getRequestDispatcher("vue/prof/demandeMatClasse.jsp");
+                rd = request.getRequestDispatcher("Professeur/demandeMatClasseComp.jsp");
             } else {
                 request.setAttribute("semestre", semestre);
                 request.setAttribute("matiere", matiere);
                 request.setAttribute("annee", annee);
                 request.setAttribute("eleve", eleve2);
-                rd = request.getRequestDispatcher("vue/prof/AjouterNote.jsp");
+                rd = request.getRequestDispatcher("Professeur/AjouterNote.jsp");
             }
 
             for (Eleve eleve1 : eleve2) {
@@ -181,16 +182,16 @@ public class ControleurProf extends HttpServlet {
                     String mess="ajouter";
                     request.setAttribute("message1", mess);
                     request.setAttribute("eleve", eleve2);
-                    rd = request.getRequestDispatcher("vue/prof/AjouterNote.jsp");
+                    rd = request.getRequestDispatcher("Professeur/AjouterNote.jsp");
                 }
             } else {
                 String message = "les notes ne doivent pas etre supérieur à 20";
                 request.setAttribute("message", message);
                 request.setAttribute("eleve", eleve2);
-                rd = request.getRequestDispatcher("vue/prof/AjouterNote.jsp");
+                rd = request.getRequestDispatcher("Professeur/AjouterNote.jsp");
             }
         }
-
+            //////////////////////////////////////Note devoir//////////////////////////////
         else if (action.equals("ajoutNoteDevoir")) {
             String loginProf = request.getParameter("login");
             System.out.println("loginProf " + loginProf);
@@ -200,8 +201,9 @@ public class ControleurProf extends HttpServlet {
             request.setAttribute("listMatiere", listMatiere);
             request.setAttribute("listClasse", listClasse);
             request.setAttribute("listAnnee", listAnnee);
-            rd = request.getRequestDispatcher("vue/prof/demandeMatClasse.jsp");
-        } else if (action.equals("demandeMatClasse")) {
+            rd = request.getRequestDispatcher("Professeur/demandeMatClasse.jsp");
+        } else if (action.equals("demandeMatClasseDevoir")) {
+            System.out.println("Devoir");
             String login1 = request.getParameter("login");
             String matiere = request.getParameter("matiere");
            // String classe = request.getParameter("classe");
@@ -214,13 +216,13 @@ public class ControleurProf extends HttpServlet {
             String semestre = request.getParameter("semestre");
             String annee = request.getParameter("annee");
             String message = "";
-            System.out.println("login " + login1+" matiere "+matiere+" nomClasse "+nomClasse1+" regime "+regime1);
+            //System.out.println("login " + login1+" matiere "+matiere+" nomClasse "+nomClasse1+" regime "+regime1);
             String annee1 = daoProf.verifProf1(matiere, nomClasse1, login1,regime1);
             eleve2 = daoProf.listEleve(nomClasse1, matiere, annee,regime1);
-            System.out.println("loginEleve ");
-            for (Eleve el : eleve2) {
-                System.out.println("loginEleve " + el.getLogin());
-            }
+//            System.out.println("loginEleve ");
+//            for (Eleve el : eleve2) {
+//                System.out.println("loginEleve " + el.getLogin());
+//            }
             String loginProf = daoProf.verifProf(matiere, nomClasse1);
             if (!annee.equals(annee1)) {
                 message = "L'année est incorrect!!!";
@@ -228,32 +230,26 @@ public class ControleurProf extends HttpServlet {
                 request.setAttribute("listMatiere", listMatiere);
                 request.setAttribute("listClasse", listClasse);
                 request.setAttribute("listAnnee", listAnnee);
-                rd = request.getRequestDispatcher("vue/prof/demandeMatClasse.jsp");
+                rd = request.getRequestDispatcher("Professeur/demandeMatClasse.jsp");
             } else if (matiere == null || nomClasse1 == null) {
                 message = "Vous n'avez aucun privilège ici!!!";
                 request.setAttribute("message", message);
-                rd = request.getRequestDispatcher("vue/prof/demandeMatClasse.jsp");
+                rd = request.getRequestDispatcher("Professeur/demandeMatClasse.jsp");
             } else if (eleve2.isEmpty()) {
                 request.setAttribute("listMatiere", listMatiere);
                 request.setAttribute("listClasse", listClasse);
                 request.setAttribute("listAnnee", listAnnee);
                 message = "Cette classe n'a pas encore d'élèves";
                 request.setAttribute("message", message);
-                rd = request.getRequestDispatcher("vue/prof/demandeMatClasse.jsp");
+                rd = request.getRequestDispatcher("Professeur/demandeMatClasse.jsp");
             } else {
                 request.setAttribute("semestre", semestre);
                 request.setAttribute("matiere", matiere);
                 request.setAttribute("annee", annee);
                 request.setAttribute("eleve", eleve2);
-                rd = request.getRequestDispatcher("vue/prof/AjouterNoteDevoir.jsp");
+                rd = request.getRequestDispatcher("Professeur/AjouterNoteDevoir.jsp");
             }
-
-            for (Eleve eleve1 : eleve2) {
-                System.out.println("Prenom " + eleve1.getPrenom());
-                System.out.println("Nom " + eleve1.getNom());
-                System.out.println("classe " + eleve1.getClasse());
-                System.out.println("matiere " + eleve1.getMatiere());
-            }
+            
             } else if (action.equals("ajouterNoteDevoir")) {
             DAOFactory daoFactory = DAOFactory.getInstance();
             DAOProfsImpl d = new DAOProfsImpl(daoFactory);
@@ -280,13 +276,13 @@ public class ControleurProf extends HttpServlet {
                     String mess="ajouter";
                     request.setAttribute("message1", mess);
                     request.setAttribute("eleve", eleve2);
-                    rd = request.getRequestDispatcher("vue/prof/AjouterNoteDevoir.jsp");
+                    rd = request.getRequestDispatcher("Professeur/AjouterNoteDevoir.jsp");
                 }
             } else {
                 String message = "les notes ne doivent pas etre supérieur à 20";
                 request.setAttribute("message", message);
                 request.setAttribute("eleve", eleve2);
-                rd = request.getRequestDispatcher("vue/prof/AjouterNoteDevoir.jsp");
+                rd = request.getRequestDispatcher("Professeur/AjouterNoteDevoir.jsp");
             }
         }
             //***********************************************Fin Ajouter note Eleve************************************************************************
@@ -339,7 +335,7 @@ public class ControleurProf extends HttpServlet {
                 }
             }
         }
-        
+        //////////////Consulter note devoir///////////////
         else if (action.equals("NoteDevoir")) {
             String loginProf = request.getParameter("login");
             System.out.println("loginProf " + loginProf);
@@ -355,7 +351,7 @@ public class ControleurProf extends HttpServlet {
             request.setAttribute("listMatiere2", listMatiere2);
             request.setAttribute("listClasse2", listClasse2);
             request.setAttribute("listAnnee2", listAnnee2);
-            rd = request.getRequestDispatcher("vue/prof/demandeNoteDevoir.jsp");
+            rd = request.getRequestDispatcher("Professeur/demandeNoteDevoir.jsp");
         } else if (action.equals("demandeNoteDevoir")) {
             String login2 = request.getParameter("login");
             String matiere = request.getParameter("matiere");
@@ -375,16 +371,16 @@ public class ControleurProf extends HttpServlet {
             if (matiere == null || nomClasse1 == null) {
                 message = "Vous n'avez aucun privilège ici!!!";
                 request.setAttribute("message", message);
-                rd = request.getRequestDispatcher("vue/prof/demandeNoteDevoir.jsp");
+                rd = request.getRequestDispatcher("Professeur/demandeNoteDevoir.jsp");
             } else {
                 if (eleve3.isEmpty()) {
                     request.setAttribute("message", message);
                     request.setAttribute("listMatiere2", listMatiere2);
                     request.setAttribute("listClasse2", listClasse2);
                     request.setAttribute("listAnnee2", listAnnee2);
-                    rd = request.getRequestDispatcher("vue/prof/demandeNoteDevoir.jsp");
+                    rd = request.getRequestDispatcher("Professeur/demandeNoteDevoir.jsp");
                 } else {
-                    rd = request.getRequestDispatcher("vue/prof/listerNoteDevoir.jsp");
+                    rd = request.getRequestDispatcher("Professeur/listerNoteDevoir.jsp");
                 }
             }
         }
@@ -468,7 +464,7 @@ public class ControleurProf extends HttpServlet {
             String loginProf = request.getParameter("login");
             compte = daoProf.compte(loginProf);
             request.setAttribute("compte", compte);
-            rd = request.getRequestDispatcher("vue/prof/Compte.jsp");
+            rd = request.getRequestDispatcher("Professeur/Compte.jsp");
         } else if (action.equals("modifCompte")) {
             String loginProf = (String)session.getAttribute("log");
             String ancienMdp = request.getParameter("ancienMdp");
@@ -504,7 +500,7 @@ public class ControleurProf extends HttpServlet {
             System.out.println("//////////////////////idReclamation////////////////////////////");
             
             request.setAttribute("listMessage", messR);
-            rd = request.getRequestDispatcher("vue/prof/message.jsp");
+            rd = request.getRequestDispatcher("Professeur/message.jsp");
         }
         else if(action.equals("afficheMess")){
             String date= request.getParameter("date");
@@ -597,13 +593,15 @@ public class ControleurProf extends HttpServlet {
             listAnnee2 = daoProf.selectAnnee();
             request.setAttribute("listClasse2", listClasse2);
             request.setAttribute("listAnnee2", listAnnee2);
-            rd = request.getRequestDispatcher("vue/prof/imprimerFDevoir.jsp");
+            rd = request.getRequestDispatcher("Professeur/imprimerFDevoir.jsp");
         }
         else if(action.equals("impressionDevoir")){
            // String classe = request.getParameter("classe");
            String nomClasse = request.getParameter("nomClasse");
+            System.out.println("nomClasse "+nomClasse);
             String[] regime = nomClasse.split("///");
             String nomClasse1 = regime[0];
+            System.out.println("nomClasse 2 "+nomClasse1 );
             String regime1 = regime[1];
            
             String annee = request.getParameter("annee");
@@ -619,7 +617,7 @@ public class ControleurProf extends HttpServlet {
             } catch (DocumentException ex) {
                 Logger.getLogger(ControleurProf.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String message="Fiche cree avec succes";
+            String message="Fiche créé avec succes";
             String loginProf=(String)session.getAttribute("log");
             listClasse2 = daoProf.selectClasse(loginProf);
             listAnnee2 = daoProf.selectAnnee();
@@ -627,7 +625,7 @@ public class ControleurProf extends HttpServlet {
             request.setAttribute("listAnnee2", listAnnee2);
             request.setAttribute("message", message);
             request.setAttribute("classe", nomClasse1);
-            rd = request.getRequestDispatcher("vue/prof/imprimerFDevoir.jsp");
+            rd = request.getRequestDispatcher("Professeur/imprimerFDevoir.jsp");
         }
         //*******************************************Recherche eleve par prof*******************************************
         else if (action.equals("rechercherProf")) {
