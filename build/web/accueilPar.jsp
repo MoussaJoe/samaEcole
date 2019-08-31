@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta  charset=UTF-8">
+        <meta  charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="dist/css/bootstrap.css" rel="stylesheet"/>
@@ -29,7 +29,7 @@
                 <div class="collapse navbar-collapse" id="bs-exemple-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li id="nom">${nom}&nbsp;${prenom}</li>
-                     <form action="Controleur" method="post" class="navbar-form navbar-right"/>
+                     <form action="ControleurParent" method="post" class="navbar-form navbar-right" >
                     <input type="hidden" name="action" value="rechercherParent" />
                     <div class="searchBox">
                         <input type="text" name="recherche" class="form-control recherche" placeholder="Rechercher nom"/>
@@ -43,10 +43,10 @@
         <div class="menu-verticale">
             <div class="menuDir">
                 <ul>
-                    <li><a href="accueilPar.jsp"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;&nbsp;Home</a></li>
-                    <li><a href="Controleur?login=${login}&mdp=${mdp}&action=parentLien"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;Lister Elève</a></li>
-                    <li><a href="Controleur?login=${login}&mdp=${mdp}&action=compteParent"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;Compte</a></li>
-                    <li><a href="Controleur?action=deconnectionParent"><span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;&nbsp;Se Deconnecter</a></li>
+                    <li><a href="ControleurParent?action=parentLien"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;Lister Devoir</a></li>
+                    <li><a href="ControleurParent?action=parentLienCompo"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;Lister Composition</a></li>
+                    <li><a href="ControleurParent?action=compteParent"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;Compte</a></li>
+                    <li><a href="ControleurParent?action=deconnectionParent"><span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;&nbsp;Se Deconnecter</a></li>
                 </ul>
             </div>
         </div>

@@ -27,16 +27,23 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <!--///////////////////////////////////////// -->
-                <li><a id="lien1" href="Eleve?connect=afficherNote"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;&nbsp;Mes notes</a> </li>
-                <li><a id="lien1" href="Eleve?connect=listerMaClasse"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;&nbsp;Ma classe</a> </li>
-                <li><a id="lien1" href="Eleve?connect=listeMesProfs"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Mes professeurs</a> </li>
-                <li><a id="lien1" href="Eleve?connect=afficheMessage"><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;&nbsp;Message</a></li>
+                <li class="dropdown">
+                    <a id="lien1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mes notes<span class="caret"></span></a>
+                    <ul class="dropdown-menu">                                
+                         <li><a href="ControleurEleve?action=afficherNote"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Devoir</a> </li>
+                        <li><a href="ControleurEleve?action=afficherNoteCompo"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Composition</a> </li>
+                    </ul>
+                </li>
+                <!--FIn Dropdown -->
+                <li><a id="lien1" href="ControleurEleve?action=listerMaClasse"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;&nbsp;Ma classe</a> </li>
+                <li><a id="lien1" href="ControleurEleve?action=listeMesProfs"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;Mes professeurs</a> </li>
+                <li><a id="lien1" href="ControleurEleve?action=afficheMess"><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;&nbsp;Message</a></li>
                 <!--//DropDown// -->
                 <li class="dropdown">
                     <a id="lien1" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mon compte<span class="caret"></span></a>
                     <ul class="dropdown-menu">                                
-                        <li><a href="Eleve?connect=compte"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;Compte</a></li>
-                        <li><a href="Eleve?connect=deconnection"><span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;Se Déconnecter</a> </li>
+                        <li><a href="ControleurEleve?action=compte"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;Compte</a></li>
+                        <li><a href="ControleurEleve?action=deconnection"><span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;Se Déconnecter</a> </li>
                     </ul>
                 </li>
                 <!--FIn Dropdown -->

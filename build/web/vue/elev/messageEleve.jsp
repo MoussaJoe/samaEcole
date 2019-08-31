@@ -17,7 +17,7 @@
             if (session.getAttribute("log") != null) {
 
         %>
-        <%@include file="../../eleve.jsp" %>
+        <%@include file="../../Eleve/barreNavEleve.jsp" %>
         <div>
             <h1>${message}</h1>
                 <c:forEach var="r" items="${listReponse}">

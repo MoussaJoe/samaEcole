@@ -417,7 +417,7 @@ public class ControleurProf extends HttpServlet {
             DAOProfsImpl d = new DAOProfsImpl(daoFactory);
             d.modifierNoteCompo(composition, loginEleve, matiere, semestre, annee);
 
-            rd = request.getRequestDispatcher("vue/prof/acceuilProf.jsp");
+            rd = request.getRequestDispatcher("Professeur/acceuilProf.jsp");
             
             
         }
@@ -456,7 +456,7 @@ public class ControleurProf extends HttpServlet {
             System.out.println("Info: "+devoir+" "+idDevoir+" "+loginEleve);
             d.modifierNoteDevoir(devoir, idDevoir, loginEleve);
 
-            rd = request.getRequestDispatcher("vue/prof/acceuilProf.jsp");
+            rd = request.getRequestDispatcher("Professeur/acceuilProf.jsp");
         }
         //***********************************************Fin modif note Eleve************************************************************************
         //***********************************************compte Prof************************************************************************  

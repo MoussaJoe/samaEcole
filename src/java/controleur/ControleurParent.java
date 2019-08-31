@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -118,8 +119,8 @@ public class ControleurParent extends HttpServlet {
             }
 
             System.out.println("Annee :" + an);
-            String loginPar = request.getParameter("login");
-            String motDePasse = request.getParameter("mdp");
+            String loginPar = (String)session.getAttribute("login");
+            String motDePasse = (String)session.getAttribute("mdp");
             System.out.println("login " + loginPar);
             System.out.println("Mot de passe " + motDePasse);
             listParent = daoParent.listPar(loginPar, motDePasse);
@@ -198,8 +199,8 @@ public class ControleurParent extends HttpServlet {
             }
 
             System.out.println("Annee :" + an);
-            String loginPar = request.getParameter("login");
-            String motDePasse = request.getParameter("mdp");
+            String loginPar = (String)session.getAttribute("login");
+            String motDePasse = (String)session.getAttribute("mdp");
             System.out.println("login " + loginPar);
             System.out.println("Mot de passe " + motDePasse);
             listParent = daoParent.listPar(loginPar, motDePasse);
@@ -289,7 +290,7 @@ public class ControleurParent extends HttpServlet {
         }
         else if (action.equals("deconnectionParent")) {
             session.invalidate();
-            rd = request.getRequestDispatcher("vue/parent/accueilPar.jsp");
+            rd = request.getRequestDispatcher("accueilPar.jsp");
         }
 
         if (rd != null) {
