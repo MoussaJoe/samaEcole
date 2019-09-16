@@ -60,7 +60,8 @@
     margin-left: 500px;
 }
 h1{
-    margin-left: 400px; 
+    margin-left: 600px; 
+    margin-top: 100px; 
 }
 h2{
     margin-left: 400px;
@@ -77,6 +78,11 @@ h2{
     width: 920px;
     padding: 50px;
     margin: 50px;
+    margin-bottom: 5px;
+    margin-left: 310px;
+}
+#tabAdmin{
+    width: 920px;
     margin-bottom: 5px;
     margin-left: 310px;
 }

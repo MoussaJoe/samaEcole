@@ -17,8 +17,10 @@
                 <div class="form-group">
                     <label>Profils </label>
                     <select name="profils" class="form-control">
-                        <option>Directeur</option>
-                         <option>Directeur des Etudes</option>
+                        <option>Proviseur</option>
+                        <option>Directeur des études</option>
+                        <option>Surveillant Général</option>
+                        <option>Surveillant</option>
                         <option>Eleve</option>
                         <option>Professeur</option>
                         <option>Comptable</option>

@@ -30,7 +30,9 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-exemple-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right"> 
-                        <li id="nom">${nom}&nbsp;${prenom}</li>
+                        <li id="nom">${nom}&nbsp;${prenom} <br>
+                            ${profils}
+                        </li>
                         <form action="ControleurDirecteur" method="post" class="navbar-form navbar-right"/>
                         <input type="hidden" name="action" value="rechercher"/>
                         <div class="searchBox">
@@ -45,14 +47,14 @@
         <div class="menu-verticale">
             <div class="menuDir">
                 <ul>
-                    <li><a href="Directeur?action=ajoutSurv"><span class="glyphicon glyphicon-save"></span>&nbsp;&nbsp;&nbsp;Ajouter DE</a> </li>
+                    <li><a href="Directeur?action=ajoutSurv"><span class="glyphicon glyphicon-save"></span>&nbsp;&nbsp;&nbsp;Ajouter Personnel</a> </li>
                     <li><a href="Directeur?action=formNote"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;Consulter Notes</a> </li>
                     <li><a href="Directeur?action=saveClasse"><span class="glyphicon glyphicon-save"></span>&nbsp;&nbsp;&nbsp;Enregistrer Classe</a> </li>
                     <li><a href="Directeur?action=listeclasses"><span class="glyphicon glyphicon-save"></span>&nbsp;&nbsp;&nbsp;Classes</a> </li>
-                    <li><a href="Directeur?action=saveMatiere"><span class="glyphicon glyphicon-save"></span>&nbsp;&nbsp;&nbsp;Enregistrer Matiére</a> </li>
+                    <li><a href="Directeur?action=saveMatiere"><span class="glyphicon glyphicon-save"></span>&nbsp;&nbsp;&nbsp;Matiére</a> </li>
                     <li><a href="Directeur?action=formAffClass"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;Lister Classe</a> </li>
                     <li><a href="Directeur?action=listerProfs"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;Lister Professeur</a> </li>
-                    <li><a href="Directeur?action=listerSurv"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;Lister Surveillant</a> </li>
+                    <li><a href="Directeur?action=admin"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;Administration</a> </li>
                     <li><a href="Directeur?action=annee"><span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;&nbsp;Année-Scolaire</a> </li>
                     <li><a href="Directeur?action=compte"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;Compte</a> </li>
                     <li><a href="Connexion?connect=deconnection"><span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;&nbsp;Se Déconnecter</a> </li> 

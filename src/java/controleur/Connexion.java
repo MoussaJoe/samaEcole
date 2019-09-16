@@ -76,6 +76,8 @@ public class Connexion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setCharacterEncoding("utf-8");
+
         HttpSession session = request.getSession();
         String connect = request.getParameter("connect");
         RequestDispatcher rd = null;
@@ -94,6 +96,11 @@ public class Connexion extends HttpServlet {
             System.out.println("Profils " + profils);
             int i = 0;
             for (Utilisateur p : personnes) {
+                System.out.println("log " + p.getLogin());
+                System.out.println("MDP " + p.getMotDePasse());
+
+                System.out.println("logec " + login);
+                System.out.println("MDPec " + motDePasse);
                 if ((profils.equalsIgnoreCase("eleve")) && (login.equals(p.getLogin())) && (motDePasse.equals(p.getMotDePasse()))) {
                     session.setAttribute("log", login);
                     session.setAttribute("motDePasse", motDePasse);
@@ -102,6 +109,15 @@ public class Connexion extends HttpServlet {
                     i = 1;
                     daoEleve.search(login, motDePasse);
                     rd = request.getRequestDispatcher("acceuilEleve.jsp");
+                } else if ((profils.equalsIgnoreCase("Directeur des études")) && (login.equals(p.getLogin())) && (motDePasse.equals(p.getMotDePasse()))) {
+                    System.out.println("Profils " + p.getLogin());
+                    session.setAttribute("log", login);
+                    session.setAttribute("motDePasse", motDePasse);
+                    session.setAttribute("prenom", p.getPrenom());
+                    session.setAttribute("nom", p.getNom());
+                    session.setAttribute("profils", "Directeur des études");
+                    i = 1;
+                    rd = request.getRequestDispatcher("directeur/acceuilDir.jsp");
                 } else if ((profils.equalsIgnoreCase("professeur")) && (login.equals(p.getLogin())) && (motDePasse.equals(p.getMotDePasse()))) {
                     session.setAttribute("login", login);
                     session.setAttribute("log", login);
@@ -110,12 +126,12 @@ public class Connexion extends HttpServlet {
                     session.setAttribute("nom", p.getNom());
                     i = 1;
                     rd = request.getRequestDispatcher("vue/prof/acceuilProf.jsp");
-                } else if ((profils.equalsIgnoreCase("directeur")) && (login.equals(p.getLogin())) && (motDePasse.equals(p.getMotDePasse()))) {
+                } else if ((profils.equalsIgnoreCase("Proviseur")) && (login.equals(p.getLogin())) && (motDePasse.equals(p.getMotDePasse()))) {
                     session.setAttribute("log", login);
                     session.setAttribute("motDePasse", motDePasse);
                     session.setAttribute("prenom", p.getPrenom());
                     session.setAttribute("nom", p.getNom());
-                    session.setAttribute("profils", profils);
+                    session.setAttribute("profils", "Proviseur");
                     i = 1;
                     rd = request.getRequestDispatcher("directeur/acceuilDir.jsp");
                 } else if ((profils.equalsIgnoreCase("surveillant")) && (login.equals(p.getLogin())) && (motDePasse.equals(p.getMotDePasse()))) {
@@ -123,9 +139,17 @@ public class Connexion extends HttpServlet {
                     session.setAttribute("motDePasse", motDePasse);
                     session.setAttribute("prenom", p.getPrenom());
                     session.setAttribute("nom", p.getNom());
-                    session.setAttribute("profils", "surveillant");
+                    session.setAttribute("profils", "Surveillant");
                     i = 1;
-                    rd = request.getRequestDispatcher("accueilSurv.jsp");
+                    rd = request.getRequestDispatcher("surveillant/accueilSurv.jsp");
+                } else if ((profils.equalsIgnoreCase("Surveillant Général")) && (login.equals(p.getLogin())) && (motDePasse.equals(p.getMotDePasse()))) {
+                    session.setAttribute("log", login);
+                    session.setAttribute("motDePasse", motDePasse);
+                    session.setAttribute("prenom", p.getPrenom());
+                    session.setAttribute("nom", p.getNom());
+                    session.setAttribute("profils", "Surveillant Général");
+                    i = 1;
+                    rd = request.getRequestDispatcher("surveillant/accueilSurv.jsp");
                 } else if ((profils.equalsIgnoreCase("comptable")) && (login.equals(p.getLogin())) && (motDePasse.equals(p.getMotDePasse()))) {
                     session.setAttribute("log", login);
                     session.setAttribute("motDePasse", motDePasse);

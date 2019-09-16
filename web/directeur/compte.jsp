@@ -14,18 +14,12 @@
         <title>Paramètre Compte</title>
     </head>
     <body>
-        <%
-            if (session.getAttribute("log") != null) {
+        <%            if (session.getAttribute("log") != null) {
 
         %>
-        <c:choose>
-            <c:when test="${profils eq 'Directeur'}">
-                <%@include file="accueilDirecteur.jsp" %>
-            </c:when>
-            <c:otherwise>
-                <%@include file="../../surveillant.jsp" %>
-            </c:otherwise>
-        </c:choose>
+
+        <%@include file="accueilDirecteur.jsp" %>
+
 
         <h1>Paramètre Compte :</h1>
 
@@ -39,7 +33,7 @@
         </script>
 
         <div id="tab">
-            <form method="POST" action="ControleurDirecteur">
+            <form method="POST" action="Directeur">
                 <input type="hidden" name="action" value="confirmPasswd">
                 <table class="table table-bordered">
                     <tr>

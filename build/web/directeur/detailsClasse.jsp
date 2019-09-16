@@ -17,8 +17,7 @@
         <title>Détails Classe </title>
     </head>
     <body>
-        <%
-            if (session.getAttribute("log") != null) {
+        <%            if (session.getAttribute("log") != null) {
 
         %>
         <%@include file="accueilDirecteur.jsp" %> 
@@ -28,18 +27,48 @@
 
             <tbody>
                 <tr>
-                    <td id="mod1" hidden="hidden"><input type="text" name="nomClasseUpdate" value="" placeholder="modifier nom Classe"><a href="" class="btn btn-success btn-block">Valider</a></td>
-                    
+                    <td id="mod1" hidden="hidden">
+                        <form action="Directeur" method="POST">
+                            <input type="hidden" name="action" value="modifierNomClasse">
+                            <input type="hidden" name="regime" value="${classe.regime}">
+                            <input type="hidden" name="oldNomClasse" value="${classe.nomClasse}">
+                            <input type="text" name="nomClasseUpdate" value="${classe.nomClasse}" placeholder="modifier nom Classe" class="form-control" required="">
+                            <input type="submit" name="Valider" value="Valider"  class="btn btn-success">
+                        </form>
+                    </td>
+
                     <td>Nom Classe :</td>
                     <td>${classe.nomClasse}</td> 
-                    <td><button id="modNom" onclick="UpdateNomClasse()" class="form-control" name="modNom" onmouseup=""><img src="modifier.png" style="width: 2vw;" ></button></td>
+                    <td>
+                        <button id="modNom" onclick="UpdateNomClasse()" class="form-control" name="modNom" onmouseup="">
+                            <img src="modifier.png" style="width: 2vw;" >
+                        </button>
+                    </td>
                     <td id="demo1" ></td>
-
-
-
                 </tr>
                 <tr>
-                    <td id="mod2" hidden="hidden"><input type="text" name="regimeUpdate" value=""><a href="" class="btn btn-success btn-block">Valider</a></td>
+                    <td id="mod2" hidden="hidden">
+                        <form action="Directeur" method="POST">
+                            <input type="hidden" name="action" value="modifierRegime">
+                            <input type="hidden" name="oldregime" value="${classe.regime}">
+                            <input type="hidden" name="nomClasse" value="${classe.nomClasse}">
+                            <select name="regimeUpdate" class="form-control" required="">
+                                <c:choose>
+                                    <c:when test="${classe.regime == 'Privée'}">
+                                        <option selected="">Privée</option>
+                                        <option>Public</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <option>Privée</option>
+                                        <option selected="">Public</option>
+                                    </c:otherwise>
+
+                                </c:choose>
+
+                            </select>
+                            <input type="submit" name="Valider" value="Valider"  class="btn btn-success">
+                        </form>
+                    </td>
                     <td>Régime :</td>
                     <td>${classe.regime}</td> 
                     <td><button id="modNom" onclick="UpdateRegime()" class="form-control" name="modNom"><img src="modifier.png" style="width: 2vw;" ></button></td>
@@ -54,13 +83,13 @@
 
             <tbody>
                 <tr>
-                    <td colspan="2">Matieres :</td>
+                    <td colspan="2" id="entete">Matieres :</td>
 
                 </tr>
                 <c:forEach var="cm" items="${classe.matieres}">
                     <tr>
-                        <td>${cm} </td> 
-                        <td><a href=""><span class="glyphicon glyphicon-remove"></span></a></td>
+                        <td>${cm}</td> 
+                        <td><a href="Directeur?action=supprimerMatCl&&nomcl=${classe.nomClasse}&&reg=${classe.regime}&&mat=${cm}"><span class="glyphicon glyphicon-remove"></span></a></td>
                     </tr>
                 </c:forEach>
 
@@ -78,15 +107,15 @@
 
                 document.getElementById("demo1").innerHTML = mod1;
             }
-            
-            
-             function UpdateRegime() {
+
+
+            function UpdateRegime() {
 
                 mod2 = document.getElementById("mod2").innerHTML;
 
                 document.getElementById("demo2").innerHTML = mod2;
             }
-            
+
         </script>
     </body>
 </html>

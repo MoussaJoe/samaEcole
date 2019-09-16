@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Random;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -92,14 +93,14 @@ public class Directeur extends HttpServlet {
         eleves = new ArrayList();
         regimes = new ArrayList();
         rechercheParElev = new ArrayList<>();
-        regimes.add("Privee");
+        regimes.add("Privée");
         regimes.add("Public");
 
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        request.setCharacterEncoding("utf-8");
         String action = request.getParameter("action");
         HttpSession session = request.getSession();
         classes = daoDirecteur.listerClasse();
@@ -133,21 +134,11 @@ public class Directeur extends HttpServlet {
         }
 
         if (action.equals("ajoutEleve")) {
-            rd = request.getRequestDispatcher("vue/surveillant/ajoutEleve.jsp");
+            rd = request.getRequestDispatcher("surveillant/ajoutEleve.jsp");
         } else if (action.equals("inscription")) {
             request.setAttribute("anInscr", anInscr);
-            rd = request.getRequestDispatcher("vue/surveillant/inscription.jsp");
-        } else if (action.equals("modifierElv")) {
-
-            String login = request.getParameter("nom");
-            eleve = daoEleve.listerUnEleve(login);
-            request.setAttribute("login", login);
-            request.setAttribute("eleve", eleve);
-            String year = daoEleve.listerAnnee(login);
-            request.setAttribute("year", year);
-            rd = request.getRequestDispatcher("directeur/modificationEleve.jsp");
-
-        } else if (action.equals("formEleve")) {
+            rd = request.getRequestDispatcher("surveillant/inscription.jsp");
+        }else if (action.equals("formEleve")) {
             String loginIns = "";
             String mdpIns = "";
             String loginPar = "";
@@ -202,7 +193,7 @@ public class Directeur extends HttpServlet {
             if (dateCal > dateSco) {
                 String message = "Veuillez revoir la date de naissance saisie!!!";
                 request.setAttribute("message4", message);
-                rd = request.getRequestDispatcher("vue/surveillant/inscription.jsp");
+                rd = request.getRequestDispatcher("surveillant/inscription.jsp");
             } else if (nom.length() > 2) {
                 eleve = new Eleve(nomClasse, nom, prenom, adresse, tel, dateNaissance, lieuNaissance, annee, null, null);
                 eleve.setLogin(eleve.getNom().substring(0, 3).toUpperCase().concat(eleve.getPrenom().substring(0, 1).toUpperCase()) + "" + chL);
@@ -243,15 +234,15 @@ public class Directeur extends HttpServlet {
                 request.setAttribute("mdpIns", mdpIns);
                 request.setAttribute("loginPar", loginPar);
                 request.setAttribute("mdpPar", mdpPar);
-                rd = request.getRequestDispatcher("vue/surveillant/inscription.jsp");
+                rd = request.getRequestDispatcher("surveillant/inscription.jsp");
             } else {
                 String message = "Inscription a échoué!!!";
                 request.setAttribute("message2", message);
-                rd = request.getRequestDispatcher("vue/surveillant/inscription.jsp");
+                rd = request.getRequestDispatcher("surveillant/inscription.jsp");
             }
 
         } else if (action.equals("reinscription")) {
-            rd = request.getRequestDispatcher("vue/surveillant/reinscription.jsp");
+            rd = request.getRequestDispatcher("surveillant/reinscription.jsp");
         } else if (action.equals("reinscription-form")) {
             String login = request.getParameter("login");
             String nomClasse = request.getParameter("nomClasse");
@@ -260,7 +251,7 @@ public class Directeur extends HttpServlet {
             if (eleve == null) {
                 String message = "Le login ne correspond à aucun éléve!!";
                 request.setAttribute("message3", message);
-                rd = request.getRequestDispatcher("vue/surveillant/reinscription.jsp");
+                rd = request.getRequestDispatcher("surveillant/reinscription.jsp");
             } else {
                 Boolean resultat = daoEleve.reinscription(eleve, annee, nomClasse);
                 if (resultat) {
@@ -272,11 +263,11 @@ public class Directeur extends HttpServlet {
 //                    }
                     String message = "Réinscription réussie !!!";
                     request.setAttribute("message1", message);
-                    rd = request.getRequestDispatcher("vue/surveillant/reinscription.jsp");
+                    rd = request.getRequestDispatcher("surveillant/reinscription.jsp");
                 } else {
                     String message = "La Réinscription a échoué !!!";
                     request.setAttribute("message2", message);
-                    rd = request.getRequestDispatcher("vue/surveillant/reinscription.jsp");
+                    rd = request.getRequestDispatcher("surveillant/reinscription.jsp");
                 }
 
             }
@@ -288,49 +279,57 @@ public class Directeur extends HttpServlet {
             if (request.getParameter("idPerson") != null) {
                 idPerson = Integer.parseInt(request.getParameter("idPerson"));
             }
-            String nom = request.getParameter("nom");
-            String prenom = request.getParameter("prenom");
-            String adresse = request.getParameter("adresse");
-            String tel1 = request.getParameter("tel1");
-            String tel2 = request.getParameter("tel2");
-            String tel = tel1 + tel2;
-
-            String chpr = "";
-            for (int i = 0; i < 4; i++) {
-                chpr += rd1.nextInt(10);
-            }
-
-            String chprM = "";
-            for (int i = 0; i < 4; i++) {
-                chprM += rd1.nextInt(10);
-
-            }
-            String motDePasse;
-            String login;
-            if (nom.length() > 2) {
-
-                login = nom.substring(0, 3).toUpperCase().concat(prenom.substring(0, 1).toUpperCase()) + "" + chpr;
-                motDePasse = nom.substring(0, 3).toUpperCase() + "" + chprM;
-                session.setAttribute("loginSurv", login);
-                session.setAttribute("mdpSurv", motDePasse);
-            } else {
-                login = nom.substring(0, nom.length()).toUpperCase().concat(prenom.substring(0, 1).toUpperCase()) + "" + chpr;
-                motDePasse = nom.substring(0, nom.length()).toUpperCase() + "" + chprM;
-                session.setAttribute("loginSurv", login);
-                session.setAttribute("mdpSurv", motDePasse);
-            }
-
-            Utilisateur utilisateur = new Utilisateur();
-            utilisateur.setLogin(login);
-            utilisateur.setMotDePasse(motDePasse);
-
-            Personne personne = new Personne(id, nom, prenom, adresse, tel);
-            boolean resultat = daoDirecteur.ajouterSurv(personne, utilisateur);
-            if (resultat) {
-                String msg = "ajout";
-                request.setAttribute("msg", msg);
+            String profil = request.getParameter("profil");
+            if (profil.equals("--choisir un profil--")) {
+                String erreurProfil = "Vous n'avez pas choisi de profils";
+                request.setAttribute("erreurProfil", erreurProfil);
                 rd = request.getRequestDispatcher("directeur/ajoutSurv.jsp");
+            } else {
+                String nom = request.getParameter("nom");
+                String prenom = request.getParameter("prenom");
+                String adresse = request.getParameter("adresse");
+                String tel1 = request.getParameter("tel1");
+                String tel2 = request.getParameter("tel2");
+                String tel = tel1 + tel2;
 
+                String chpr = "";
+                for (int i = 0; i < 4; i++) {
+                    chpr += rd1.nextInt(10);
+                }
+
+                String chprM = "";
+                for (int i = 0; i < 4; i++) {
+                    chprM += rd1.nextInt(10);
+
+                }
+                String motDePasse;
+                String login;
+                if (nom.length() > 2) {
+
+                    login = nom.substring(0, 3).toUpperCase().concat(prenom.substring(0, 1).toUpperCase()) + "" + chpr;
+                    motDePasse = nom.substring(0, 3).toUpperCase() + "" + chprM;
+                    session.setAttribute("loginSurv", login);
+                    session.setAttribute("mdpSurv", motDePasse);
+                } else {
+                    login = nom.substring(0, nom.length()).toUpperCase().concat(prenom.substring(0, 1).toUpperCase()) + "" + chpr;
+                    motDePasse = nom.substring(0, nom.length()).toUpperCase() + "" + chprM;
+                    session.setAttribute("loginSurv", login);
+                    session.setAttribute("mdpSurv", motDePasse);
+                }
+
+                Utilisateur utilisateur = new Utilisateur();
+                utilisateur.setLogin(login);
+                utilisateur.setMotDePasse(motDePasse);
+
+                Personne personne = new Personne(id, nom, prenom, adresse, tel);
+                personne.setProfil(profil);
+                boolean resultat = daoDirecteur.ajouterSurv(personne, utilisateur);
+                if (resultat) {
+                    String msg = "ajout";
+                    request.setAttribute("msg", msg);
+                    rd = request.getRequestDispatcher("directeur/ajoutSurv.jsp");
+
+                }
             }
         } else if (action.equals("valideModEleve")) {
 
@@ -355,83 +354,8 @@ public class Directeur extends HttpServlet {
             rd = request.getRequestDispatcher("directeur/listeClasse.jsp");
         } else if (action.equals("ajoutProf")) {
             request.setAttribute("anInscr", anInscr);
-            rd = request.getRequestDispatcher("vue/surveillant/ajoutProfesseur.jsp");
+            rd = request.getRequestDispatcher("surveillant/ajoutProfesseur.jsp");
 
-        } else if (action.equals("bulletin")) {
-
-            rd = request.getRequestDispatcher("vue/surveillant/classeBulletin.jsp");
-
-        } else if (action.equals("bulletinClasse")) {
-
-            String nomClasse = request.getParameter("nomClasse");
-            String semestre = request.getParameter("semestre");
-            String annee = request.getParameter("annee");
-            request.setAttribute("annee", annee);
-            request.setAttribute("semestre", semestre);
-            // eleves = daoEleve.listerEleve(nomClasse, annee);
-            request.setAttribute("eleves", eleves);
-            for (Eleve e : eleves) {
-                System.out.println(e.getLogin() + " " + annee + " " + semestre + " " + nomClasse);
-                daoDirecteur.moyenne(e.getLogin(), annee, semestre, nomClasse);
-            }
-
-            Collections.sort(eleves);
-            Collections.reverse(eleves);
-            for (Eleve e : eleves) {
-                System.out.println(e.getNom() + " " + e.getPrenom() + " " + e.getMoySemestre1());
-            }
-            rd = request.getRequestDispatcher("vue/surveillant/listeBulletin.jsp");
-        } else if (action.equals("creerBulletin")) {
-            String semestre = request.getParameter("semestre");
-            String login = request.getParameter("login");
-            String annee = request.getParameter("annee");
-            request.setAttribute("eleves", eleves);
-            int i = 0;
-
-            System.out.println();
-            Bulletin bulletin = new Bulletin();
-
-            bulletin = daoDirecteur.eleve(login, annee, semestre);
-            bulletin.setAnnee(annee);
-            bulletin.setSemestre(semestre);
-
-            if (semestre.equals("2eme_semestre")) {
-
-                for (Eleve e : eleves) {
-                    i++;
-                    if ((e.getLogin().equals(login)) || (bulletin.getMoySemestre2() == e.getMoySemestre2())) {
-                        break;
-                    }
-                }
-            } else {
-                for (Eleve e : eleves) {
-                    i++;
-                    if ((e.getLogin().equals(login)) || (bulletin.getMoySemestre1() == e.getMoySemestre1())) {
-                        break;
-                    }
-                }
-            }
-            bulletin.setRang(i);
-            System.out.println(bulletin.getRang());
-            GenererPDF generer = new GenererPDF();
-
-//            try {
-//                generer.documentPDF(bulletin);
-//            } catch (DocumentException ex) {
-//                Logger.getLogger(Directeur.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-
-            String message = "Le bulletin a été créer avec succés";
-            String nomClasse = bulletin.getNomClasse();
-            request.setAttribute("annee", annee);
-            request.setAttribute("semestre", semestre);
-            //eleves = daoEleve.listerEleve(nomClasse, annee);
-            Collections.sort(eleves);
-            Collections.reverse(eleves);
-            request.setAttribute("login", login);
-            request.setAttribute("eleves", eleves);
-            request.setAttribute("mess", message);
-            rd = request.getRequestDispatcher("vue/surveillant/listeBulletin.jsp");
         } else if (action.equals("formProf")) {
             int idPerson = 0;
             if (request.getParameter("idPerson") != null) {
@@ -474,7 +398,7 @@ public class Directeur extends HttpServlet {
             String[] nomClasse = request.getParameterValues("nomClasse");
             String[] nomMatiere = request.getParameterValues("nomMatiere");
             if ((nomClasse == null) || (nomMatiere == null)) {
-                rd = request.getRequestDispatcher("vue/surveillant/ajoutProfesseur.jsp");
+                rd = request.getRequestDispatcher("surveillant/ajoutProfesseur.jsp");
             } else {
                 Collection<String> nomMat = Arrays.asList(nomMatiere);
                 Collection<String> nomCl = Arrays.asList(nomClasse);
@@ -496,10 +420,10 @@ public class Directeur extends HttpServlet {
                 id = daoPersonne.nbrePersonne();
                 id++;
                 request.setAttribute("id", id);
-                boolean resultat = daoProf.ajouterProf(professeur, id);
+                boolean resultat = daoProf.ajouterProf(professeur);
                 if (resultat) {
 
-                    rd = request.getRequestDispatcher("vue/surveillant/profclasse.jsp");
+                    rd = request.getRequestDispatcher("surveillant/profclasse.jsp");
 
                 }
 
@@ -515,7 +439,7 @@ public class Directeur extends HttpServlet {
 
             boolean resultat = daoProf.modifierProf(personne);
             if (resultat) {
-              //  profs = daoProf.listerProf();
+                //  profs = daoProf.listerProf();
                 request.setAttribute("profs", profs);
                 rd = request.getRequestDispatcher("directeur/listeProfs.jsp");
             } else {
@@ -530,14 +454,14 @@ public class Directeur extends HttpServlet {
             for (String r : nomCl) {
                 String[] mats = request.getParameterValues(r);
                 for (String q : mats) {
-                    pc.add(new ProfClasse(idPerson, loginProf, r, q, annee));
+                    //pc.add(new ProfClasse(idPerson, loginProf, r, q, annee));
                 }
 
             }
             if (daoProf.ajouterProfclasse(pc)) {
                 String msg = "ajout";
                 request.setAttribute("msg", msg);
-                rd = request.getRequestDispatcher("vue/surveillant/ajoutProfesseur.jsp");
+                rd = request.getRequestDispatcher("surveillant/ajoutProfesseur.jsp");
             } else {
                 rd = request.getRequestDispatcher("directeur/modificationProf.jsp");
             }
@@ -547,35 +471,67 @@ public class Directeur extends HttpServlet {
             request.setAttribute("profs", profs);
             rd = request.getRequestDispatcher("directeur/listeProfs.jsp");
 
-        } else if (action.equals("listerSurv")) {
-            surv = daoDirecteur.listerSurv();
-            request.setAttribute("surv", surv);
-            rd = request.getRequestDispatcher("directeur/listeSurv.jsp");
-        } else if (action.equals("modifierSurv")) {
-            String loginSurv = request.getParameter("loginSurv");
-            surv = daoDirecteur.selectSurv(loginSurv);
-            for (Surveillant sur : surv) {
+        } else if (action.equals("admin")) {
+            ArrayList<Personne> pers1, pers2, pers3, pers4 = new ArrayList<>();
+            pers1 = daoDirecteur.listerAdmin("Directeur des études");
+            pers2 = daoDirecteur.listerAdmin("Surveillant");
+            pers3 = daoDirecteur.listerAdmin("Surveillant Général");
+            pers4 = daoDirecteur.listerAdmin("Comptable");
+            request.setAttribute("pers1", pers1);
+            request.setAttribute("pers2", pers2);
+            request.setAttribute("pers3", pers3);
+            request.setAttribute("pers4", pers4);
+            rd = request.getRequestDispatcher("directeur/listeAdmin.jsp");
+        } else if (action.equals("modifierAdmin")) {
+            String log = request.getParameter("login");
+            ArrayList<Personne> perso = new ArrayList();
+            perso = daoDirecteur.select(log);
+            for (Personne sur : perso) {
                 request.setAttribute("idPersonne", sur.getIdPersonne());
                 request.setAttribute("nom", sur.getNom());
                 request.setAttribute("prenom", sur.getPrenom());
                 request.setAttribute("adresse", sur.getAdresse());
-                request.setAttribute("telephone", sur.getTelephone());
+                request.setAttribute("telephone", sur.getTel());
+                request.setAttribute("profil", sur.getProfil());
             }
-            rd = request.getRequestDispatcher("directeur/modificationSurv.jsp");
-        } else if (action.equals("valideModSurv")) {
-            String loginSurv = request.getParameter("loginSurv");
+            request.setAttribute("log", log);
+            rd = request.getRequestDispatcher("directeur/modificationPers.jsp");
+        } else if (action.equals("valideModPers")) {
+            String login = request.getParameter("log");
             String nom = request.getParameter("nom");
             String prenom = request.getParameter("prenom");
             String adresse = request.getParameter("adresse");
             String tel = request.getParameter("tel");
-            daoDirecteur.updateSurv(loginSurv, nom, prenom, adresse, tel);
-            surv = daoDirecteur.listerSurv();
-            request.setAttribute("surv", surv);
-            rd = request.getRequestDispatcher("directeur/listeSurv.jsp");
+            String profil = request.getParameter("profil");
+            daoDirecteur.updateSurv(login, nom, prenom, adresse, tel, profil);
+            ArrayList<Personne> pers1, pers2, pers3, pers4 = new ArrayList<>();
+
+            pers1 = daoDirecteur.listerAdmin("Directeur des études");
+            pers2 = daoDirecteur.listerAdmin("Surveillant");
+            pers3 = daoDirecteur.listerAdmin("Surveillant Général");
+            pers4 = daoDirecteur.listerAdmin("Comptable");
+            request.setAttribute("pers1", pers1);
+            request.setAttribute("pers2", pers2);
+            request.setAttribute("pers3", pers3);
+            request.setAttribute("pers4", pers4);
+            rd = request.getRequestDispatcher("directeur/listeAdmin.jsp");
+        } else if (action.equals("supprimerPers")) {
+            String login = request.getParameter("login");
+            daoDirecteur.supprimerPers(login);
+            ArrayList<Personne> pers1, pers2, pers3, pers4 = new ArrayList<>();
+            pers1 = daoDirecteur.listerAdmin("Directeur des études");
+            pers2 = daoDirecteur.listerAdmin("Surveillant");
+            pers3 = daoDirecteur.listerAdmin("Surveillant Général");
+            pers4 = daoDirecteur.listerAdmin("Comptable");
+            request.setAttribute("pers1", pers1);
+            request.setAttribute("pers2", pers2);
+            request.setAttribute("pers3", pers3);
+            request.setAttribute("pers4", pers4);
+            rd = request.getRequestDispatcher("directeur/listeAdmin.jsp");
         } else if (action.equals("desactiverSurv")) {
             int idPersonne = Integer.parseInt(request.getParameter("idSurv"));
             daoDirecteur.desactiverSurv(idPersonne);
-            surv = daoDirecteur.listerSurv();
+            // surv = daoDirecteur.listerSurv();
             request.setAttribute("surv", surv);
             rd = request.getRequestDispatcher("directeur/listeSurv.jsp");
         } else if (action.equals("detailProf")) {
@@ -623,12 +579,6 @@ public class Directeur extends HttpServlet {
         } else if (action.equals("formAffClass")) {
 
             rd = request.getRequestDispatcher("directeur/formAffClasse.jsp");
-        } else if (action.equals("modifierProf")) {
-            int idProf = Integer.parseInt(request.getParameter("idProf"));
-            professeur = daoProf.listerUnProf(idProf);
-
-            request.setAttribute("professeur", professeur);
-            rd = request.getRequestDispatcher("directeur/modificationProf.jsp");
         } else if (action.equals("formNote")) {
 
             rd = request.getRequestDispatcher("directeur/formNote.jsp");
@@ -640,7 +590,7 @@ public class Directeur extends HttpServlet {
             String semestre = request.getParameter("semestre");
             String annee = request.getParameter("annee");
             String regime = request.getParameter("regime");
-          //  eleves = daoDirecteur.consulterNotes(nomClasse, nomMatiere, semestre, annee);
+            eleves = daoDirecteur.consulterNotes(nomClasse, nomMatiere, semestre, annee, regime);
             if (eleves == null) {
                 rd = request.getRequestDispatcher("directeur/formNote.jsp");
             } else {
@@ -652,6 +602,7 @@ public class Directeur extends HttpServlet {
                 rd = request.getRequestDispatcher("directeur/affichageNote.jsp");
             }
 
+
         } else if (action.equals("saveMatiere")) {
             rd = request.getRequestDispatcher("directeur/formMatiere.jsp");
 
@@ -662,12 +613,37 @@ public class Directeur extends HttpServlet {
             if (result) {
                 String msg = "Matière: " + nomMatiere + "  ajoutée avec succée";
                 request.setAttribute("mes", msg);
+                session.removeAttribute("matieres");
+                matieres = daoProf.listerMatiere();
+                session.setAttribute("matieres", matieres);
                 rd = request.getRequestDispatcher("directeur/formMatiere.jsp");
             } else {
                 String msg = "échec de l'ajout";
                 request.setAttribute("message", msg);
                 rd = request.getRequestDispatcher("directeur/formMatiere.jsp");
             }
+
+        } else if (action.equals("modifierMatiere")) {
+            String nomMatiere = request.getParameter("matiere");
+            request.setAttribute("nomMatiere", nomMatiere);
+            rd = request.getRequestDispatcher("directeur/updateMatiere.jsp");
+
+        } else if (action.equals("validerMatiereMod")) {
+            String nomMatiere = request.getParameter("nomMatiere");
+            String oldMatiere = request.getParameter("oldmatiere");
+            boolean result = daoDirecteur.modifierMatiere(nomMatiere, oldMatiere);
+            session.removeAttribute("matieres");
+            matieres = daoProf.listerMatiere();
+            session.setAttribute("matieres", matieres);
+            rd = request.getRequestDispatcher("directeur/formMatiere.jsp");
+
+        } else if (action.equals("supprimerMatiere")) {
+            String nomMatiere = request.getParameter("matiere");
+            boolean result = daoDirecteur.supprimerMatiere(nomMatiere);
+            session.removeAttribute("matieres");
+            matieres = daoProf.listerMatiere();
+            session.setAttribute("matieres", matieres);
+            rd = request.getRequestDispatcher("directeur/formMatiere.jsp");
 
         } else if (action.equals("saveClasse")) {
 
@@ -690,16 +666,10 @@ public class Directeur extends HttpServlet {
             }
         } else if (action.equals("insertcoef")) {
             String regime = request.getParameter("regime");
-            String nomClasse = request.getParameter("nomClasse");
+            String nomClasse = request.getParameter("nomcl");
             String[] coefs = request.getParameterValues("coef");
             String[] nomMatieres = (String[]) session.getAttribute("nomMatiere");
             System.out.println(nomClasse);
-            for (String nm : nomMatieres) {
-                System.out.println(nm);
-            }
-            for (String c : coefs) {
-                System.out.println(c);
-            }
             boolean result = daoDirecteur.insertCoef(nomClasse, nomMatieres, coefs, regime);
             rd = request.getRequestDispatcher("directeur/formClasse.jsp");
         } //ajouter en fin 
@@ -722,17 +692,118 @@ public class Directeur extends HttpServlet {
 
             rd = request.getRequestDispatcher("directeur/detailsClasse.jsp");
 
+        } else if (action.equals("modifierNomClasse")) {
+            String nomcl = request.getParameter("nomClasseUpdate");
+            String regime = request.getParameter("regime");
+            String oldNomClasse = request.getParameter("oldNomClasse");
+            Boolean resultat = daoDirecteur.modifierNomClasse(nomcl, regime, oldNomClasse);
+            if (resultat) {
+                String msg = "bien modifier";
+                request.setAttribute("msg", msg);
+            } else {
+                String erreur = "erreur";
+                request.setAttribute("erreur", erreur);
+            }
+            session.removeAttribute("classes");
+            classes = daoDirecteur.listerClasse();
+            session.setAttribute("classes", classes);
+
+            Classe classe = null;
+            for (Classe cl : classes) {
+                if ((cl.getNomClasse().equals(nomcl)) && (cl.getRegime().equals(regime))) {
+                    classe = new Classe(nomcl, regime, cl.getMatieres());
+                }
+            }
+            request.setAttribute("classe", classe);
+            rd = request.getRequestDispatcher("directeur/detailsClasse.jsp");
+
+        } else if (action.equals("modifierRegime")) {
+            String nomcl = request.getParameter("nomClasse");
+            String oldregime = request.getParameter("oldregime");
+            String regimeUpdate = request.getParameter("regimeUpdate");
+            
+            Boolean resultat = daoDirecteur.modifierRegime(regimeUpdate, nomcl, oldregime);
+            session.removeAttribute("classes");
+            classes = daoDirecteur.listerClasse();
+            session.setAttribute("classes", classes);
+            if (resultat) {
+                String msg = "bien modifier";
+                request.setAttribute("msg", msg);
+                Classe classe = null;
+                for (Classe cl : classes) {
+                    if ((cl.getNomClasse().equals(nomcl)) && (cl.getRegime().equals(regimeUpdate))) {
+                        classe = new Classe(nomcl, regimeUpdate, cl.getMatieres());
+                    }
+                }
+                request.setAttribute("classe", classe);
+            } else {
+                String erreur = "erreur";
+                request.setAttribute("erreur", erreur);
+                Classe classe = null;
+                for (Classe cl : classes) {
+                    if ((cl.getNomClasse().equals(nomcl)) && (cl.getRegime().equals(oldregime))) {
+                        classe = new Classe(nomcl, oldregime, cl.getMatieres());
+                    }
+                }
+                request.setAttribute("classe", classe);
+            }
+
+            rd = request.getRequestDispatcher("directeur/detailsClasse.jsp");
+
+        } else if (action.equals("supprimerMatCl")) {
+            String regime = request.getParameter("reg");
+            String nomcl = request.getParameter("nomcl");
+            String mat = request.getParameter("mat");
+            boolean resultat = daoDirecteur.deleteMatFromClasse(nomcl, regime, mat);
+            if (resultat) {
+                String msg = "bien supprimer";
+                request.setAttribute("msg", msg);
+
+            } else {
+                String erreur = "erreur";
+                request.setAttribute("erreur", erreur);
+            }
+            session.removeAttribute("classes");
+            classes = daoDirecteur.listerClasse();
+            session.setAttribute("classes", classes);
+
+            Classe classe = null;
+            for (Classe cl : classes) {
+                if ((cl.getNomClasse().equals(nomcl)) && (cl.getRegime().equals(regime))) {
+                    classe = new Classe(nomcl, regime, cl.getMatieres());
+                }
+            }
+            request.setAttribute("classe", classe);
+            rd = request.getRequestDispatcher("directeur/detailsClasse.jsp");
         } else if (action.equals("annee")) {
             rd = request.getRequestDispatcher("directeur/annee.jsp");
 
         } else if (action.equals("ajoutAnnee")) {
-
+            int[] an = new int[2];
+            int i = 0;
             String newAnnee = request.getParameter("nv-annee");
-            System.out.println("nouveau :" + newAnnee);
-            boolean res = daoDirecteur.insertAnnee(newAnnee);
-            request.setAttribute("res", res);
-            annees = daoEleve.listerAnnee();
-            rd = request.getRequestDispatcher("directeur/annee.jsp");
+            StringTokenizer st = new StringTokenizer(newAnnee, "-");
+            while (st.hasMoreTokens()) {
+                String ch = st.nextToken();
+                an[i] = Integer.parseInt(ch);
+                i++;
+            }
+
+            if ((an[0] >= an[1]) || (an[1] - an[0] > 1)) {
+                String msg = "ajout";
+                request.setAttribute("msg", msg);
+                rd = request.getRequestDispatcher("directeur/annee.jsp");
+            } else {
+                boolean res = daoDirecteur.insertAnnee(newAnnee);
+                if (!res) {
+                    String er = "ajout";
+                    request.setAttribute("er", er);
+                }
+                session.removeAttribute("annees");
+                annees = daoEleve.listerAnnee();
+                session.setAttribute("annees", annees);
+                rd = request.getRequestDispatcher("directeur/annee.jsp");
+            }
 
         } else if (action.equals("confirmPasswd")) {
             String newpasswd = request.getParameter("newpasswd");
@@ -792,17 +863,17 @@ public class Directeur extends HttpServlet {
             if (rechercheParElev.isEmpty()) {
                 String message = "Aucun résultat !!!";
                 request.setAttribute("message", message);
-                rd = request.getRequestDispatcher("vue/surveillant/rechercheSurv.jsp");
+                rd = request.getRequestDispatcher("surveillant/rechercheSurv.jsp");
             } else {
                 request.setAttribute("rechercheParElev", rechercheParElev);
-                rd = request.getRequestDispatcher("vue/surveillant/rechercheSurv.jsp");
+                rd = request.getRequestDispatcher("surveillant/rechercheSurv.jsp");
             }
         } ////////////////////////////////////////////////Fin Recheerche///////////////////////////////
         ////////////////////////////////Désactiver un prof///////////////////////////////////
         else if (action.equals("desactiverProf")) {
             int idProf = Integer.parseInt(request.getParameter("idProf"));
             daoProf.desactiverProf(idProf);
-           // profs = daoProf.listerProf();
+            // profs = daoProf.listerProf();
             request.setAttribute("profs", profs);
             rd = request.getRequestDispatcher("directeur/listeProfs.jsp");
         } else if (action.equals("desactiverEleve")) {

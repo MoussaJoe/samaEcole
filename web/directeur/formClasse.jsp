@@ -66,7 +66,7 @@
 
         <% } else {
         %>
-        <jsp:forward page="../SeConnecter.jsp"/>
+        <jsp:forward page="../vue/SeConnecter.jsp"/>
         <% }%> 
     </body>
 </html>

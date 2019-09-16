@@ -15,6 +15,7 @@ public class Bulletin {
 
     private String prenom;
     private String nom;
+    private String regime;
     private String annee;
     private String semestre;
     private String login;
@@ -32,6 +33,17 @@ public class Bulletin {
     private int rang;
     private float moySemestre1;
     private float moySemestre2;
+    private String appreciation;
+
+    public String getAppreciation() {
+        return appreciation;
+    }
+
+    public void setAppreciation(String appreciation) {
+        this.appreciation = appreciation;
+    }
+    
+    
 
     public String getPrenom() {
         return prenom;
@@ -49,6 +61,15 @@ public class Bulletin {
         this.nom = nom;
     }
 
+    public String getRegime() {
+        return regime;
+    }
+
+    public void setRegime(String regime) {
+        this.regime = regime;
+    }
+
+    
     public String getAnnee() {
         return annee;
     }

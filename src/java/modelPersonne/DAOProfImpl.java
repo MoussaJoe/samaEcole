@@ -30,7 +30,7 @@ public class DAOProfImpl {
 
     Connection con;
 
-    public boolean ajouterProf(Professeur prof, int id) {
+    public boolean ajouterProf(Professeur prof) {
         boolean resultat = false;
 
         try {
@@ -38,30 +38,31 @@ public class DAOProfImpl {
             PreparedStatement pst1;
             PreparedStatement pst2;
 
-            String requete1 = "insert into personne values(?,?,?,?,?)";
+            String requete1 = "insert into personne values(?,?,?,?,?,?,?,?,?)";
             pst1 = con.prepareStatement(requete1);
-            pst1.setInt(1, id);
+            pst1.setString(1, prof.getUtilisateur().getLogin());
             pst1.setString(2, prof.getPersonne().getNom());
             pst1.setString(3, prof.getPersonne().getPrenom());
             pst1.setString(4, prof.getPersonne().getAdresse());
             pst1.setString(5, prof.getPersonne().getTel());
+            pst1.setString(6, prof.getUtilisateur().getMotDePasse());
+            pst1.setString(7, "");
+            pst1.setInt(8, 1);
+            pst1.setString(9, "Professeur");
             int result1 = pst1.executeUpdate();
 
-            String requete2 = "insert into professeur values(?,?,?)";
+            String requete2 = "insert into professeur values(?)";
             pst2 = con.prepareStatement(requete2);
-            pst2.setInt(1, id);
-            pst2.setString(2, prof.getUtilisateur().getLogin());
-            pst2.setString(3, prof.getUtilisateur().getMotDePasse());
+            pst2.setString(1, prof.getUtilisateur().getLogin());
             int result2 = pst2.executeUpdate();
 
             int result3 = 0;
             for (String i : prof.getMatiere()) {
                 PreparedStatement pst3;
-                String requete3 = "insert into profmatiere values(?,?,?)";
+                String requete3 = "insert into profmatiere values(?,?)";
                 pst3 = con.prepareStatement(requete3);
-                pst3.setInt(1, id);
-                pst3.setString(2, prof.getUtilisateur().getLogin());
-                pst3.setString(3, i);
+                pst3.setString(1, prof.getUtilisateur().getLogin());
+                pst3.setString(2, i);
                 result3 = pst3.executeUpdate();
             }
 
@@ -69,27 +70,26 @@ public class DAOProfImpl {
                 System.out.println("les requetes ont été bien éxécutées");
                 resultat = true;
             } else {
-
                 System.out.println("Erreur de requete(s)");
+                return resultat;
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return resultat;
-
     }
 
     public boolean ajouterProfclasse(ArrayList<ProfClasse> pc) {
         boolean result = false;
-        int resultat =0;
+        int resultat = 0;
         try {
             for (ProfClasse c : pc) {
                 PreparedStatement pst3;
                 String requete3 = "insert into profclasse values(?,?,?,?,?)";
                 pst3 = con.prepareStatement(requete3);
-                pst3.setInt(1, c.getIdPerson());
-                pst3.setString(2, c.getLoginProf());
-                pst3.setString(3, c.getNomClasse());
+                pst3.setString(1, c.getLoginProf());
+                pst3.setString(2, c.getNomClasse());
+                pst3.setString(3, c.getRegime());
                 pst3.setString(4, c.getNomMatiere());
                 pst3.setString(5, c.getAnnee());
                 resultat = pst3.executeUpdate();
@@ -147,7 +147,7 @@ public class DAOProfImpl {
                 Personne person = new Personne(0, rs.getString("nom"), rs.getString("prenom"), rs.getString("adresse"), rs.getString("telephone"));
                 person.setLogin(rs.getString(1));
                 Statement st2;
-                String requeteC = "select nomClasse from profClasse where login='" + rs.getString(1)+"'";
+                String requeteC = "select nomClasse from profClasse where login='" + rs.getString(1) + "'";
                 st2 = con.createStatement();
                 ResultSet rsc = st2.executeQuery(requeteC);
 
@@ -157,7 +157,7 @@ public class DAOProfImpl {
                 }
 
                 Statement st1;
-                String requeteM = "select nomMatiere from profmatiere where login='" + rs.getString(1)+"'";
+                String requeteM = "select nomMatiere from profmatiere where login='" + rs.getString(1) + "'";
                 st1 = con.createStatement();
                 ResultSet rsm = st1.executeQuery(requeteM);
                 while (rsm.next()) {
@@ -218,14 +218,14 @@ public class DAOProfImpl {
 
     }
 
-    public Professeur listerUnProf(int idProf) {
+    public Professeur listerUnProf(String loginProf) {
 
         Professeur prof = null;
         Statement st;
 
         try {
             con = daoFactory.getConnection();
-            String requete = "select nom,prenom,adresse,tel from personne where idPersonne = " + idProf;
+            String requete = "select nom,prenom,adresse,telephone from personne where login = '" + loginProf + "'";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(requete);
 
@@ -234,10 +234,10 @@ public class DAOProfImpl {
                 ArrayList<String> tabM = new ArrayList();
                 ArrayList<String> tabC = new ArrayList();
 
-                Personne person = new Personne(idProf, rs.getString("nom"), rs.getString("prenom"), rs.getString("adresse"), rs.getString("tel"));
+                Personne person = new Personne(0, rs.getString("nom"), rs.getString("prenom"), rs.getString("adresse"), rs.getString("telephone"));
 
                 Statement st2;
-                String requeteC = "select nomClasse from profClasse where idpersonne=" + idProf;
+                String requeteC = "select nomClasse from profClasse where login = '" + loginProf + "'";
                 st2 = con.createStatement();
                 ResultSet rsc = st2.executeQuery(requeteC);
 
@@ -247,7 +247,7 @@ public class DAOProfImpl {
                 }
 
                 Statement st1;
-                String requeteM = "select nomMatiere from profmatiere where idpersonne=" + idProf;
+                String requeteM = "select nomMatiere from profmatiere where login = '" + loginProf + "'";
                 st1 = con.createStatement();
                 ResultSet rsm = st1.executeQuery(requeteM);
                 while (rsm.next()) {
@@ -255,16 +255,6 @@ public class DAOProfImpl {
                     tabM.add(rsm.getString(1));
                     // k++;
                 }
-                Statement st3;
-                String requeteU = "select loginProf,motDepasse from professeur where idpersonne=" + idProf;
-                st3 = con.createStatement();
-                ResultSet rsu = st1.executeQuery(requeteU);
-                if (rsu.next()) {
-                    user = new Utilisateur();
-                    user.setLogin(rsu.getString("loginProf"));
-                    user.setMotDePasse(rsu.getString("motDePasse"));
-                }
-
                 prof = new Professeur(person, user, tabM, tabC);
             }
 
@@ -279,21 +269,20 @@ public class DAOProfImpl {
 
         boolean resultat = false;
         int result1 = 0;
-       
-         
+
         try {
             con = daoFactory.getConnection();
             PreparedStatement pst1;
             PreparedStatement pst2;
 
-            String requete1 = "update personne set nom=? , prenom=? , adresse=? , tel=? where idPersonne =? ";
+            String requete1 = "update personne set nom=? , prenom=? , adresse=? , telephone=? where login =? ";
             pst1 = con.prepareStatement(requete1);
 
             pst1.setString(1, prof.getNom());
             pst1.setString(2, prof.getPrenom());
             pst1.setString(3, prof.getAdresse());
             pst1.setString(4, prof.getTel());
-            pst1.setInt(5, prof.getIdPersonne());
+            pst1.setString(5, prof.getLogin());
             result1 = pst1.executeUpdate();
             if (result1 > 0) {
                 System.out.println("les requetes ont été bien éxécutées /t modifiees avec succes");
@@ -307,34 +296,34 @@ public class DAOProfImpl {
         return resultat;
 
     }
-    
-    public ArrayList<Professeur> detailProf(String login){
+
+    public ArrayList<Professeur> detailProf(String login) {
         ArrayList<Professeur> profs = new ArrayList<>();
         Professeur prof;
-        try{
-          Statement st;
-                String requeteU = "select nomClasse,nomMatiere,annee from profclasse where login=" + login;
-                st = con.createStatement();
-                ResultSet rs = st.executeQuery(requeteU);
-                while (rs.next()) {
-                    prof = new Professeur();
-                    prof.setNomClasse(rs.getString("nomClasse"));
-                    prof.setNomMatiere(rs.getString("nomMatiere"));
-                    prof.setAnnee(rs.getString("annee"));
-                    System.out.println(rs.getString("nomMatiere") +"piiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiic");
-                    profs.add(prof);
-                }
+        try {
+            Statement st;
+            String requeteU = "select nomClasse,nomMatiere,anneeScolaire,regime from profclasse where login='" + login + "'";
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(requeteU);
+            while (rs.next()) {
                 
+                prof = new Professeur();
+                prof.setNomClasse(rs.getString("nomClasse"));
+                prof.setNomMatiere(rs.getString("nomMatiere"));
+                prof.setAnnee(rs.getString("anneeScolaire"));
+                prof.setRegime(rs.getString("regime"));
+                profs.add(prof);
+            }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return profs;
 
-        
     }
+
     public void desactiverProf(int idprof) {
-       int result1 = 0;   
+        int result1 = 0;
         try {
             con = daoFactory.getConnection();
             PreparedStatement pst1;
@@ -343,8 +332,8 @@ public class DAOProfImpl {
             pst1.setInt(1, 1);
             pst1.setInt(2, idprof);
             pst1.executeUpdate();
-            result1=pst1.executeUpdate();
-            pst1.close();  
+            result1 = pst1.executeUpdate();
+            pst1.close();
             if (result1 > 0) {
                 System.out.println("les requetes ont été bien éxécutées /t modifiees avec succes");
             } else {

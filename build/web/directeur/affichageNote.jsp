@@ -19,14 +19,9 @@
         <%
             if (session.getAttribute("log") != null) {
         %>
-         <c:choose>
-            <c:when test="${profils eq 'Directeur'}">
+        
                  <%@include file="accueilDirecteur.jsp" %>
-            </c:when>
-            <c:otherwise>
-                 <%@include file="../../surveillant.jsp" %>
-            </c:otherwise>
-        </c:choose>
+          
        
         <h1>Liste des Notes en ${nomMatiere} de la ${nomClasse} :</h1>
 
@@ -37,8 +32,7 @@
                     <th class="col" id="entete">Nom</th>
                     <th class="col" id="entete">Date de Naissance</th>
                     <th class="col" id="entete">Lieu de Naissance</th>
-                    <th class="col" id="entete">Devoir 1</th>
-                    <th class="col" id="entete">Devoir 2</th>
+                    <th class="col" id="entete">Devoir</th>
                     <th class="col" id="entete">Composition</th>
                 </tr>
             </thead>
@@ -50,22 +44,15 @@
                         <td>${e.dateNaissance}</td>
                         <td>${e.lieuNaissance}</td>
                         <td><c:choose>
-                                <c:when test ="${e.devoir1 == 0.0}">
+                                <c:when test ="${e.devoir == 0.0}">
 
                                 </c:when>
                                 <c:otherwise>
-                                    ${e.devoir1}
+                                    ${e.devoir}
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td><c:choose><c:when test ="${e.devoir2 == 0.0}">
-
-                                </c:when>
-                                <c:otherwise>
-                                    ${e.devoir2}
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
+                       
                         <td>
                             <c:choose><c:when test ="${e.composition == 0.0}">
 
@@ -83,7 +70,7 @@
 
         <% } else {
         %>
-        <jsp:forward page="../SeConnecter.jsp"/>
+        <jsp:forward page="../vue/SeConnecter.jsp"/>
         <% }%>  
 
 

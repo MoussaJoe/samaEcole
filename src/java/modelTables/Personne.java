@@ -21,7 +21,7 @@ public class Personne {
     private String idParent;
     private String login;
     private String motDePasse;
-    private String profils;
+    private String profil;
     private String classe;
     private String nomImgPers;
     private int etatPers;
@@ -46,14 +46,14 @@ public class Personne {
         this.classe = classe;
     }
 
-    public Personne(String nom, String prenom, String adresse, String tel, String login, String motDePasse, String profils, int etatPers) {
+    public Personne(String nom, String prenom, String adresse, String tel, String login, String motDePasse, String profil, int etatPers) {
         this.nom = nom;
         this.prenom = prenom;
         this.adresse = adresse;
         this.tel = tel;
         this.login = login;
         this.motDePasse = motDePasse;
-        this.profils = profils;
+        this.profil = profil;
         this.etatPers = etatPers;
     }
     
@@ -97,12 +97,12 @@ public class Personne {
     }
     
     
-    public String getProfils() {
-        return profils;
+    public String getProfil() {
+        return profil;
     }
 
-    public void setProfils(String profils) {
-        this.profils = profils;
+    public void setProfil(String profil) {
+        this.profil = profil;
     }
     
     public String getLogin() {

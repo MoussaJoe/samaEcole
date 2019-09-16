@@ -13,16 +13,16 @@
         <title>Coefficients</title>
     </head>
     <body>
-        <%
-            if (session.getAttribute("log") != null) {
+        <%            if (session.getAttribute("log") != null) {
 
         %>
         <%@include file="accueilDirecteur.jsp" %>
         <h1>Définir les Coefficients des Matières de la : ${nomClasse} </h1>
         <form action="Directeur" method="POST">
+            <input type="hidden" name="action" value="insertcoef" />
+            <input type="hidden" name="nomcl" value="${nomClasse}"/>
             <table id="tab">
-                <input type="hidden" name="action" value="insertcoef" />
-                <input type="hidden" name="nomClasse" value=${nomClasse} />
+
                 <thead>
                     <tr>
                         <th>Matière :</th>
@@ -44,7 +44,7 @@
                 <tr>
                     <th></th>
                     <td>
-                       <button class="btn btn-success">Enregistrer</button>
+                        <button class="btn btn-success">Enregistrer</button>
                     </td>
                 </tr>
                 </tbody>

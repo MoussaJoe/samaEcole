@@ -359,8 +359,8 @@ public class Controleur extends HttpServlet {
             if (loginEleve != null) {
                 ArrayList<String> annees = daoEleve.eleveParent(loginEleve);
                 request.setAttribute("annees", annees);
-                Eleve el = daoEleve.listerUnEleve(loginEleve);
-                session.setAttribute("el", el);
+//                Eleve el = daoEleve.listerUnEleve(loginEleve);
+               // session.setAttribute("el", el);
                 rd = request.getRequestDispatcher("vue/parent/anEleve.jsp");
             } else {
                 rd = request.getRequestDispatcher("acceuil.html");

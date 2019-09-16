@@ -32,7 +32,7 @@
                      <tr>
                         <td>${c.nomClasse}</td>
                         <td>${c.regime}</td>
-                        <td><a href="Directeur?action=detailsClasse&&nomClasse=${c.nomClasse}&&regime=${c.regime}" class="btn btn-success">Détails</a></td>
+                        <td><a href="Directeur?action=detailsClasse&&nomClasse=${c.nomClasse}&&regime=${c.regime}" class="btn btn-primary">Détails</a></td>
                         
                     </tr>
                 </c:forEach>  

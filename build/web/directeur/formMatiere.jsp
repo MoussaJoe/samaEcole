@@ -47,9 +47,40 @@
             </table>
         </form>
 
+       <br>
+        <br>
+        <table class="table-bordered table-hover" id="tabc" style="margin-left: 47vw; border: #ffffff">
+
+            <tbody>
+                <tr>
+                    <td colspan="3" id="entete">Matieres :</td>
+
+                </tr>
+                <c:forEach var="cm" items="${matieres}">
+                    <tr>
+                        <td>${cm}</td> 
+                        <td><a href="Directeur?matiere=${cm}&&action=supprimerMatiere" onclick="javascript: return confirmation();"><span class="glyphicon glyphicon-remove"></span></a></td>
+                        <td><a href="Directeur?matiere=${cm}&&action=modifierMatiere" ><img src="modifier.png" style="height: 25px"/></a></td>
+                    </tr>
+                </c:forEach>
+
+            </tbody>
+        </table>
         <% } else {
         %>
         <jsp:forward page="../SeConnecter.jsp"/>
         <% }%> 
     </body>
 </html>
+<script>
+    function confirmation() {
+        var code = "Voulez vous vraiment supprimer cette matière ?\
+    ";
+        var msg = confirm(code);
+        if (msg) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>

@@ -21,7 +21,10 @@ public class Professeur {
     String nomClasse;
     Collection<String> matiere;
     Collection<String> classe;
-
+    String regime; 
+    private String absences;
+    
+    
     public Professeur(){};
     
     
@@ -57,6 +60,15 @@ public class Professeur {
         this.annee = annee;
     }
 
+    public String getRegime() {
+        return regime;
+    }
+
+    public void setRegime(String regime) {
+        this.regime = regime;
+    }
+
+    
     public String getNomMatiere() {
         return nomMatiere;
     }
@@ -89,11 +101,15 @@ public class Professeur {
     public void setClasse(ArrayList<String> classe) {
         this.classe = classe;
     }
-    
-    
 
-   
+    public String getAbsences() {
+        return absences;
+    }
 
+    public void setAbsences(String absences) {
+        this.absences = absences;
+    }
+    
     
     
 }

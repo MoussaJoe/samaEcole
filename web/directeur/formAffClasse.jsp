@@ -13,18 +13,11 @@
         <title>Formulaire Aff. Classe</title>
     </head>
     <body>
-        <%
-            if (session.getAttribute("log") != null) {
+        <%            if (session.getAttribute("log") != null) {
 
         %>
-        <c:choose>
-            <c:when test="${profils eq 'Directeur'}">
+        
                 <%@include file="accueilDirecteur.jsp" %>
-            </c:when>
-            <c:otherwise>
-                <%@include file="../surveillant.jsp" %>
-            </c:otherwise>
-        </c:choose>
 
         <h1>Formulaire d'affichage de Classe :</h1>
 
@@ -56,7 +49,7 @@
                     <td>
                         <div class="form-group">
                             <select name="regime" class="form-control" required="">
-                                <option>Privee</option>
+                                <option>Privée</option>
                                 <option>Public</option>
                             </select>
                         </div>
@@ -94,7 +87,7 @@
         </form>
         <% } else {
         %>
-        <jsp:forward page="../SeConnecter.jsp"/>
+        <jsp:forward page="../vue/SeConnecter.jsp"/>
         <% }%>  
     </body>
 </html>

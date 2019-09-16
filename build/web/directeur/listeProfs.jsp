@@ -19,15 +19,9 @@
             if (session.getAttribute("log") != null) {
 
         %>
-        <c:choose>
-            <c:when test="${profils eq 'Directeur'}">
+       
                 <%@include file="accueilDirecteur.jsp" %>
-            </c:when>
-            <c:otherwise>
-                <%@include file="../surveillant.jsp" %>
-            </c:otherwise>
-        </c:choose>
-
+        
         <h1>Liste des Professeurs :</h1>
 
         <table class="table table-bordered table-hover" id="tab1" >
@@ -58,7 +52,7 @@
                             </td>
                         </c:if>
                         <td>
-                            <a href="Directeur?action=detailProf&&loginProf=${p.personne.login}">Détails</a>
+                            <a href="Directeur?action=detailProf&&loginProf=${p.personne.login}" class="btn btn-primary">Détails</a>
                         </td>
                     </tr>
                 </c:forEach>

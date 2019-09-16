@@ -40,6 +40,10 @@
         <servlet-name>ControleurParent</servlet-name>
         <servlet-class>controleur.ControleurParent</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Surveillant</servlet-name>
+        <servlet-class>controleur.Surveillant</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Controleur</servlet-name>
         <url-pattern>/Controleur</url-pattern>
@@ -80,6 +84,10 @@
         <servlet-name>ControleurParent</servlet-name>
         <url-pattern>/ControleurParent</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Surveillant</servlet-name>
+        <url-pattern>/Surveillant</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -88,7 +96,6 @@
     <welcome-file-list>
         <welcome-file>Connexion</welcome-file>
     </welcome-file-list>
-    
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>

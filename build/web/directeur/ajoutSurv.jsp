@@ -12,14 +12,18 @@
         <title>Ajout Directeur des études</title>
     </head>
     <body>
-         <%
-            if (session.getAttribute("log") != null) {
+        <%             if (session.getAttribute("log") != null) {
 
         %>
         <%@include file="accueilDirecteur.jsp" %>
         <script>
             <c:if test="${!empty msg}">
-            alert("Directeur des études enregistré avec succés");
+            alert("L'enregistrement effectué avec succés");
+            </c:if>
+        </script>
+         <script>
+            <c:if test="${!empty erreurProfil}">
+            alert("le profil saisi n'est pas correct");
             </c:if>
         </script>
         <h1>Formulaire d'ajout de Surveillant  :</h1>
@@ -30,6 +34,20 @@
         <form action="Directeur" method="Post">
             <table id="tab">
                 <input type="hidden" name="action" value="formSurv"/>
+                <tr>
+                    <th>Profil :</th>
+                    <td>
+                        <div class="form-group">
+                            <select name="profil" value="" class="form-control" required="">
+                                <option>--choisir un profil--</option>
+                                <option>Directeur des études</option>
+                                <option>Surveillant Général</option>
+                                <option>Surveillant</option>
+                                <option>Comptable</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
                 <tr>
                     <th>Nom :</th>
                     <td>
@@ -73,8 +91,8 @@
                     </td>
                 </tr>
 
-              
-                
+
+
                 <tr>
                     <th></th>
                     <td><button class="btn btn-success" type="submit">Valider</button></td>

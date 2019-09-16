@@ -20,14 +20,9 @@
             if (session.getAttribute("log") != null) {
 
         %>
-        <c:choose>
-            <c:when test="${profils eq 'Directeur'}">
+       
                 <%@include file="accueilDirecteur.jsp" %>
-            </c:when>
-            <c:otherwise>
-                <%@include file="../surveillant.jsp" %>
-            </c:otherwise>
-        </c:choose>
+        
 
         <h1>Liste de la Classe : ${nomCl} en ${an}</h1>
 
@@ -105,9 +100,7 @@
                     <th id="entete" class="col">Date de Naissance</th>
                     <th id="entete" class="col">Lieu de Naissance</th>
                     <th id="entete" class="col">Etat Paiement</th>
-                        <c:if test="${profils eq 'surveillant'}">
-                        <th id="entete" class="col">Modifier</th>
-                        </c:if> 
+                        
                 </tr>
             </thead>
             <tbody>
@@ -128,11 +121,7 @@
                             </c:otherwise>
                         </c:choose>
 
-                        <c:if test="${profils eq 'surveillant'}">
-                            <td>
-                                <a href="ControleurDirecteur?action=modifierElv&&nom=${e.login}&&year=${year}"><img src="modifier.png" alt="Modifier" id="modifier"/></a></a>
-                            </td>
-                        </c:if>
+                      
                     </tr>
                 </c:forEach>
             </tbody>
