@@ -3,13 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/mac/Desktop/proget_git/samaEcole/src/java/controleur/ControleurParent.java</file>
-            <file>file:/Users/mac/Desktop/proget_git/samaEcole/src/java/modelPersonne/DAOEleveImpl.java</file>
-            <file>file:/Users/mac/Desktop/proget_git/samaEcole/web/vue/elev/reclamation.jsp</file>
-            <file>file:/Users/mac/Desktop/proget_git/samaEcole/src/java/controleur/ControleurEleve.java</file>
-            <file>file:/Users/mac/Desktop/proget_git/samaEcole/web/vue/elev/messageEleve.jsp</file>
-            <file>file:/Users/mac/Desktop/proget_git/samaEcole/web/vue/elev/message.jsp</file>
-            <file>file:/Users/mac/Desktop/proget_git/samaEcole/web/Eleve/barreNavEleve.jsp</file>
+            <file>file:/Users/mac/Desktop/proget_git/samaEcole/src/java/modelPersonne/DAOProfsImpl.java</file>
+            <file>file:/Users/mac/Desktop/proget_git/samaEcole/src/java/controleur/ControleurProf.java</file>
         </group>
     </open-files>
 </project-private>

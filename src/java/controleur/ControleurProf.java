@@ -498,13 +498,10 @@ public class ControleurProf extends HttpServlet {
             System.out.println("login-------------------- "+loginProf);
             messR = daoProf.messageRecuProf(loginProf);
             System.out.println("//////////////////////idReclamation////////////////////////////");
-            
             request.setAttribute("listMessage", messR);
             rd = request.getRequestDispatcher("Professeur/message.jsp");
         }
         else if(action.equals("afficheMess")){
-            String date= request.getParameter("date");
-            String texte= request.getParameter("texte");
             String login_pro= request.getParameter("login_pro");
             String login= request.getParameter("login");
             System.out.println("login_pro: "+login_pro);
@@ -519,7 +516,6 @@ public class ControleurProf extends HttpServlet {
             for (String string : messEvoye) {
                 System.out.println(string);
             }
-            int taille=messRecu.size()+messEvoye.size();
             request.setAttribute("login", login);
             request.setAttribute("messRecu", messRecu);
             request.setAttribute("messEvoye", messEvoye);
@@ -529,10 +525,14 @@ public class ControleurProf extends HttpServlet {
             String pro_login=(String)session.getAttribute("log");
             String message= request.getParameter("message");
             String login=request.getParameter("login");
-            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");      
             Date today = Calendar.getInstance().getTime();
             String date = df.format(today);
-            daoProf.reponseProf(pro_login, login, message, date);
+            DateFormat dh = new SimpleDateFormat("HH:mm");
+            Date heureLocale= Calendar.getInstance().getTime();
+            String heure= dh.format(heureLocale);
+            System.out.println("Voici l'heure: "+heure);
+            daoProf.reponseProf(pro_login, login, message, date,heure);
             ArrayList<String> messRecu=daoProf.selectMessageRecuProf(pro_login, login); 
             ArrayList<String> messEvoye=daoProf.selectMessageEnvoyeProf(pro_login, login);
             request.setAttribute("login", login);

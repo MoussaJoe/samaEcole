@@ -486,7 +486,7 @@ public class DAOProfsImpl {
         Statement st;
         try {
             con = daoFactory.getConnection();
-            String requete = "select texteMsg from message where pro_login='"+pro_login+"' and login='"+login+"' and statut='recu'";
+            String requete = "select texteMsg from message where pro_login='"+pro_login+"' and login='"+login+"' and statut='recu' order by dateMsg,heure";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
@@ -505,7 +505,7 @@ public class DAOProfsImpl {
         Statement st;
         try {
             con = daoFactory.getConnection();
-            String requete = "select texteMsg from message where pro_login='"+pro_login+"' and login='"+login+"' and statut='envoye'";
+            String requete = "select texteMsg from message where pro_login='"+pro_login+"' and login='"+login+"' and statut='envoye' order by dateMsg,heure";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
@@ -518,18 +518,19 @@ public class DAOProfsImpl {
 
         return listMsg;
     }
-    public void reponseProf(String pro_login,String login,String texteMsg,String date) {
+    public void reponseProf(String pro_login,String login,String texteMsg,String date,String heure) {
         Statement st;
         PreparedStatement pst;
         try {
             con = daoFactory.getConnection();
-            String requete = "insert into message (login,Pro_login,texteMsg,dateMsg,statut) values(?,?,?,?,?)";
+            String requete = "insert into message (login,Pro_login,texteMsg,dateMsg,statut,heure) values(?,?,?,?,?,?)";
             pst = con.prepareStatement(requete);
             pst.setString(1, login);
             pst.setString(2, pro_login);
             pst.setString(3, texteMsg);
             pst.setString(4, date);
             pst.setString(5, "envoye");
+            pst.setString(6, heure);
             int result0 = pst.executeUpdate();
             if(result0>0){
                 System.out.println("requete bien execute");
