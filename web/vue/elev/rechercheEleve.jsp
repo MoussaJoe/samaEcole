@@ -16,7 +16,7 @@
         <%
             if (session.getAttribute("log") != null) {
         %>
-        <%@include file="../../eleve.jsp" %>
+        <%@include file="../../Eleve/barreNavEleve.jsp" %>
         <c:choose >
             <c:when test="${empty rechercheParElev}">
                 <h1>${message}</h1>

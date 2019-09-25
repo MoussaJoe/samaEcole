@@ -43,9 +43,9 @@
         <div class="menu-verticale">
             <div class="menuDir">
                 <ul>
-                    <li><a href="ControleurParent?login=${login}&mdp=${mdp}&action=parentLien"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;Lister Devoir</a></li>
-                    <li><a href="ControleurParent?login=${login}&mdp=${mdp}&action=parentLienCompo"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;Lister Composition</a></li>
-                    <li><a href="ControleurParent?login=${login}&mdp=${mdp}&action=compteParent"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;Compte</a></li>
+                    <li><a href="ControleurParent?action=parentLien"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;Lister Devoir</a></li>
+                    <li><a href="ControleurParent?action=parentLienCompo"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp;Lister Composition</a></li>
+                    <li><a href="ControleurParent?action=compteParent"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;&nbsp;Compte</a></li>
                     <li><a href="ControleurParent?action=deconnectionParent"><span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;&nbsp;Se Deconnecter</a></li>
                 </ul>
             </div>

@@ -19,7 +19,7 @@
             if (session.getAttribute("log") != null) {
                 ArrayList<Personne> profs = (ArrayList<Personne>) request.getAttribute("profs");
         %> 
-        <%@include file="../../eleve.jsp" %>
+        <%@include file="../../Eleve/barreNavEleve.jsp" %>
         <h1>Réclamation: veuillez saisir le message que vous voulez envoyé </h1>
         <h2>${messAcu}</h2>
 

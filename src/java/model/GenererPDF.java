@@ -15,16 +15,30 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GenererPDF {
 
-    public void documentPDF(ArrayList<EleveDevoir> elD, String annee,String classe) throws DocumentException, BadElementException {
+    public String genererRefId() {
+        String chaineRef = ""; 
+        String contenu = "";
+        Random rd = new Random();
 
-        Document document = new Document(PageSize.A4, 50, 50, 50, 50);
+        for (int i = 9000; i < 12000; i++) {
+            contenu = "" + rd.nextInt(12000);
+            chaineRef = contenu;
+        }
+        return chaineRef;
+    }
+
+    public void documentPDF(ArrayList<EleveDevoir> elD, String annee, String classe) throws DocumentException, BadElementException {
+
+        System.out.println("nomClasse PDF "+classe);
+        Document document = new Document(PageSize.A4, 50, 50, 50, 50);        
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("/Users/mac/Desktop/proget_git/samaEcole/web/Fiche/fiche_devoir.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream("D:/Personnel/7Tup/Projet_7Tup/samaEcole/web/Fiche/fiche_devoir.pdf"));
             document.open();
 
             Paragraph paragraph = new Paragraph("RELEVE DE NOTES", new Font(Font.FontFamily.TIMES_ROMAN, 25, Font.BOLD, BaseColor.BLACK));
@@ -34,12 +48,12 @@ public class GenererPDF {
             Font font = new Font(Font.FontFamily.TIMES_ROMAN, 15);
             paragraph.clear();
 
-            Phrase phrase = new Phrase("Classe : "+classe+"   Annee Scolaire : " + annee);
+            Phrase phrase = new Phrase("Classe : " + classe + "   Annee Scolaire : " + annee);
             paragraph = new Paragraph(phrase);
             paragraph.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(paragraph);
             paragraph.clear();
-            
+
             document.add(new Paragraph("    "));
             document.add(tableau(elD));
             /////////////////////////////////////////////////////////////////////////////////
@@ -85,8 +99,8 @@ public class GenererPDF {
 
             /////////////les colonnes suivantes////////////////////////////////////
             for (EleveDevoir e : eleve) {
-                
-                cell.setPhrase(new Phrase(e.getPrenom()+" "));
+
+                cell.setPhrase(new Phrase(e.getPrenom() + " "));
                 cell.setBackgroundColor(BaseColor.WHITE);
                 cell.setBorderWidth(1);
                 cell.setNoWrap(true);

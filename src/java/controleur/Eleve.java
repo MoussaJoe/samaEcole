@@ -91,22 +91,18 @@ public class Eleve extends HttpServlet {
             eleves = daoEleve.listerclasse(login, an);
             request.setAttribute("eleves", eleves);
             request.setAttribute("login", login);
-            rd = request.getRequestDispatcher("vue/elev/listeMaClasse.jsp");
+            rd = request.getRequestDispatcher("Eleve/listeMaClasse.jsp");
         } //Lister les prof de l'élève connecter
         else if (connect.equals("listeMesProfs")) {
             profs = daoEleve.listerProf(login, an);
             request.setAttribute("profs", profs);
-            rd = request.getRequestDispatcher("vue/elev/listeMesProfs.jsp");
+            rd = request.getRequestDispatcher("Eleve/listeMesProfs.jsp");
         } ///Fonctionnalité Afficher notes
         else if (connect.equals("afficherNote")) {
             ArrayList<String> annees = new ArrayList<>();
-
             annees = daoEleve.anneeScolaire(login);
-            for (String a : annees) {
-                System.out.println(a);
-            }
             request.setAttribute("annees", annees);
-            rd = request.getRequestDispatcher("vue/elev/listeAnnee.jsp");
+            rd = request.getRequestDispatcher("Eleve/listeAnnee.jsp");
         } else if ((connect.equals("anneeScolaire")) || (connect.equals("1er_semestre")) || (connect.equals("2eme_semestre"))) {
 
             String annee = request.getParameter("annee");
@@ -124,11 +120,11 @@ public class Eleve extends HttpServlet {
             request.setAttribute("an", an);
             request.setAttribute("annee", annee);
             String varAn = null;
-            if (an.equals(annee)) {
-                varAn = "exist";
+            if(an.equals(annee)){
+               varAn  = "exist"; 
             }
             request.setAttribute("varAn", varAn);
-            rd = request.getRequestDispatcher("vue/elev/affichageNoteEleve.jsp");
+            rd = request.getRequestDispatcher("Eleve/affichageNoteEleve.jsp");
         }
         //////////////////////////||||||||||||||||||||||||||||||||||||||||||||///////////////////////
         if (rd != null) {

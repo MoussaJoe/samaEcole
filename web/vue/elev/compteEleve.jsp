@@ -17,7 +17,7 @@
             if (session.getAttribute("log") != null) {
 
         %>
-        <%@include file="../../eleve.jsp" %> 
+        <%@include file="../../Eleve/barreNavEleve.jsp" %> 
         <h1>Paramétre Compte :</h1>
         
         <script>

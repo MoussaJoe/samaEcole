@@ -133,7 +133,7 @@
             if (session.getAttribute("log") != null) {
 
         %>
-        <%@include file="acceuil.jsp" %>
+        <%@include file="../../Professeur/barreNavProf.jsp" %>
         <form method="post" action="ControleurProf">
             <input type="hidden" name="action" value="repondre"/>
             <input type="hidden" name="login" value="${login}"/>
