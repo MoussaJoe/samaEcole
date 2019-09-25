@@ -44,7 +44,7 @@
         <div class="container">
             <div class="row">
                 
-        <h1>Inscription élève</h1>
+                <p class="titre">Inscription élève</p>
         <form action="Comptable" method="Post">
             <input type="hidden" name="connect" value="valider-inscription" />
             <div class="col-lg-12">

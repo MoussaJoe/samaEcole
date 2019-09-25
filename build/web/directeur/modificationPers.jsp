@@ -5,106 +5,97 @@
 --%>
 <%@page import="model.Professeur"%>
 <%@page import="java.util.ArrayList"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>${profils} | </title>
     </head>
     <body>
 
         <%            if (session.getAttribute("log") != null) {
 
         %>
-        <%@include file="accueilDirecteur.jsp" %>
+        <%@include file="barreNavDirecteur.jsp" %>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">                    
+                    <p class="titre">
+                        <c:if test="${!empty profils_DE}">${profils_DE}</c:if>
+                        <c:if test="${!empty profils_Surv}">${profils_Surv}</c:if>
+                        <c:if test="${!empty profils_Surv_Gene}">${profils_Surv_Gene}</c:if>
+                        <c:if test="${!empty profils_Comp}">${profils_Comp}</c:if>
+                        </p>
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4">
+                            <form action="Directeur" method="POST">
+                                <input type="hidden" name="action" value="valideModPers" />
+                                <input type="hidden" name="log" value="${log}" />
 
-        <h1>Modification Surveillant :</h1>
-        <form action="Directeur" method="POST">
+                            <div class="form-group">
+                                <label>Profils</label>
+                                <select name="profil" value="" class="form-control" required="">
+                                    <option disabled="">--choisir un profil--</option>
+                                    <c:choose>
+                                        <c:when test="${profil == 'Directeur des études'}">
+                                            <option selected="selected">Directeur des études</option>
+                                            <option>Surveillant Général</option>
+                                            <option>Surveillant</option>
+                                            <option>Comptable</option>
+                                        </c:when>
+                                        <c:when test="${profil == 'Surveillant Général'}">
+                                            <option>Directeur des études</option>
+                                            <option selected="selected">Surveillant Général</option>
+                                            <option>Surveillant</option>
+                                            <option>Comptable</option>
+                                        </c:when>
+                                        <c:when test="${profil == 'Surveillant'}">
+                                            <option>Directeur des études</option>
+                                            <option>Surveillant Général</option>
+                                            <option selected="selected">Surveillant</option>
+                                            <option>Comptable</option>
+                                        </c:when>
+                                        <c:when test="${profil == 'Comptable'}">
+                                            <option>Directeur des études</option>
+                                            <option>Surveillant Général</option>
+                                            <option>Surveillant</option>
+                                            <option selected="selected">Comptable</option>
+                                        </c:when>
 
-            <table id="tab">
-                <input type="hidden" name="action" value="valideModPers" />
-                <input type="text" name="log" value="${log}" />    
-                <tr>
-                    <th>Profil :</th>
-                    <td>
-                        <div class="form-group">
-                            <select name="profil" value="" class="form-control" required="">
-                                <option disabled="">--choisir un profil--</option>
-                                <c:choose>
-                                    <c:when test="${profil == 'Directeur des Ã©tudes'}">
-                                        <option selected="selected">Directeur des Ã©tudes</option>
-                                        <option>Surveillant GÃ©nÃ©ral</option>
-                                        <option>Surveillant</option>
-                                        <option>Comptable</option>
-                                    </c:when>
-                                    <c:when test="${profil == 'Surveillant GÃ©nÃ©ral'}">
-                                        <option>Directeur des Ã©tudes</option>
-                                        <option selected="selected">Surveillant GÃ©nÃ©ral</option>
-                                        <option>Surveillant</option>
-                                        <option>Comptable</option>
-                                    </c:when>
-                                    <c:when test="${profil == 'Surveillant'}">
-                                        <option>Directeur des Ã©tudes</option>
-                                        <option>Surveillant GÃ©nÃ©ral</option>
-                                        <option selected="selected">Surveillant</option>
-                                        <option>Comptable</option>
-                                    </c:when>
-                                    <c:when test="${profil == 'Comptable'}">
-                                        <option>Directeur des Ã©tudes</option>
-                                        <option>Surveillant GÃ©nÃ©ral</option>
-                                        <option>Surveillant</option>
-                                        <option selected="selected">Comptable</option>
-                                    </c:when>
-
-                                </c:choose>
+                                    </c:choose>
 
 
-                            </select>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Nom :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="text" name="nom" value="${nom}" class="form-control"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Prenom :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="text" name="prenom" value="${prenom}" class="form-control"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Adresse :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="text" name="adresse" value="${adresse}" class="form-control"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Telephone :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="text" name="tel" value="${telephone}" class="form-control"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th></th>
-                    <td>
-                        <button class="btn btn-success" type="submit">Valider</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" name="nom" value="${nom}" class="form-control" required=""/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Prénom</label>
+                                <input type="text" name="prenom" value="${prenom}" class="form-control"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Adresse</label>
+                                <input type="text" name="adresse" value="${adresse}" class="form-control" required/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Téléphone</label>
+                                <input type="text" name="tel" value="${telephone}" class="form-control"  maxlength="9" 
+                                       onkeypress=" return event.charCode >= 48 && event.charCode <= 57" required/>
+                            </div>
+
+                            <div>
+                                <button class="btn btn-success btn-block" type="submit">Valider</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <% } else {
         %>

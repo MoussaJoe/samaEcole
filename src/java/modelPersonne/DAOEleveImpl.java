@@ -69,12 +69,13 @@ public class DAOEleveImpl {
         Statement st;
         Prof pro = new Prof();
         try {
-            con = daoFactory.getConnection();
+            con = daoFactory.getConnection();           
             String requete = "select inscription from fichederenseignement where nomClasse='" + nomClasse + "'" + " and regime='" + regime + "' ";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
                 reliquat = rs.getInt("inscription");
+                System.out.println("reliquat "+reliquat);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -168,7 +169,7 @@ public class DAOEleveImpl {
                         String requete4 = "insert into inscription (idInscription,dateInscription,statutInscription,montant,reliquat)"
                                 + " values(?,?,?,?,?)";
                         pst4 = con.prepareStatement(requete4);
-                        pst4.setInt(1, Integer.parseInt(ins.getIdInscription()));
+                        pst4.setInt(1, ins.getIdInscription());
                         pst4.setString(2, ins.getDateInscription());
                         pst4.setInt(3, ins.getStatus());
                         pst4.setInt(4, ins.getMontant());
@@ -181,7 +182,7 @@ public class DAOEleveImpl {
                             pst4 = con.prepareStatement(requete5);
                             pst4.setString(1, pers.getLogin());
                             pst4.setString(2, elv.getAnnee());
-                            pst4.setInt(3, Integer.parseInt(ins.getIdInscription()));
+                            pst4.setInt(3, ins.getIdInscription());
                             pst4.setString(4, elv.getClasse());
                             pst4.setString(5, elv.getRegime());
                             pst4.setString(6, par.getLoginParent());
@@ -212,6 +213,66 @@ public class DAOEleveImpl {
             System.out.println(e.getMessage());
         }
         return resultat;
+    }
+    
+    //////////////////////Paramètre compte du comptable
+    public ArrayList<Utilisateur> compteComptable(String login) {
+        Utilisateur uti;
+        ArrayList<Utilisateur> compteComptable = new ArrayList<>();
+        Connection con;
+        Statement st;
+        try {
+            con = daoFactory.getConnection();
+            String requete = "select personne.login,motDePasse,personne.nomImgPers from personne,comptable where comptable.login='" + login + "' and comptable.login=personne.login";
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(requete);
+            while (rs.next()) {
+                uti = new Utilisateur();
+                uti.setLogin(rs.getString("login"));
+                uti.setMotDePasse(rs.getString("motDePasse"));
+                uti.setNomImgPers(rs.getString("nomImgPers"));
+                compteComptable.add(uti);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return compteComptable;
+    }
+    
+    public int verifMdp(String ancienMdp) {
+        String login = "null";
+        Connection con;
+        Statement st;
+        try {
+            con = daoFactory.getConnection();
+            String requete = "select personne.login from personne,comptable where motDePasse='" + ancienMdp + "' and personne.login=comptable.login";
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(requete);
+            while (rs.next()) {
+                login = rs.getString("login");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        if (!login.equals("null")) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+    
+    public void modifierCompte(String login, String newPassword) {
+        Connection con;
+        Statement st;
+        try {
+            con = daoFactory.getConnection();
+            String requete1 = "UPDATE  personne SET  motDePasse ='" + newPassword + "'" + "WHERE  login='" + login + "'";
+            st = con.createStatement();
+            int rs1 = st.executeUpdate(requete1);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public boolean inscrireElevePrivee(Personne pers, Inscription ins, Mensuel m, Parent par, Eleve elv) {
@@ -262,7 +323,7 @@ public class DAOEleveImpl {
                         String requete4 = "insert into inscription (idInscription,dateInscription,statutInscription,montant,reliquat)"
                                 + " values(?,?,?,?,?)";
                         pst4 = con.prepareStatement(requete4);
-                        pst4.setInt(1, Integer.parseInt(ins.getIdInscription()));
+                        pst4.setInt(1, ins.getIdInscription());
                         pst4.setString(2, ins.getDateInscription());
                         pst4.setInt(3, ins.getStatus());
                         pst4.setInt(4, ins.getMontant());
@@ -275,7 +336,7 @@ public class DAOEleveImpl {
                             pst4 = con.prepareStatement(requete5);
                             pst4.setString(1, pers.getLogin());
                             pst4.setString(2, elv.getAnnee());
-                            pst4.setInt(3, Integer.parseInt(ins.getIdInscription()));
+                            pst4.setInt(3, ins.getIdInscription());
                             pst4.setString(4, elv.getClasse());
                             pst4.setString(5, elv.getRegime());
                             pst4.setString(6, par.getLoginParent());
@@ -356,7 +417,7 @@ public class DAOEleveImpl {
                 String requete4 = "insert into inscription (idInscription,dateInscription,statutInscription,montant,reliquat)"
                         + " values(?,?,?,?,?)";
                 pst4 = con.prepareStatement(requete4);
-                pst4.setInt(1, Integer.parseInt(ins.getIdInscription()));
+                pst4.setInt(1, ins.getIdInscription());
                 pst4.setString(2, ins.getDateInscription());
                 pst4.setInt(3, ins.getStatus());
                 pst4.setInt(4, ins.getMontant());
@@ -369,7 +430,7 @@ public class DAOEleveImpl {
                     pst4 = con.prepareStatement(requete5);
                     pst4.setString(1, pers.getLogin());
                     pst4.setString(2, elv.getAnnee());
-                    pst4.setInt(3, Integer.parseInt(ins.getIdInscription()));
+                    pst4.setInt(3, ins.getIdInscription());
                     pst4.setString(4, elv.getClasse());
                     pst4.setString(5, elv.getRegime());
                     pst4.setString(6, par.getLoginParent());
@@ -421,7 +482,7 @@ public class DAOEleveImpl {
                 String requete4 = "insert into inscription (idInscription,dateInscription,statutInscription,montant,reliquat)"
                         + " values(?,?,?,?,?)";
                 pst4 = con.prepareStatement(requete4);
-                pst4.setInt(1, Integer.parseInt(ins.getIdInscription()));
+                pst4.setInt(1, ins.getIdInscription());
                 pst4.setString(2, ins.getDateInscription());
                 pst4.setInt(3, ins.getStatus());
                 pst4.setInt(4, ins.getMontant());
@@ -434,7 +495,7 @@ public class DAOEleveImpl {
                     pst4 = con.prepareStatement(requete5);
                     pst4.setString(1, pers.getLogin());
                     pst4.setString(2, elv.getAnnee());
-                    pst4.setInt(3, Integer.parseInt(ins.getIdInscription()));
+                    pst4.setInt(3, ins.getIdInscription());
                     pst4.setString(4, elv.getClasse());
                     pst4.setString(5, elv.getRegime());
                     pst4.setString(6, par.getLoginParent());
@@ -490,7 +551,7 @@ public class DAOEleveImpl {
             String requete4 = "insert into inscription (idInscription,dateInscription,statutInscription,montant,reliquat)"
                     + " values(?,?,?,?,?)";
             pst5 = con.prepareStatement(requete4);
-            pst5.setInt(1, Integer.parseInt(ins.getIdInscription()));
+            pst5.setInt(1, ins.getIdInscription());
             pst5.setString(2, ins.getDateInscription());
             pst5.setInt(3, ins.getStatus());
             pst5.setInt(4, ins.getMontant());
@@ -503,7 +564,7 @@ public class DAOEleveImpl {
                 pst4 = con.prepareStatement(requete5);
                 pst4.setString(1, elv.getLogin());
                 pst4.setString(2, elv.getAnnee());
-                pst4.setInt(3, Integer.parseInt(ins.getIdInscription()));
+                pst4.setInt(3, ins.getIdInscription());
                 pst4.setString(4, elv.getClasse());
                 pst4.setString(5, elv.getRegime());
                 pst4.setString(6, elv.getLoginParent());
@@ -557,7 +618,7 @@ public class DAOEleveImpl {
             String requete4 = "insert into inscription (idInscription,dateInscription,statutInscription,montant,reliquat)"
                     + " values(?,?,?,?,?)";
             pst5 = con.prepareStatement(requete4);
-            pst5.setInt(1, Integer.parseInt(ins.getIdInscription()));
+            pst5.setInt(1, ins.getIdInscription());
             pst5.setString(2, ins.getDateInscription());
             pst5.setInt(3, ins.getStatus());
             pst5.setInt(4, ins.getMontant());
@@ -570,7 +631,7 @@ public class DAOEleveImpl {
                 pst4 = con.prepareStatement(requete5);
                 pst4.setString(1, elv.getLogin());
                 pst4.setString(2, elv.getAnnee());
-                pst4.setInt(3, Integer.parseInt(ins.getIdInscription()));
+                pst4.setInt(3, ins.getIdInscription());
                 pst4.setString(4, elv.getClasse());
                 pst4.setString(5, elv.getRegime());
                 pst4.setString(6, elv.getLoginParent());

@@ -4,75 +4,49 @@
     Author     : Moussa Joseph D Sarr
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>${profils} | Modifier Absence</title>
     </head>
     <body>
         <%            if (session.getAttribute("log") != null) {
                 // String profils = (String) session.getAttribute("profils");
         %>
 
-        <%@include file="surveillant.jsp" %>
-        <h1>Formulaire pour renseigner les absences :</h1>
+        <%@include file="barreNavSurveillant.jsp" %>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">                    
+                    <p class="titre">Modifier absence</p>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                        <form action="Surveillant" method="Post">
+                            <input type="hidden" name="action" value="validModAbs">
+                            <input type="hidden" name="annee" value="${anInscr}">
+                            <input type="hidden" name="login" value="${login}">
+                            <input type="hidden" name="matiere" value="${matiere}">
+                            <input type="hidden" name="semestre" value="${semestre}">
 
 
-        <form action="Surveillant" method="Post">
-            <table id="tab">
+                            <div class="form-group">
+                                <label>Absence</label>
+                                <input type="number" name="abs" value="${abs}" class="form-control" class="form-control">
+                            </div>                                
 
+                            <div class="form-group">
+                                <label>Retard</label>
+                                <input type="number" name="ret" value="${ret}" class="form-control">
+                            </div>                                
 
-                <input type="hidden" name="action" value="validModAbs">
-                <input type="hidden" name="annee" value="${anInscr}">
-                <input type="hidden" name="login" value="${login}">
-                
-                <tr>
-                    <th></th>
-                    <td>
-                        <div class="form-group">
-                            <input type="hidden" name="matiere" value="${matiere}" class="form-control">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th></th>
-                    <td>
-                        <div class="form-group">
-                            <input type="hidden" name="semestre" value="${semestre}" class="form-control">
-                        </div>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Absence :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="number" name="abs" value="${abs}" class="form-control" class="form-control">
-                        </div>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>retard :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="number" name="ret" value="${ret}" class="form-control">
-                        </div>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td></td>
-                    <th>
-                        <button class="btn btn-success" onclick="confirmation()">Valider</button>
-
-                    </th>
-                </tr>
-
-            </table>
-        </form>
+                            <div>
+                                <button class="btn btn-success btn-block" onclick="confirmation()" type="submit">Valider</button>
+                            </div>                                
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <% } else {
         %>
@@ -80,16 +54,16 @@
         <% }%> 
 
 
-<script type="text/javascript">
-    function confirmation() {
-        var msg = confirm("es-tu sur de vouloir modifer?");
-        if (msg) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-</script>
+        <script type="text/javascript">
+            function confirmation() {
+                var msg = confirm("es-tu sur de vouloir modifer?");
+                if (msg) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        </script>
 
     </body>
 </html>

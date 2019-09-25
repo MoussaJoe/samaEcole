@@ -4,43 +4,58 @@
     Author     : Ouzy NDIAYE
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta  charset=UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="dist/css/bootstrap.css" rel="stylesheet"/>
-        <link rel="stylesheet" href="dist/css/mystyle.css" />
-        <link rel="stylesheet" type="text/css" href="Style/style1.css">
-        <title>Acceuil</title> 
+        <title>Comptable | Infos inscription</title> 
     </head>
     <body>
-        <%
-            if (session.getAttribute("log") != null) {
+        <%            if (session.getAttribute("log") != null) {
 
         %>
         <%@include file="barreNavCompta.jsp" %> 
-        <div class="col-lg-3"></div>
-        <div class="col-lg-9">
-            <p style="text-align: center;font-size: 20px">Votre enfant Ã  Ã©tÃ© bien inscrit dans notre Ã©cole</p>
-            <p style="text-align: center;font-size: 20px">Information de l'Ã©lÃ¨ve</p>
-            <p style="text-align: center;font-size: 25px">
-                Login : ${loginElv} <br>
-                Mot de passe :${passwordElv}<br>
-            </p>
-            <c:if test="${!empty loginPar}">
-                <p style="text-align: center;font-size: 20px">Information du parent</p>
-                <p style="text-align: center;font-size: 25px">
-                    Login : ${loginPar} <br>
-                    Mot de passe :${passwordPar}<br>
+        <div class="col-lg-12">
+            <p class="titre">Votre enfant à été bien inscrit dans notre école</p>
+            <p class="titre">Information de l'élève</p>
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <p class="titre btn-success" >
+                    Login : ${loginElv} <br>
+                    Mot de passe :${passwordElv}<br>
                 </p>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+        <div class="col-lg-12">
+            <c:if test="${!empty loginPar}">
+                <p class="titre">Information du parent</p>
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+                    <p class="titre btn-success">
+                        Login : ${loginPar} <br>
+                        Mot de passe :${passwordPar}<br>
+                    </p>
+                </div>
             </c:if>
-            <h2>Rapprochez vous du directeur des Ã©tudes pour valider votre inscription et 
-                Songez Ã  changer vos paramÃ¨tres de compte pour plus de sÃ©curitÃ©</h2>
+        </div>
+        <div class="col-lg-12">
+            <p class="titre" style="color: red;">
+                Rapprochez vous du directeur des études pour valider votre inscription et 
+                songez à changer vos paramètres de compte pour plus de sécurité</p>
 
+        </div>
+        <div class="col-lg-12">
+            <style media="print">
+                #pasaffiche{
+                    visibility: hidden;
+                }
+            </style>
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <a style="color: blue;font-size: 25px; font-weight: bold" id="pasaffiche" href="javascript:print()">
+                    Cliquez ici pour imprimer
+                </a>
+            </div>
         </div>
         <% } else {
         %>

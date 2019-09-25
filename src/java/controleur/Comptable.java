@@ -208,7 +208,7 @@ public class Comptable extends HttpServlet {
 
                 String loginElv = gpu.genererLogin(nom, prenom);
                 String password = gpu.genererMdp();
-                String idInscription = gpu.genererIdInscrip();
+                int idInscription = gpu.genererIdInscrip();
                 if (verifMontantIns > Integer.parseInt(montantInsc)) {
                     reliquat = verifMontantIns - Integer.parseInt(montantInsc);
                 }
@@ -355,7 +355,7 @@ public class Comptable extends HttpServlet {
             String nomClassePub = request.getParameter("nomClassePub");
             String nomClassePriv = request.getParameter("nomClassePriv");
             String regime = request.getParameter("regime");
-            String idInscription = gpu.genererIdInscrip();
+            int idInscription = gpu.genererIdInscrip();
             infoElv = daoEleve.infoEleve(loginElv);
             if (infoElv.isEmpty()) {
                 String msg = "erreur elv";
@@ -446,14 +446,23 @@ public class Comptable extends HttpServlet {
         } else if (req.equals("choixClasse")) {
             ArrayList<Eleve> eleve = new ArrayList();
             String nomClasse = request.getParameter("nomClasse");
+            System.out.println("nomClasse "+nomClasse);
             eleve = daoEleve.listerEleveClasse(nomClasse, anInscr);
+            String message = "";
+            for (Eleve eleve1 : eleve) {
+                System.out.println("eleve "+eleve1.getPrenom());
+            }
             if (!eleve.isEmpty()) {
                 request.setAttribute("nomClasse", nomClasse);
-                request.setAttribute("eleve", eleve);
+                request.setAttribute("eleve", eleve);                
+                rd = request.getRequestDispatcher("Comptable/mensualite.jsp");
             } else {
+                message = "Aucun élève n'est inscrit dans cette classe";
+                request.setAttribute("msgClasseVide", message);
                 request.setAttribute("eleveVide", eleve);
+                rd = request.getRequestDispatcher("Comptable/mensualite.jsp");
             }
-            rd = request.getRequestDispatcher("Comptable/mensualite.jsp");
+            
         } else if (req.equals("payerMensuel")) {
             String login = request.getParameter("login");
             String nomClasse = request.getParameter("nomClasse");
@@ -554,6 +563,42 @@ public class Comptable extends HttpServlet {
                     rd = request.getRequestDispatcher("Comptable/validerMensualite.jsp");
                 }
             }
+        }
+        ////Paramètre compte
+        else if (req.equals("compte")) {
+            String login = request.getParameter("login");
+            compte = daoEleve.compteComptable(login);
+            for (Utilisateur u : compte) {
+                System.out.println("img "+u.getNomImgPers());
+            }
+            request.setAttribute("compte", compte);
+            rd = request.getRequestDispatcher("Comptable/Compte.jsp");
+        }else if (req.equals("modifCompte")) {
+            String login = request.getParameter("login");
+            String ancienMdp = request.getParameter("ancienMdp");
+            String nouveauMdp = request.getParameter("nouveauMdp");
+            String confirmerMdp = request.getParameter("confirmerMdp");
+            if (nouveauMdp.equals(confirmerMdp)) {
+                int i = daoEleve.verifMdp(ancienMdp);
+                if (i == 0) {
+                    daoEleve.modifierCompte(login, nouveauMdp);
+                    String mes = "Modification effectuée avec succée";
+                    request.setAttribute("message", mes);
+                    request.setAttribute("compte", compte);
+                    rd = request.getRequestDispatcher("Comptable/Compte.jsp");
+                } else {
+                    String mes = "L'ancien mot de passe n'est pas conforme";
+                    request.setAttribute("message", mes);
+                    request.setAttribute("compte", compte);
+                    rd = request.getRequestDispatcher("Comptable/Compte.jsp");
+                }
+            } else {
+                String mes = "Les mots de passes ne sont pas conformes";
+                request.setAttribute("message", mes);
+                request.setAttribute("compte", compte);
+                rd = request.getRequestDispatcher("Comptable/Compte.jsp");
+            }
+
         }
 
         /////////////////////////////////////////////////////////////////////////////////

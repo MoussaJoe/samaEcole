@@ -17,6 +17,18 @@ public class Utilisateur {
     private String idPersonne;
     private String nom;
     private String prenom;
+    private String nomImgPers;
+
+    public String getNomImgPers() {
+        return nomImgPers;
+    }
+
+    public void setNomImgPers(String nomImgPers) {
+        this.nomImgPers = nomImgPers;
+    }
+    
+    
+    
 
     public String getLogin() {
         return login;

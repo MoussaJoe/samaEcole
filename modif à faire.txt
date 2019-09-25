@@ -1,0 +1,10 @@
+La fonctionnalité Nos Professeurs le détail ne donne rien
+
+Les boutons supprimé revérifier le script quand on appuie sur annuler la suppression passe dans certains cas
+
+Les suveillants ne doit pas avoir acces a tous les classes c'est à dire on n'est surveillants des terminales par exemple et ces surveillants sont dirigé par un surveillant général
+
+Il sera préférable que ca soit le surveillant général qui doit ajouter les surveillant
+
+
+Les statistiques je ne les vois pas 

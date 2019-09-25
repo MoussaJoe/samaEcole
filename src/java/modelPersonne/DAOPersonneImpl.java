@@ -29,35 +29,9 @@ public class DAOPersonneImpl {
         ArrayList<Utilisateur> listPerson = new ArrayList();
         Connection con;
         Statement st;
-        try {
-//            con = daoFactory.getConnection();
-//            ///Connexion Eleve
-//            if(profils.equalsIgnoreCase("eleve"))
-//                requete = "select login,motDePasse,nom,prenom from personne where"
-//                        + " profil='"+profils+"' and etatPers=1";
-//            //Fin connexion Eleve
-//            //Connexion Comptable
-//            else if (profils.equalsIgnoreCase("comptable"))
-//                requete ="select login,motDePasse,nom,prenom from personne where"
-//                        + " profil='"+profils+"' and etatPers=1";
-//            else if (profils.equalsIgnoreCase("professeur"))
-//                requete = "select loginProf,motDePasse,nom,prenom from professeur,personne where active=0";
-//            else if (profils.equalsIgnoreCase("directeur"))
-//                requete = "select login,motDePasse,nom,prenom from personne where  profil='"+profils+"'";
-//             else if (profils.equalsIgnoreCase("surveillant"))
-//                requete = "select loginSurv,motDePasse,nom,prenom from surveillant,personne where active=0";
-//            st = con.createStatement();
-//            ResultSet rs = st.executeQuery(requete);
-//            while (rs.next()) {
-//                Utilisateur person = new Utilisateur();
-//                person.setLogin(rs.getString(1));
-//                person.setMotDePasse(rs.getString(2));
-//                person.setNom(rs.getString("nom"));
-//                person.setPrenom(rs.getString("prenom"));
-//                listPerson.add(person);
-//              
+        try {    
             con = daoFactory.getConnection();
-            requete = "select login,motDePasse,nom,prenom from personne where etatPers=1 and profil='" + profils + "'";
+            requete = "select login,motDePasse,nom,prenom,nomImgPers from personne where etatPers=1 and profil='" + profils + "'";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
@@ -66,6 +40,7 @@ public class DAOPersonneImpl {
                 person.setMotDePasse(rs.getString(2));
                 person.setNom(rs.getString("nom"));
                 person.setPrenom(rs.getString("prenom"));
+                person.setNomImgPers(rs.getString("nomImgPers"));
                 listPerson.add(person);
             }
 

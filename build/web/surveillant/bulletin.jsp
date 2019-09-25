@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="icon" type="image/png" href="Image/icone_logo.png" sizes="310x310" />
-        <title>Bulletin ${bulletin.prenom} ${bulletin.nom}</title>
+        <title>${profils} | Bulletin ${bulletin.prenom} ${bulletin.nom}</title>
 
         <style>
             .entete{

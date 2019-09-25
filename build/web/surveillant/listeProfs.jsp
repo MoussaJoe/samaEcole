@@ -6,51 +6,54 @@
 
 <%@page import="model.Professeur"%>
 <%@page import="java.util.ArrayList"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Liste des Professeurs de l'etablissement</title>
+        <title>${profils} | Liste des Professeurs</title>
     </head>
     <body>
         <%            if (session.getAttribute("log") != null) {
 
         %>
-        <%@include file="surveillant.jsp" %>
-        <h1>Liste des Professeurs :</h1>
+        <%@include file="barreNavSurveillant.jsp" %>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">                    
+                    <p class="titre">Liste des Professeurs de l'etablissement</p>
 
-        <table class="table table-bordered table-hover" id="tab1" >
-            <thead>
-                <tr>
-                    <th id="entete" class="col">Nom</th>
-                    <th id="entete" class="col">PrÃ©nom</th>
-                    <th id="entete" class="col">Adresse</th>
-                    <th id="entete" class="col">TÃ©lÃ©phone</th>
-                        <%--  <th id="entete" class="col">DÃ©sactiver</th> --%>
-                    <th id="entete" class="col">Modifier</th>
-                    <th id="entete" class="col">DÃ©tails</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="p" items="${profs}">
-                    <tr>
-                        <td>${p.personne.nom}</td>
-                        <td>${p.personne.prenom}</td>
-                        <td>${p.personne.adresse}</td>
-                        <td>${p.personne.tel}</td>
-                        <%-- <td><button><a href="ControleurDirecteur?action=desactiverProf&&idProf=${p.personne.idPersonne}">DÃ©sactiver</a></button></td> --%>
-                        <td>
-                            <a href="Surveillant?action=modifierProf&&loginProf=${p.personne.login}"><img src="modifier.png" alt="Modifier" id="modifier"/></a>
-                        </td>
-                        <td>
-                            <a href="Surveillant?action=detailProf&&loginProf=${p.personne.login}" class="btn btn-primary">DÃ©tails</a>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th id="entete" class="col">Nom</th>
+                                <th id="entete" class="col">Prénom</th>
+                                <th id="entete" class="col">Adresse</th>
+                                <th id="entete" class="col">Téléphone</th>
+                                    <%--  <th id="entete" class="col">Désactiver</th> --%>
+                                <th id="entete" class="col">Modifier</th>
+                                <th id="entete" class="col">Détails</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="p" items="${profs}">
+                                <tr>
+                                    <td>${p.personne.nom}</td>
+                                    <td>${p.personne.prenom}</td>
+                                    <td>${p.personne.adresse}</td>
+                                    <td>${p.personne.tel}</td>
+                                    <%-- <td><button><a href="ControleurDirecteur?action=desactiverProf&&idProf=${p.personne.idPersonne}">Désactiver</a></button></td> --%>
+                                    <td>
+                                        <a href="Surveillant?action=modifierProf&&loginProf=${p.personne.login}"><img src="modifier.png" alt="Modifier" id="modifier"/></a>
+                                    </td>
+                                    <td>
+                                        <a href="Surveillant?action=detailProf&&loginProf=${p.personne.login}" class="btn btn-primary">Détails</a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
         <% } else {
         %>

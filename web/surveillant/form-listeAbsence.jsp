@@ -4,77 +4,63 @@
     Author     : Moussa Joseph D Sarr
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>${profils} | Liste des absences</title>
     </head>
     <body>
         <%            if (session.getAttribute("log") != null) {
                 // String profils = (String) session.getAttribute("profils");
         %>
 
-        <%@include file="surveillant.jsp" %>
-        <h1>Formulaire pour renseigner les absences :</h1>
+        <%@include file="barreNavSurveillant.jsp" %>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">                    
+                    <p class="titre">Formulaire pour renseigner les absences</p>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                        <form action="Surveillant" method="Post">                            
+                            <input type="hidden" name="action" value="absents">
+                            <input type="hidden" name="annee" value="${anInscr}">
+
+                            <div class="form-group">
+                                <label>Nom classe</label>
+                                <select name="nomClasse" class="form-control" required="">
+                                    <c:forEach var="p" items="${classes}">
+                                        <option>${p.nomClasse}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
 
 
-        <form action="Surveillant" method="Post">
-            <table id="tab">
+                            <div class="form-group">
+                                <label>Régime</label>
+                                <select name="regime" class="form-control" required="">
+                                    <c:forEach var="r" items="${regimes}">
+                                        <option>${r}</option>       
+                                    </c:forEach>
+                                </select>
+                            </div>
 
+                            <div class="form-group">
+                                <label>Semestre</label>
+                                <select name="semestre" class="form-control" required="">                         
+                                    <option value="1er_semestre">1er semestre</option> 
+                                    <option value="2eme_semestre">2nd semestre</option>
+                                </select>
+                            </div>
 
-                <input type="hidden" name="action" value="absents">
-                <input type="hidden" name="annee" value="${anInscr}">
-                <tr>
-                    <th>NomClasse :</th>
-                    <td>
-                        <div class="form-group">
-                            <select name="nomClasse" class="form-control" required="">
-                                <c:forEach var="p" items="${classes}">
-                                    <option>${p.nomClasse}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>RÃ©gime :</th>
-                    <td>
-                        <div class="form-group">
-                            <select name="regime" class="form-control" required="">
-                                <c:forEach var="r" items="${regimes}">
-                                    <option>${r}</option>       
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Semestre :</th>
-                    <td>
-                        <div class="form-group">
-                            <select name="semestre" class="form-control" required="">                         
-                                <option>1er_semestre</option> 
-                                <option>2eme_semestre</option>
-                            </select>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td></td>
-                    <th>
-                        <button class="btn btn-success">Valider</button>
-
-                    </th>
-                </tr>
-
-            </table>
-        </form>
-
+                            <div>
+                                <button class="btn btn-success btn-block" type="submit">Valider</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <% } else {
         %>
         <jsp:forward page="../vue/SeConnecter.jsp"/>

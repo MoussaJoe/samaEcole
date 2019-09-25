@@ -4,43 +4,50 @@
     Author     : Moussa Joseph D Sarr
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>${profils} | Absence</title>
     </head>
     <body>
         <%            if (session.getAttribute("log") != null) {
 
         %>
-        <%@include file="surveillant.jsp" %>
-        <h1>Liste des absences :</h1>
-        <table class="table table-bordered table-hover" id="tab1" >
-            <thead>
-                <tr>
-                    <th id="entete" class="col">Nom</th>
-                    <th id="entete" class="col">PrÃ©nom</th>
-                    <th id="entete" class="col">Total absences</th>
-                    <th id="entete" class="col">Total retards</th>
-                    <th id="entete" class="col">DÃ©tails</th>
-                </tr>
-            </thead>
-            <tbody>
+        <%@include file="barreNavSurveillant.jsp" %>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">                    
+                    <p class="titre">Liste des absences</p>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-10">
+                         <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th id="entete" class="col">Nom</th>
+                                    <th id="entete" class="col">Prénom</th>
+                                    <th id="entete" class="col">Total absences</th>
+                                    <th id="entete" class="col">Total retards</th>
+                                    <th id="entete" class="col">Détails</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                <c:forEach var="abs" items="${absences}">
-                    <tr style="text-align: center;">
-                        <td>${abs.nom}</td>
-                        <td>${abs.prenom}</td>
-                        <td>${abs.totalAbsence}h</td>
-                        <td>${abs.totalRetard}</td>
-                        <td><a href="Surveillant?action=detailsAbsence&&login=${abs.login}" class="btn btn-primary">DÃ©tails</a></td>
-                    </tr>
-                </c:forEach>
+                                <c:forEach var="abs" items="${absences}">
+                                    <tr style="text-align: center;">
+                                        <td>${abs.nom}</td>
+                                        <td>${abs.prenom}</td>
+                                        <td>${abs.totalAbsence}h</td>
+                                        <td>${abs.totalRetard}</td>
+                                        <td><a href="Surveillant?action=detailsAbsence&&login=${abs.login}" class="btn btn-primary">Détails</a></td>
+                                    </tr>
+                                </c:forEach>
 
-            </tbody>
-        </table>
-
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
         <% } else {
         %>
         <jsp:forward page="../vue/SeConnecter.jsp"/>

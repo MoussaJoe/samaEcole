@@ -4,38 +4,36 @@
     Author     : Moussa Joseph D Sarr
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Valider l'inscription de l'élève</title>
+        <title>${profils} | Valider inscription</title>
     </head>
     <body>
-        <%        
-            if (session.getAttribute("log") != null) {
+        <%            if (session.getAttribute("log") != null) {
         %>
-        <%@include file="surveillant.jsp" %>
-        <h1>Valider l'inscription de l'élève</h1>
-        <form action="Surveillant" method="POST">
-            <table id="tab">
-                <input type="hidden" name="action" value="inscrit" />
-                <tr>
-                    <th>Login ou matricule :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="text" name="login" value="" class="form-control" required=""/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th></th>
-                    <td>
-                        <button class="btn btn-success">Valider</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+        <%@include file="barreNavSurveillant.jsp" %>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">                    
+                    <p class="titre">Valider l'inscription de l'�l�ve</p>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                        <form action="Surveillant" method="POST">
+                                <input type="hidden" name="action" value="inscrit" />
+                                <div class="form-group">
+                                    <label>Login ou matricule</label>
+                                    <input type="text" name="login" class="form-control" required/>
+                                </div>
+                                
+                                <div>
+                                    <button class="btn btn-success btn-block" type="submit">Valider</button>
+                                </div>                                
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <% } else {
         %>
         <jsp:forward page="../vue/SeConnecter.jsp"/>

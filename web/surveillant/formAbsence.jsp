@@ -8,101 +8,84 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta  charset=UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="dist/css/bootstrap.css" rel="stylesheet"/>
-        <link rel="stylesheet" href="dist/css/mystyle.css" />
-        <link rel="stylesheet" type="text/css" href="Style/style1.css">
-        <title>JSP Page</title>
+        <title>${profils} | Absence</title>
     </head>
     <body>
         <%            if (session.getAttribute("log") != null) {
                 // String profils = (String) session.getAttribute("profils");
-%>
+        %>
 
-        <%@include file="surveillant.jsp" %>
-        <h1>Formulaire pour renseigner les absences :</h1>
+        <%@include file="barreNavSurveillant.jsp" %>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">                    
+                    <p class="titre">Formulaire pour renseigner les absences</p>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                        <form action="Surveillant" method="Post">                            
+                            <table
+                                <input type="hidden" name="action" value="saveAbsence">
+                                <input type="hidden" name="annee" value="${anInscr}">
 
+                                <div class="form-group">
+                                    <label>Matricule</label>
+                                    <input type="text" name="login" required class="form-control">
+                                </div>
 
-        <form action="Surveillant" method="Post">
-            <table id="tab">
+                                <div class="form-group">
+                                    <label>Matière</label>
+                                    <select name="nomMatiere" class="form-control" required="">
+                                        <c:forEach var="m" items="${matieres}">
+                                            <option>${m}</option> 
+                                        </c:forEach>
+                                    </select>
+                                </div>    
 
+                                <div class="form-group">
+                                    <label>Semestre</label>
+                                    <select name="semestre" class="form-control" required="">                         
+                                        <option value="1er_semestre">1èr semestre</option> 
+                                        <option value="2eme_semestre">2nd semestre</option>
+                                    </select>
+                                </div>
 
-                <input type="hidden" name="action" value="saveAbsence">
-                <input type="hidden" name="annee" value="${anInscr}">
-                <tr>
-                    <th>Login :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="text" name="login" value="" required="" class="form-control">
-                        </div>
-                    </td>
-                </tr>
+                                <div class="form-group">
+                                    <label>Absence ou retard</label>
+                                    <select name="sujet" class="form-control" required="">                         
+                                        <option>Retard</option> 
+                                        <option id="modNom" onselect="Absencedd()">Absence</option>
+                                    </select>
+                                </div>
 
-                <tr>
-                    <th>Matière :</th>
-                    <td>
-                        <div class="form-group">
-                            <select name="nomMatiere" class="form-control" required="">
-                                <c:forEach var="m" items="${matieres}">
-                                    <option>${m}</option> 
-                                </c:forEach>
-                            </select>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Semestre :</th>
-                    <td>
-                        <div class="form-group">
-                            <select name="semestre" class="form-control" required="">                         
-                                <option>1er_semestre</option> 
-                                <option>2eme_semestre</option>
-                            </select>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th> Absence ou retard :</th>
-                    <td>
-                        <div class="form-group">
-                            <select name="sujet" class="form-control" required="">                         
-                                <option>Retard</option> 
-                                <option id="modNom" onselect="Absencedd()">Absence</option>
-                            </select>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th> durée d'Absence :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="number" name="absence" value="0" class="form-control">
-                        </div>
-                    </td>
-                </tr>
+                                <div class="form-group">
+                                    <label>Durée d'absence</label>
+                                    <input type="number" name="absence" value="0" class="form-control">
+                                </div>
 
-                <tr>
-                    <td></td>
-                    <th>
-                        <button class="btn btn-success">Valider</button>
-                        &nbsp;
-                        <a href="Surveillant?action=listeAbsence" class="btn btn-primary">Lister les absences</a>
-                    </th>
-                </tr>
-                <div id="demo3"> </div>
+                                <div>
+                                    <button class="btn btn-success btn-block" type="submit">Valider</button>
+                                </div>
+                                <br>
+                                <div>
+                                    <button class="btn btn-primary btn-block">
+                                        <a style="color: white" href="Surveillant?action=listeAbsence" >Lister les absences</a>                                    
+                                    </button>
+                                </div>                                
+                                <div id="demo3"> </div>
 
-                <script>
-                    function Absencedd() {
-                        mod = document.getElementById("mod3").innerHTML;
+                                <script>
+                                    function Absencedd() {
+                                        mod = document.getElementById("mod3").innerHTML;
 
-                        document.getElementById("demo3").innerHTML = mod;
-                    }
-                </script>
-            </table>
-        </form>
-
+                                        document.getElementById("demo3").innerHTML = mod;
+                                    }
+                                </script>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <% } else {
         %>
         <jsp:forward page="../vue/SeConnecter.jsp"/>

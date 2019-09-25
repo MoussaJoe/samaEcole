@@ -165,7 +165,7 @@ public class DAODirecteurImpl {
         return resultat;
     }
 
-    public boolean insertClasse(String nomClasse, String[] matieres, String regime) {
+    public boolean insertClasse(String nomClasse, String[] matieres,String[] coefs, String regime) {
 
         boolean resultat = false;
         try {
@@ -185,7 +185,7 @@ public class DAODirecteurImpl {
                 pst1.setString(1, nomClasse);
                 pst1.setString(2, regime);
                 pst1.setString(3, matieres[i]);
-                pst1.setInt(4, 0);
+                pst1.setInt(4, Integer.parseInt(coefs[i]));
                 int result1 = pst1.executeUpdate();
             }
 
@@ -669,7 +669,7 @@ public class DAODirecteurImpl {
             pst1.setString(4, pers.getAdresse());
             pst1.setString(5, pers.getTel());
             pst1.setString(6, utilisateur.getMotDePasse());
-            pst1.setString(7, "");
+            pst1.setString(7, null);
             pst1.setInt(8, 1);
             pst1.setString(9, pers.getProfil());
             int result1 = pst1.executeUpdate();

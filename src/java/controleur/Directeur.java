@@ -5,36 +5,31 @@
  */
 package controleur;
 
-import com.itextpdf.text.DocumentException;
+import java.io.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Random;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Bulletin;
+import javax.servlet.http.Part;
 import model.Classe;
 import model.DAOFactory;
 import modelPersonne.DAODirecteurImpl;
 import modelPersonne.DAOPersonneImpl;
 import modelPersonne.DAOProfImpl;
 import model.Eleve;
-import model.GenererPDF;
+import model.GenererRef;
 import model.Parent;
 import modelTables.Personne;
 import modele.tables.ProfClasse;
@@ -48,6 +43,9 @@ import modelPersonne.DAOParentImpl;
  *
  * @author Moussa Joseph Sarr
  */
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 20)
 public class Directeur extends HttpServlet {
 
     /**
@@ -75,6 +73,8 @@ public class Directeur extends HttpServlet {
     private DAOPersonneImpl daoPersonne;
     private DAOParentImpl daoParent;
     public ArrayList<Eleve> rechercheParElev;
+
+    private final String RepDestinationImg = "D:\\Personnel\\7Tup\\Projet_7Tup\\samaEcole\\web\\ImageUser";
 
     Random rd1;
 
@@ -135,10 +135,13 @@ public class Directeur extends HttpServlet {
 
         if (action.equals("ajoutEleve")) {
             rd = request.getRequestDispatcher("surveillant/ajoutEleve.jsp");
+        }///Accueil
+        else if (action.equals("accueilProviseur")) {
+            rd = request.getRequestDispatcher("directeur/acceuilDir.jsp");
         } else if (action.equals("inscription")) {
             request.setAttribute("anInscr", anInscr);
             rd = request.getRequestDispatcher("surveillant/inscription.jsp");
-        }else if (action.equals("formEleve")) {
+        } else if (action.equals("formEleve")) {
             String loginIns = "";
             String mdpIns = "";
             String loginPar = "";
@@ -481,9 +484,17 @@ public class Directeur extends HttpServlet {
             request.setAttribute("pers2", pers2);
             request.setAttribute("pers3", pers3);
             request.setAttribute("pers4", pers4);
+            request.setAttribute("profils_DE", "Directeur des Etudes");
+            request.setAttribute("profils_Surv", "Surveillant");
+            request.setAttribute("profils_Surv_Gene", "Surveillant Général");
+            request.setAttribute("profils_Comp", "Comptable");
             rd = request.getRequestDispatcher("directeur/listeAdmin.jsp");
         } else if (action.equals("modifierAdmin")) {
             String log = request.getParameter("login");
+            String profils_DE = request.getParameter("profils_DE");
+            String profils_Surv = request.getParameter("profils_Surv");
+            String profils_Surv_Gene = request.getParameter("profils_Surv_Gene");
+            String profils_Comp = request.getParameter("profils_Comp");
             ArrayList<Personne> perso = new ArrayList();
             perso = daoDirecteur.select(log);
             for (Personne sur : perso) {
@@ -494,6 +505,10 @@ public class Directeur extends HttpServlet {
                 request.setAttribute("telephone", sur.getTel());
                 request.setAttribute("profil", sur.getProfil());
             }
+            request.setAttribute("profils_DE", profils_DE);
+            request.setAttribute("profils_Surv", profils_Surv);
+            request.setAttribute("profils_Surv_Gene", profils_Surv_Gene);
+            request.setAttribute("profils_Comp", profils_Comp);
             request.setAttribute("log", log);
             rd = request.getRequestDispatcher("directeur/modificationPers.jsp");
         } else if (action.equals("valideModPers")) {
@@ -592,7 +607,9 @@ public class Directeur extends HttpServlet {
             String regime = request.getParameter("regime");
             eleves = daoDirecteur.consulterNotes(nomClasse, nomMatiere, semestre, annee, regime);
             if (eleves == null) {
-                rd = request.getRequestDispatcher("directeur/formNote.jsp");
+                String message = "liste vide";
+                request.setAttribute("eleveVide", message);
+                rd = request.getRequestDispatcher("directeur/affichageNote.jsp");
             } else {
                 request.setAttribute("semestre", semestre);
                 request.setAttribute("annee", annee);
@@ -602,25 +619,38 @@ public class Directeur extends HttpServlet {
                 rd = request.getRequestDispatcher("directeur/affichageNote.jsp");
             }
 
-
         } else if (action.equals("saveMatiere")) {
             rd = request.getRequestDispatcher("directeur/formMatiere.jsp");
 
         } else if (action.equals("validerMatiere")) {
             String nomMatiere = request.getParameter("nomMatiere");
-            nomMatiere = nomMatiere.toLowerCase();
-            boolean result = daoDirecteur.insertMatiere(nomMatiere);
-            if (result) {
-                String msg = "Matière: " + nomMatiere + "  ajoutée avec succée";
-                request.setAttribute("mes", msg);
-                session.removeAttribute("matieres");
-                matieres = daoProf.listerMatiere();
-                session.setAttribute("matieres", matieres);
+            nomMatiere = nomMatiere.toUpperCase().substring(0, 1) + nomMatiere.toLowerCase().substring(1, nomMatiere.length());
+            matieres = daoProf.listerMatiere();
+            String matiereVerif = "";
+            for (String mat : matieres) {
+                if (mat.equalsIgnoreCase(nomMatiere)) {
+                    matiereVerif = mat;
+                }
+            }
+            if (matiereVerif.equalsIgnoreCase(nomMatiere)) {
+                String message = "La matiere existe déja";
+                request.setAttribute("msgExiste", message);
                 rd = request.getRequestDispatcher("directeur/formMatiere.jsp");
             } else {
-                String msg = "échec de l'ajout";
-                request.setAttribute("message", msg);
-                rd = request.getRequestDispatcher("directeur/formMatiere.jsp");
+                boolean result = daoDirecteur.insertMatiere(nomMatiere);
+                //boolean result = true;                    
+                if (result) {
+                    String msg = "Matière: " + nomMatiere + "  ajoutée avec succée";
+                    request.setAttribute("mes", msg);
+                    matieres = daoProf.listerMatiere();
+                    session.removeAttribute("matieres");
+                    session.setAttribute("matieres", matieres);
+                    rd = request.getRequestDispatcher("directeur/formMatiere.jsp");
+                } else {
+                    String msg = "échec de l'ajout";
+                    request.setAttribute("message", msg);
+                    rd = request.getRequestDispatcher("directeur/formMatiere.jsp");
+                }
             }
 
         } else if (action.equals("modifierMatiere")) {
@@ -653,30 +683,89 @@ public class Directeur extends HttpServlet {
             String nomClasse = request.getParameter("nomClasse");
             String[] nomMatiere = request.getParameterValues("nomMatiere");
 
-            boolean result = daoDirecteur.insertClasse(nomClasse, nomMatiere, regime);
-            if (result) {
-                session.setAttribute("nomMatiere", nomMatiere);
-                request.setAttribute("nomClasse", nomClasse);
-                request.setAttribute("regime", regime);
-
-                rd = request.getRequestDispatcher("directeur/coefficient.jsp");
-
-            } else {
-                rd = request.getRequestDispatcher("directeur/formClasse.jsp");
-            }
+            session.setAttribute("nomMatiere", nomMatiere);
+            request.setAttribute("nomClasse", nomClasse);
+            request.setAttribute("regime", regime);
+            rd = request.getRequestDispatcher("directeur/coefficient.jsp");
+//            boolean result = daoDirecteur.insertClasse(nomClasse, nomMatiere, regime);
+//            if (result) {
+//                
+//            } 
+//            else {
+//                rd = request.getRequestDispatcher("directeur/formClasse.jsp");
+//            }
         } else if (action.equals("insertcoef")) {
             String regime = request.getParameter("regime");
             String nomClasse = request.getParameter("nomcl");
             String[] coefs = request.getParameterValues("coef");
             String[] nomMatieres = (String[]) session.getAttribute("nomMatiere");
             System.out.println(nomClasse);
-            boolean result = daoDirecteur.insertCoef(nomClasse, nomMatieres, coefs, regime);
-            rd = request.getRequestDispatcher("directeur/formClasse.jsp");
+            boolean result1 = daoDirecteur.insertClasse(nomClasse, nomMatieres, coefs, regime);
+            if (result1) {
+                String message = "enregistrement réussi";
+                request.setAttribute("messageClasse", message);
+                rd = request.getRequestDispatcher("directeur/formClasse.jsp");
+                //boolean result = daoDirecteur.insertCoef(nomClasse, nomMatieres, coefs, regime);                
+            }else{
+                String message = "Erreur enregistrement";
+                request.setAttribute("messageErreur", message);
+                rd = request.getRequestDispatcher("directeur/formClasse.jsp");
+            }
         } //ajouter en fin 
         else if (action.equals("compte")) {
+            String login = request.getParameter("login");
+            String nomImgPers = daoProf.compte(login);
+            System.out.println(nomImgPers);
+            session.setAttribute("nomImgPers", nomImgPers);
             rd = request.getRequestDispatcher("directeur/compte.jsp");
 
-        } else if (action.equals("listeclasses")) {
+        } ///////////////////////////////Changer Image Utilisateur/////////////////////
+        else if (action.equals("photoProfil")) {
+            GenererRef ref = new GenererRef();
+            Part partImg1 = request.getPart("nomImage");
+            String login = request.getParameter("login");
+            String image1 = "";
+            String cheminImg = RepDestinationImg + File.separator;
+            image1 = nomFichier(partImg1);
+            String chemin = cheminImg + image1;
+            int position = chemin.indexOf(".");
+            String extension = chemin.substring(position + 1);
+            if (extension.equalsIgnoreCase("png")
+                    || extension.equalsIgnoreCase("jpg")
+                    || extension.equalsIgnoreCase("jpeg")
+                    || extension.equalsIgnoreCase("gif")) {
+                String reference = ref.genererRef();
+                File f = new File(cheminImg + reference + image1);
+                //boolean result = true;
+                boolean result = daoProf.ajouterImageCompte(login, reference + image1);
+                partImg1.write(cheminImg + reference + image1);
+                if (result) {
+                    String message = "image modifier avec succes";
+                    request.setAttribute("msg1", message);
+                    rd = request.getRequestDispatcher("directeur/acceuilDir.jsp");
+                }
+            } else {
+                String message = "erreur extension";
+                request.setAttribute("msg", message);
+                //session.setAttribute("compte", compte);
+                rd = request.getRequestDispatcher("directeur/compte.jsp");
+            }
+
+        } else if (action.equals("suppPhotoProfil")) {
+            String login = request.getParameter("login");
+            boolean result = daoProf.supprimerImageCompte(login);
+            if (result) {
+                String message = "image supprimer avec succes";
+                request.setAttribute("msg2", message);
+                rd = request.getRequestDispatcher("directeur/acceuilDir.jsp");
+            } else {
+                String message = "erreur suppression";
+                request.setAttribute("msgSupp", message);
+                rd = request.getRequestDispatcher("directeur/compte.jsp");
+            }
+
+        } ////////////////////////////////////////////////////////
+        else if (action.equals("listeclasses")) {
             rd = request.getRequestDispatcher("directeur/classes.jsp");
 
         } else if (action.equals("detailsClasse")) {
@@ -721,7 +810,7 @@ public class Directeur extends HttpServlet {
             String nomcl = request.getParameter("nomClasse");
             String oldregime = request.getParameter("oldregime");
             String regimeUpdate = request.getParameter("regimeUpdate");
-            
+
             Boolean resultat = daoDirecteur.modifierRegime(regimeUpdate, nomcl, oldregime);
             session.removeAttribute("classes");
             classes = daoDirecteur.listerClasse();
@@ -934,4 +1023,14 @@ public class Directeur extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private String nomFichier(Part part) {
+        String contenu = part.getHeader("content-disposition");
+        String[] items = contenu.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+            }
+        }
+        return "";
+    }
 }

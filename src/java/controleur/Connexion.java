@@ -115,6 +115,7 @@ public class Connexion extends HttpServlet {
                     session.setAttribute("motDePasse", motDePasse);
                     session.setAttribute("prenom", p.getPrenom());
                     session.setAttribute("nom", p.getNom());
+                    session.setAttribute("imgProfils", p.getNomImgPers());
                     session.setAttribute("profils", "Directeur des études");
                     i = 1;
                     rd = request.getRequestDispatcher("directeur/acceuilDir.jsp");
@@ -131,6 +132,7 @@ public class Connexion extends HttpServlet {
                     session.setAttribute("motDePasse", motDePasse);
                     session.setAttribute("prenom", p.getPrenom());
                     session.setAttribute("nom", p.getNom());
+                    session.setAttribute("imgProfils", p.getNomImgPers());
                     session.setAttribute("profils", "Proviseur");
                     i = 1;
                     rd = request.getRequestDispatcher("directeur/acceuilDir.jsp");
@@ -139,6 +141,7 @@ public class Connexion extends HttpServlet {
                     session.setAttribute("motDePasse", motDePasse);
                     session.setAttribute("prenom", p.getPrenom());
                     session.setAttribute("nom", p.getNom());
+                    session.setAttribute("imgProfils", p.getNomImgPers());
                     session.setAttribute("profils", "Surveillant");
                     i = 1;
                     rd = request.getRequestDispatcher("surveillant/accueilSurv.jsp");

@@ -6,59 +6,61 @@
 
 <%@page import="model.Professeur"%>
 <%@page import="java.util.ArrayList"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Liste des Professeurs de l'etablissement</title>
+        <title>${profils} | Nos Professeurs</title>
     </head>
     <body>
-        <%
-            if (session.getAttribute("log") != null) {
+        <%            if (session.getAttribute("log") != null) {
 
         %>
-       
-                <%@include file="accueilDirecteur.jsp" %>
-        
-        <h1>Liste des Professeurs :</h1>
 
-        <table class="table table-bordered table-hover" id="tab1" >
-            <thead>
-                <tr>
-                    <th id="entete" class="col">Nom</th>
-                    <th id="entete" class="col">PrÃ©nom</th>
-                    <th id="entete" class="col">Adresse</th>
-                    <th id="entete" class="col">TÃ©lÃ©phone</th>
-                    <%--  <th id="entete" class="col">DÃ©sactiver</th> --%>
-                        <c:if test="${profils eq 'surveillant'}">
-                        <th id="entete" class="col">Modifier</th>
-                        </c:if>
-                    <th id="entete" class="col">DÃ©tails</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="p" items="${profs}">
-                    <tr>
-                        <td>${p.personne.nom}</td>
-                        <td>${p.personne.prenom}</td>
-                        <td>${p.personne.adresse}</td>
-                        <td>${p.personne.tel}</td>
-                        <%-- <td><button><a href="ControleurDirecteur?action=desactiverProf&&idProf=${p.personne.idPersonne}">DÃ©sactiver</a></button></td> --%>
-                        <c:if test="${profils eq 'surveillant'}">
-                            <td>
-                                <a href="Directeur?action=modifierProf&&idProf=${p.personne.idPersonne}"><img src="modifier.png" alt="Modifier" id="modifier"/></a>
-                            </td>
-                        </c:if>
-                        <td>
-                            <a href="Directeur?action=detailProf&&loginProf=${p.personne.login}" class="btn btn-primary">DÃ©tails</a>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+        <%@include file="barreNavDirecteur.jsp" %>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">                    
+                    <p class="titre">Liste des professeurs de l'établissement </p>
 
+                    <table class="table table-bordered table-hover table-responsive" >
+                        <thead>
+                            <tr>
+                                <th id="entete" class="col">Nom</th>
+                                <th id="entete" class="col">Prénom</th>
+                                <th id="entete" class="col">Adresse</th>
+                                <th id="entete" class="col">Téléphone</th>
+                                    <%--  <th id="entete" class="col">Désactiver</th> --%>
+                                    <c:if test="${profils eq 'surveillant'}">
+                                    <th id="entete" class="col">Modifier</th>
+                                    </c:if>
+                                <th id="entete" class="col">Détails</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="p" items="${profs}">
+                                <tr>
+                                    <td>${p.personne.nom}</td>
+                                    <td>${p.personne.prenom}</td>
+                                    <td>${p.personne.adresse}</td>
+                                    <td>${p.personne.tel}</td>
+                                    <%-- <td><button><a href="ControleurDirecteur?action=desactiverProf&&idProf=${p.personne.idPersonne}">Désactiver</a></button></td> --%>
+                                    <c:if test="${profils eq 'surveillant'}">
+                                        <td>
+                                            <a href="Directeur?action=modifierProf&&idProf=${p.personne.idPersonne}"><img src="modifier.png" alt="Modifier" id="modifier"/></a>
+                                        </td>
+                                    </c:if>
+                                    <td>
+                                        <a href="Directeur?action=detailProf&&loginProf=${p.personne.login}" class="btn btn-primary">Détails</a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
         <% } else {
         %>
         <jsp:forward page="../SeConnecter.jsp"/>

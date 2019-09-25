@@ -115,12 +115,14 @@ public class EDT extends HttpServlet {
             session.setAttribute("heure", heures);
             session.setAttribute("classe", nomClasse1);
             session.setAttribute("regime", regime1);
+            session.setAttribute("annee", anInscr);
             rd = request.getRequestDispatcher("EmploiDuTemps/creerEDT.jsp");
         } else if (req.equals("ajouterCours")) {
             String nomClasse = request.getParameter("nomClasse");
             String regime = request.getParameter("regime");
             String heure = request.getParameter("heure");
             String jour = request.getParameter("jour"); 
+            System.out.println("annee-sco "+anInscr);
             ////Gesttion des erreurs d'ajout
             //A faire verif prof
             boolean rsDisponibilite = daoEleve.verifDisponibilite(gd.formatJour(Integer.parseInt(jour)), heure, nomClasse, regime);

@@ -5,23 +5,24 @@
  */
 package controleur;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Random;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import model.Absence;
 import model.Bulletin;
 import model.Classe;
@@ -29,6 +30,7 @@ import model.DAOFactory;
 import model.Parent;
 import model.Eleve;
 import model.GenererPDF;
+import model.GenererRef;
 import model.Matiere_Absence;
 import model.Professeur;
 import model.Utilisateur;
@@ -44,6 +46,9 @@ import modele.tables.ProfClasse;
  *
  * @author Moussa Joseph D Sarr
  */
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 20)
 public class Surveillant extends HttpServlet {
 
     /**
@@ -66,6 +71,7 @@ public class Surveillant extends HttpServlet {
     public Parent parent;
     public Professeur professeur;
     private DAOProfImpl daoProf;
+    public ArrayList<Utilisateur> compte;
     ArrayList<String> matieres;
     ArrayList<String> regimes;
     ArrayList<Professeur> profs;
@@ -73,6 +79,8 @@ public class Surveillant extends HttpServlet {
     private DAOPersonneImpl daoPersonne;
     private DAOParentImpl daoParent;
     public ArrayList<Eleve> rechercheParElev;
+
+    private final String RepDestinationImg = "D:\\Personnel\\7Tup\\Projet_7Tup\\samaEcole\\web\\ImageUser";
 
     Random rd1;
 
@@ -392,7 +400,7 @@ public class Surveillant extends HttpServlet {
             rd = request.getRequestDispatcher("surveillant/bulletin.jsp");
         } else if (action.equals("imprimer")) {
             rd = request.getRequestDispatcher("surveillant/bulletin.jsp");
-        }else if (action.equals("recap")) {
+        } else if (action.equals("recap")) {
             rd = request.getRequestDispatcher("surveillant/form-recap.jsp");
         } else if (action.equals("recapMoy")) {
             String nomClasse = request.getParameter("nomClasse");
@@ -605,6 +613,9 @@ public class Surveillant extends HttpServlet {
             }
 
         } else if (action.equals("compte")) {
+            String login = request.getParameter("login");
+            String nomImgPers = daoProf.compte(login);
+            session.setAttribute("nomImgPers", nomImgPers);
             rd = request.getRequestDispatcher("surveillant/compte.jsp");
 
         } else if (action.equals("listeclasses")) {
@@ -634,6 +645,7 @@ public class Surveillant extends HttpServlet {
             System.out.println("mot de passe :" + oldpasswd1);
             String login = (String) session.getAttribute("log");
             String profils = (String) session.getAttribute("profils");
+            System.out.println("Profils " + profils);
             if ((newpasswd.equals(newpasswd1)) && (oldpasswd.equals(oldpasswd1)) && (profils.equals("surveillant"))) {
                 daoDirecteur.changePasswdSurv(login, newpasswd);
                 session.setAttribute("motDePasse", newpasswd);
@@ -645,7 +657,55 @@ public class Surveillant extends HttpServlet {
                 request.setAttribute("message", msg);
                 rd = request.getRequestDispatcher("surveillant/compte.jsp");
             }
-        } else if (action.equals("absence")) {
+        }///////////////////////////////Changer Image Utilisateur/////////////////////
+        else if (action.equals("photoProfil")) {
+            GenererRef ref = new GenererRef();
+            Part partImg1 = request.getPart("nomImage");
+            String login = request.getParameter("login");
+            String profils = request.getParameter("profils");
+            String image1 = "";
+            String cheminImg = RepDestinationImg + File.separator;
+            image1 = nomFichier(partImg1);
+            String chemin = cheminImg + image1;
+            int position = chemin.indexOf(".");
+            String extension = chemin.substring(position + 1);
+            if (extension.equalsIgnoreCase("png")
+                    || extension.equalsIgnoreCase("jpg")
+                    || extension.equalsIgnoreCase("jpeg")
+                    || extension.equalsIgnoreCase("gif")) {
+                String reference = ref.genererRef();
+                File f = new File(cheminImg + reference + image1);
+                //boolean result = true;
+                boolean result = daoProf.ajouterImageCompte(login, reference + image1);
+                partImg1.write(cheminImg + reference + image1);
+                if (result) {
+                    String message = "image modifier avec succes";
+                    request.setAttribute("msg1", message);
+                    rd = request.getRequestDispatcher("surveillant/accueilSurv.jsp");
+                }
+            } else {
+                String message = "erreur extension";
+                request.setAttribute("msg", message);
+                //session.setAttribute("compte", compte);
+                rd = request.getRequestDispatcher("surveillant/compte.jsp");
+            }
+
+        } else if (action.equals("suppPhotoProfil")) {
+            String login = request.getParameter("login");
+            String profils = request.getParameter("profils");
+            boolean result = daoProf.supprimerImageCompte(login);
+            if (result) {
+                String message = "image supprimer avec succes";
+                request.setAttribute("msg2", message);
+                rd = request.getRequestDispatcher("surveillant/accueilSurv.jsp");
+            } else {
+                String message = "erreur suppression";
+                request.setAttribute("msgSupp", message);
+                rd = request.getRequestDispatcher("surveillant/compte.jsp");
+            }
+
+        } ////////////////////////////////////////////////////////
+        else if (action.equals("absence")) {
             request.setAttribute("anInscr", anInscr);
             rd = request.getRequestDispatcher("surveillant/formAbsence.jsp");
 
@@ -781,4 +841,14 @@ public class Surveillant extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private String nomFichier(Part part) {
+        String contenu = part.getHeader("content-disposition");
+        String[] items = contenu.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length() - 1);
+            }
+        }
+        return "";
+    }
 }

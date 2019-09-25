@@ -17,19 +17,19 @@ import java.util.Random;
  * @author Ouzy NDIAYE
  */
 public class GestionParamUser {
-
-    public String genererIdInscrip() {
-        String idIscrip = "";
-        String jour = new SimpleDateFormat("ddMM", Locale.FRANCE).format(Calendar.getInstance().getTime());
+    
+    public int genererIdInscrip() {
+        int idIscrip;
+        String jour = new SimpleDateFormat("MM", Locale.FRANCE).format(Calendar.getInstance().getTime());
         String numGenerer = "";
         Random rd = new Random();
         for (int i = 0; i < 4; i++) {
             numGenerer += rd.nextInt(10);
         }
         String annee = new SimpleDateFormat("yyyy", Locale.FRANCE).format(Calendar.getInstance().getTime());
-        idIscrip = jour.concat(numGenerer).concat(annee.substring(2, annee.length()));
+        idIscrip = Integer.parseInt(jour.concat(numGenerer).concat(annee.substring(2, annee.length())));
         return idIscrip;
-    }
+    }    
 
     public String genererChiffre() {
         String chaine = "";

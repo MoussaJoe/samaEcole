@@ -1,18 +1,15 @@
 <%-- 
     Document   : modificationEleve
-    Created on : 2 aoÃ»t 2018, 23:35:53
+    Created on : 2 août 2018, 23:35:53
     Author     : Moussa Joseph Sarr
 --%>
 
 <%@page import="model.Eleve"%>
 <%@page import="java.util.ArrayList"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Modification Eleve</title>
+        <title>${profils} | Modifier Elève</title>
     </head>
     <body>
 
@@ -20,129 +17,100 @@
 
         %>
 
-        <%@include file="surveillant.jsp" %>
+        <%@include file="barreNavSurveillant.jsp" %>
+        <div class="container">
+            <div class="row">
+                <p class="titre">Modifier informations de l'élève</p>
+                <div class="col-lg-2"></div>
+                <form action="Surveillant" method="POST">
+                    <table>
+                        <input type="hidden" name="action" value="valideModEleve" />
+                        <input type="hidden" name="idLog" value="${eleve.getLogin()}"/> 
+                        <input type="hidden" name="year" value="${eleve.annee}"/>
 
-        <h1>Modification Eleve :</h1>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Nom Classe</label>
+                                <select name="nomClasse" class="form-control">
+                                    <c:forEach var="p" items="${classes}">
+                                        <c:choose>
+                                            <c:when test="${p.nomClasse eq eleve.nomClasse}">
+                                                <option selected >${eleve.nomClasse}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option>${p.nomClasse}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
 
-        <form action="Surveillant" method="POST">
-            <table id="tab">
-                <input type="hidden" name="action" value="valideModEleve" />
-               <!-- <input type="hidden" name="year" value="${year}" />-->
-                <tr>
-                    <td></td>
-                    <td>
-                        <div class="form-group">
-                            <input type="hidden" name="idLog" value="${eleve.getLogin()}" class="form-control"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Classe :</th>
-                    <td>
-                        <div class="form-group">
-                            <select name="nomClasse" class="form-control">
-                                <c:forEach var="p" items="${classes}">
-                                    <c:choose>
-                                        <c:when test="${p.nomClasse eq eleve.nomClasse}">
-                                            <option selected >${eleve.nomClasse}</option>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <option>${p.nomClasse}</option>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
+                                </select>
+                            </div>
 
-                            </select>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>RÃ©gime :</th>
-                    <td>
-                        <div class="form-group">
-                            <select name="regime" class="form-control">
-                                <c:forEach var="r" items="${regimes}">
-                                    <c:choose>
-                                        <c:when test="${r eq eleve.regime}">
-                                            <option selected >${r}</option>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <option>${r}</option>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
+                            <div class="form-group">
+                                <label>Régime</label>
+                                <select name="regime" class="form-control">
+                                    <c:forEach var="r" items="${regimes}">
+                                        <c:choose>
+                                            <c:when test="${r eq eleve.regime}">
+                                                <option selected >${r}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option>${r}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </select>
+                            </div>
 
-                            </select>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Nom :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="text" name="nom" value="${eleve.getNom()}" class="form-control" />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>PrÃ©nom :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="text" name="prenom" value="${eleve.getPrenom()}" class="form-control" />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Adresse :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="text" name="adresse" value="${eleve.getAdresse()}" class="form-control"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>TÃ©lÃ©phone :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="text" name="tel" value="${eleve.getTel()}" class="form-control"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>date de Naissance :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="date" name="dateNaissance" value="${eleve.getDateNaissance()}" class="form-control"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Lieu de Naissance :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="text" name="lieuNaissance" value="${eleve.getLieuNaissance()}" class="form-control"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="form-group">
-                            <input type="hidden" name="year" value="${eleve.annee}" class="form-control"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th></th>
-                    <td>
-                        <button class="btn btn-success" type="submit">Valider</button>
-                    </td>
-                </tr>
+                            <div class="form-group">
+                                <label>Nom</label>
+                                <input type="text" name="nom" value="${eleve.getNom()}" class="form-control" />
+                            </div>  
 
-            </table>
+                            <div class="form-group">
+                                <label>Prénom</label>
+                                <input type="text" name="prenom" value="${eleve.getPrenom()}" class="form-control" />
+                            </div>    
 
-            <% } else {
-            %>
-            <jsp:forward page="../vue/SeConnecter.jsp"/>
-            <% }%> 
+                        </div>
+                        <!--/////////////////////////////////// -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Adresse</label>
+                                <input type="text" name="adresse" value="${eleve.getAdresse()}" class="form-control"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Téléphone</label>
+                                <input type="text" name="tel" value="${eleve.getTel()}" class="form-control"  maxlength="9" 
+                                       onkeypress=" return event.charCode >= 48 && event.charCode <= 57"/>
+                            </div>  
+
+                            <div class="form-group">
+                                <label>Date de naissance</label>
+                                <input type="date" name="dateNaissance" value="${eleve.getDateNaissance()}" class="form-control"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Lieu de naissance</label>
+                                <input type="text" name="lieuNaissance" value="${eleve.getLieuNaissance()}" class="form-control"/>
+                            </div>                                
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="col-lg-2"></div>
+                            <div class="col-lg-8">
+                                <button class="btn btn-success btn-block" type="submit">Modifier informations</button>
+                            </div>
+
+                        </div>
+                </form>
+            </div>
+        </div>
+        <% } else {
+        %>
+        <jsp:forward page="../vue/SeConnecter.jsp"/>
+        <% }%> 
+
+
     </body>
 </html>

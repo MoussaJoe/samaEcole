@@ -5,6 +5,10 @@
         <servlet-class>controleur.Controleur</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Comptable</servlet-name>
+        <servlet-class>controleur.Comptable</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Directeur</servlet-name>
         <servlet-class>controleur.Directeur</servlet-class>
     </servlet>
@@ -23,10 +27,6 @@
     <servlet>
         <servlet-name>Connexion</servlet-name>
         <servlet-class>controleur.Connexion</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Comptable</servlet-name>
-        <servlet-class>controleur.Comptable</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>EDT</servlet-name>
@@ -65,12 +65,12 @@
         <url-pattern>/Eleve</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>Connexion</servlet-name>
-        <url-pattern>/Connexion</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>Comptable</servlet-name>
         <url-pattern>/Comptable</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Connexion</servlet-name>
+        <url-pattern>/Connexion</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>EDT</servlet-name>

@@ -29,6 +29,61 @@ public class DAOProfImpl {
     }
 
     Connection con;
+    
+    ///////////////Modif Ouzy //////////////
+    //////////Changer Image User///////////
+    public Boolean ajouterImageCompte(String login, String nomImgPers) {
+        Connection con;
+        Statement st;
+        boolean result = false;
+        try {
+            con = daoFactory.getConnection();
+            String requete1 = "UPDATE  personne SET  nomImgPers ='" + nomImgPers + "'" + "WHERE  login='" + login + "'";
+            st = con.createStatement();
+            int rs1 = st.executeUpdate(requete1);
+            result = true;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+    public Boolean supprimerImageCompte(String login) {
+        Connection con;
+        Statement st;
+        boolean result = false;
+        try {
+            con = daoFactory.getConnection();
+            String requete1 = "UPDATE  personne SET  nomImgPers =NULL WHERE  login='" + login + "'";
+            st = con.createStatement();
+            int rs1 = st.executeUpdate(requete1);
+            result = true;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
+    public String compte(String login) {
+        String nomImgPers="";
+        Connection con;
+        Statement st;
+        try {
+            con = daoFactory.getConnection();
+            String requete = "select nomImgPers from personne where login='" + login + "'";
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(requete);
+            while (rs.next()) {
+                nomImgPers = rs.getString("nomImgPers");                
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return nomImgPers;
+    }
+    
+    ///////////////////////Fin Modif Ouzy////////////////
 
     public boolean ajouterProf(Professeur prof) {
         boolean resultat = false;

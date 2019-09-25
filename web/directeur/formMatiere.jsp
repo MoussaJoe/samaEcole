@@ -4,68 +4,81 @@
     Author     : Moussa Joseph Sarr
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>${profils} | Ajouter Matière</title>
     </head>
     <body>
-        <%
-            if (session.getAttribute("log") != null) {
+        <%            if (session.getAttribute("log") != null) {
 
         %>
-        <%@include file="accueilDirecteur.jsp" %>
-        <h1>Enregistrement MatiÃ¨re!</h1>
+        <%@include file="barreNavDirecteur.jsp" %>
         <script>
             <c:if test="${!empty message}">
-            alert("Ã©chec de l'ajout de la matiÃ¨re!");
+            alert("échec de l'ajout de la matière!");
+            </c:if>
+            <c:if test="${!empty msgExiste}">
+                alert("La matière que vous essayer d'ajouter existe déjà")
             </c:if>
             <c:if test="${!empty mes}">
-            alert("MatiÃ¨re ajoutÃ©e avec succÃ©e!!");
+            alert("Matière ajoutée avec succès!!");
             </c:if>
         </script>
-        <form action="Directeur" method="POST">
-            <table id="tab">
-                <input type="hidden" name="action" value="validerMatiere" />
-                <tr>
-                    <th>Nom MatiÃ¨re :</th>
-                    <td>
-                        <div class="form-group">
-                            <input type="text" name="nomMatiere" value="" class="form-control" required=""/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <button class="btn btn-success">Enregistrer</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">                    
+                    <p class="titre">Enregistrer une nouvelle matière</p>
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4">
+                        <form action="Directeur" method="POST">
+                            <input type="hidden" name="action" value="validerMatiere" />
 
-       <br>
-        <br>
-        <table class="table-bordered table-hover" id="tabc" style="margin-left: 47vw; border: #ffffff">
+                            <div class="form-group">
+                                <label>Nom de la matière</label>
+                                <input type="text" name="nomMatiere" value="" class="form-control" required=""/>
+                            </div>
+                            <div>
+                                <button class="btn btn-success btn-block" type="submit">Valider</button>
+                            </div>
+                        </form>
 
-            <tbody>
-                <tr>
-                    <td colspan="3" id="entete">Matieres :</td>
+                    </div>
+                </div>
+            </div>
+        </div> 
 
-                </tr>
-                <c:forEach var="cm" items="${matieres}">
-                    <tr>
-                        <td>${cm}</td> 
-                        <td><a href="Directeur?matiere=${cm}&&action=supprimerMatiere" onclick="javascript: return confirmation();"><span class="glyphicon glyphicon-remove"></span></a></td>
-                        <td><a href="Directeur?matiere=${cm}&&action=modifierMatiere" ><img src="modifier.png" style="height: 25px"/></a></td>
-                    </tr>
-                </c:forEach>
+        <br><br>
+        <c:if test="${!empty matieres}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">                    
+                        <p class="titre">Liste des matières</p>
+                        <table class="table table-bordered table-hover table-responsive">
+                            <thead>
+                                <tr>
+                                    <th id="entete">Nom Matière</th>                                
+                                    <th id="entete">Supprimer</th>
+                                    <th id="entete">Modifier</th>
 
-            </tbody>
-        </table>
+                                </tr>
+                            </thead>
+
+                            <tbody>                
+                                <c:forEach var="cm" items="${matieres}">
+                                    <tr>
+                                        <td>${cm}</td> 
+                                        <td><a href="Directeur?matiere=${cm}&&action=supprimerMatiere" onclick="javascript: return confirmation();"><span class="glyphicon glyphicon-remove"></span></a></td>
+                                        <td><a href="Directeur?matiere=${cm}&&action=modifierMatiere" ><img src="modifier.png" style="height: 25px"/></a></td>
+                                    </tr>
+                                </c:forEach>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </c:if>
         <% } else {
         %>
         <jsp:forward page="../SeConnecter.jsp"/>
@@ -74,7 +87,7 @@
 </html>
 <script>
     function confirmation() {
-        var code = "Voulez vous vraiment supprimer cette matiÃ¨re ?\
+        var code = "Voulez vous vraiment supprimer cette matière ?\
     ";
         var msg = confirm(code);
         if (msg) {

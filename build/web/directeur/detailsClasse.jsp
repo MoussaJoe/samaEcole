@@ -4,97 +4,153 @@
     Author     : Moussa Joseph D Sarr
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta  charset=UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="dist/css/bootstrap.css" rel="stylesheet"/>
-        <link rel="stylesheet" href="dist/css/mystyle.css" />
-        <link rel="stylesheet" type="text/css" href="Style/style1.css">
-        <title>DÃ©tails Classe </title>
+        <title>${profils} | Détails Classe </title>
     </head>
     <body>
         <%            if (session.getAttribute("log") != null) {
 
         %>
-        <%@include file="accueilDirecteur.jsp" %> 
-        <h1>Les Classes de l'Ã©tablissement</h1>
+        <%@include file="barreNavDirecteur.jsp" %> 
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">                    
+                    <p class="titre">Informations des classes de l'établissement</p>
+                    <table class="table table-bordered table-hover table-responsive">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th id="entete">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td hidden="hidden">
+                                    <form action="Directeur" method="POST">
+                                        <input type="hidden" name="action" value="modifierNomClasse">
+                                        <input type="hidden" name="regime" value="${classe.regime}">
+                                        <input type="hidden" name="oldNomClasse" value="${classe.nomClasse}">
+                                        <input type="text" name="nomClasseUpdate" value="${classe.nomClasse}" placeholder="modifier nom Classe" class="form-control" required="">
+                                        <input type="submit" name="Valider" value="Valider"  class="btn btn-success">
+                                    </form>
+                                </td>
 
-        <table class="table-bordered table-hover" id="tabc" style="margin-left: 47vw; border: #ffffff">
+                                <td id="entete" style="font-weight: bold">Nom Classe</td>
+                                <td>${classe.nomClasse}</td> 
+                                <td>
+                                    <button onclick="UpdateNomClasse()" class="form-control" name="modNom" onmouseup="">
+                                        <img src="modifier.png" style="width: 2vw;" >
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td hidden="hidden">
+                                    <form action="Directeur" method="POST">
+                                        <input type="hidden" name="action" value="modifierRegime">
+                                        <input type="hidden" name="oldregime" value="${classe.regime}">
+                                        <input type="hidden" name="nomClasse" value="${classe.nomClasse}">
+                                        <select name="regimeUpdate" class="form-control" required="">
+                                            <c:choose>
+                                                <c:when test="${classe.regime == 'Privée'}">
+                                                    <option selected="">Privée</option>
+                                                    <option>Public</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option>Privée</option>
+                                                    <option selected="">Public</option>
+                                                </c:otherwise>
 
-            <tbody>
-                <tr>
-                    <td id="mod1" hidden="hidden">
-                        <form action="Directeur" method="POST">
-                            <input type="hidden" name="action" value="modifierNomClasse">
-                            <input type="hidden" name="regime" value="${classe.regime}">
-                            <input type="hidden" name="oldNomClasse" value="${classe.nomClasse}">
-                            <input type="text" name="nomClasseUpdate" value="${classe.nomClasse}" placeholder="modifier nom Classe" class="form-control" required="">
-                            <input type="submit" name="Valider" value="Valider"  class="btn btn-success">
-                        </form>
-                    </td>
+                                            </c:choose>
 
-                    <td>Nom Classe :</td>
-                    <td>${classe.nomClasse}</td> 
-                    <td>
-                        <button id="modNom" onclick="UpdateNomClasse()" class="form-control" name="modNom" onmouseup="">
-                            <img src="modifier.png" style="width: 2vw;" >
-                        </button>
-                    </td>
-                    <td id="demo1" ></td>
-                </tr>
-                <tr>
-                    <td id="mod2" hidden="hidden">
-                        <form action="Directeur" method="POST">
-                            <input type="hidden" name="action" value="modifierRegime">
-                            <input type="hidden" name="oldregime" value="${classe.regime}">
-                            <input type="hidden" name="nomClasse" value="${classe.nomClasse}">
-                            <select name="regimeUpdate" class="form-control" required="">
-                                <c:choose>
-                                    <c:when test="${classe.regime == 'PrivÃ©e'}">
-                                        <option selected="">PrivÃ©e</option>
-                                        <option>Public</option>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <option>PrivÃ©e</option>
-                                        <option selected="">Public</option>
-                                    </c:otherwise>
+                                        </select>
+                                        <input type="submit" name="Valider" value="Valider"  class="btn btn-success">
+                                    </form>
+                                </td>
+                                <td id="entete" style="font-weight: bold">Régime</td>
+                                <td>${classe.regime}</td> 
+                                <td><button onclick="UpdateRegime()" class="form-control" name="modNom"><img src="modifier.png" style="width: 2vw;" ></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--<table class="table-bordered table-hover table-responsive">
+                        <tbody>
+                            <tr>
+                                <td hidden="hidden">
+                                    <form action="Directeur" method="POST">
+                                        <input type="hidden" name="action" value="modifierNomClasse">
+                                        <input type="hidden" name="regime" value="${classe.regime}">
+                                        <input type="hidden" name="oldNomClasse" value="${classe.nomClasse}">
+                                        <input type="text" name="nomClasseUpdate" value="${classe.nomClasse}" placeholder="modifier nom Classe" class="form-control" required="">
+                                        <input type="submit" name="Valider" value="Valider"  class="btn btn-success">
+                                    </form>
+                                </td>
 
-                                </c:choose>
+                                <td>Nom Classe :</td>
+                                <td>${classe.nomClasse}</td> 
+                                <td>
+                                    <button onclick="UpdateNomClasse()" class="form-control" name="modNom" onmouseup="">
+                                        <img src="modifier.png" style="width: 2vw;" >
+                                    </button>
+                                </td>
+                                <td ></td>
+                            </tr>
+                            <tr>
+                                <td hidden="hidden">
+                                    <form action="Directeur" method="POST">
+                                        <input type="hidden" name="action" value="modifierRegime">
+                                        <input type="hidden" name="oldregime" value="${classe.regime}">
+                                        <input type="hidden" name="nomClasse" value="${classe.nomClasse}">
+                                        <select name="regimeUpdate" class="form-control" required="">
+                                            <c:choose>
+                                                <c:when test="${classe.regime == 'Privée'}">
+                                                    <option selected="">Privée</option>
+                                                    <option>Public</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option>Privée</option>
+                                                    <option selected="">Public</option>
+                                                </c:otherwise>
 
-                            </select>
-                            <input type="submit" name="Valider" value="Valider"  class="btn btn-success">
-                        </form>
-                    </td>
-                    <td>RÃ©gime :</td>
-                    <td>${classe.regime}</td> 
-                    <td><button id="modNom" onclick="UpdateRegime()" class="form-control" name="modNom"><img src="modifier.png" style="width: 2vw;" ></button></td>
-                    <td id="demo2" ></td>
-                </tr>
+                                            </c:choose>
 
-            </tbody>
-        </table>
-        <br>
-        <br>
-        <table class="table-bordered table-hover" id="tabc" style="margin-left: 47vw; border: #ffffff">
+                                        </select>
+                                        <input type="submit" name="Valider" value="Valider"  class="btn btn-success">
+                                    </form>
+                                </td>
+                                <td>Régime :</td>
+                                <td>${classe.regime}</td> 
+                                <td><button onclick="UpdateRegime()" class="form-control" name="modNom"><img src="modifier.png" style="width: 2vw;" ></button></td>
+                                <td></td>
+                            </tr>
 
-            <tbody>
-                <tr>
-                    <td colspan="2" id="entete">Matieres :</td>
-
-                </tr>
-                <c:forEach var="cm" items="${classe.matieres}">
-                    <tr>
-                        <td>${cm}</td> 
-                        <td><a href="Directeur?action=supprimerMatCl&&nomcl=${classe.nomClasse}&&reg=${classe.regime}&&mat=${cm}"><span class="glyphicon glyphicon-remove"></span></a></td>
-                    </tr>
-                </c:forEach>
-
-            </tbody>
-        </table>
+                        </tbody>
+                    </table>-->
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-bordered table-hover table-responsive">
+                        <thead>
+                            <th id="entete">Matières</th>
+                            <th id="entete">Action</th>
+                        </thead>
+                        <tbody>                            
+                            <c:forEach var="cm" items="${classe.matieres}">
+                                <tr>
+                                    <td>${cm}</td> 
+                                    <td><a href="Directeur?action=supprimerMatCl&&nomcl=${classe.nomClasse}&&reg=${classe.regime}&&mat=${cm}"><span class="glyphicon glyphicon-remove"></span></a></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         <% } else {
         %>
         <jsp:forward page="../SeConnecter.jsp"/>

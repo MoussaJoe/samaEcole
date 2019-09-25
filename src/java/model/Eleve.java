@@ -34,7 +34,7 @@ public class Eleve implements Comparable<Eleve>{
     private String sexe;
     private int validerIns;
     private String regime;
-    private String idInscription;
+    private int idInscription;
     private String heure;
     private String nomSalle;
     private String jour;
@@ -45,7 +45,7 @@ public class Eleve implements Comparable<Eleve>{
     public Eleve() {
     }
 
-    public Eleve(String dateNaissance, String lieuNaissance, String loginParent, String login, String classe, String annee, String sexe, int validerIns, String regime, String idInscription) {
+    public Eleve(String dateNaissance, String lieuNaissance, String loginParent, String login, String classe, String annee, String sexe, int validerIns, String regime, int idInscription) {
         this.dateNaissance = dateNaissance;
         this.lieuNaissance = lieuNaissance;
         this.loginParent = loginParent;
@@ -214,13 +214,15 @@ public class Eleve implements Comparable<Eleve>{
         this.lieuNaissance = lieuNaissance;
     }
 
-    public String getIdInscription() {
+    public int getIdInscription() {
         return idInscription;
     }
 
-    public void setIdInscription(String idInscription) {
+    public void setIdInscription(int idInscription) {
         this.idInscription = idInscription;
     }
+
+    
 
    
     public String getLogin() {

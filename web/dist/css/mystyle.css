@@ -20,6 +20,18 @@
     font-weight: bold;
 }
 
+.titre{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#lien_form{
+    color: white;
+    text-decoration: none;
+    /*font-size: 10px;*/
+}
+
 /*Fin Modif Ouzy*/
 #logo,#banniere{
     display: inline-block;

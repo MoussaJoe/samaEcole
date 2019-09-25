@@ -10,13 +10,13 @@ package modelTables;
  * @author Ouzy NDIAYE
  */
 public class Inscription {
-    private String idInscription;
+    private int idInscription;
     private String dateInscription;
     private int status;
     private int montant;
     private  int reliquat;
 
-    public Inscription(String idInscription, String dateInscription, int status, int montant,int reliquat) {
+    public Inscription(int idInscription, String dateInscription, int status, int montant,int reliquat) {
         this.idInscription = idInscription;
         this.dateInscription = dateInscription;
         this.status = status;
@@ -32,14 +32,16 @@ public class Inscription {
         this.reliquat = reliquat;
     }
 
-    
-    public String getIdInscription() {
+    public int getIdInscription() {
         return idInscription;
     }
 
-    public void setIdInscription(String idInscription) {
+    public void setIdInscription(int idInscription) {
         this.idInscription = idInscription;
     }
+
+    
+    
 
     public String getDateInscription() {
         return dateInscription;
